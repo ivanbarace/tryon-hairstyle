@@ -56,4 +56,5 @@ export default defineConfig({
       }
     }),
   ],
+  base: process.env.VITE_BASE_APP || "/tryon-hairstyle",
 });
