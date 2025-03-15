@@ -33,52 +33,40 @@ const Home: React.FC = () => {
   const tutorialImages = [
     {
       id: 1,
-      src: '/tutorials/home.png',
       title: '1. Browse Hairstyles',
-      description: 'Explore our collection of trending and popular hairstyles.'
+      description: 'Explore our collection of trending and popular hairstyles.',
+      image: '/tutorials/home.png'
     },
     {
       id: 2,
-      src: '/tutorials/register.png',
       title: '2. Login and Register',
-      description: 'Create an account or login to access all features.'
+      description: 'Create an account or login to access all features.',
+      image: '/tutorials/register.png'
     },
     {
       id: 3,
-      src: '/tutorials/hairstyles.png',
       title: '3. View Hairstyles',
-      description: 'Check detailed information about each hairstyle.'
+      description: 'Check hairstyle.',
+      image: '/tutorials/hairstyles.png'
     },
     {
       id: 4,
-      src: '/tutorials/scanfaceshape.png',
       title: '4. Scan Face Shape',
-      description: 'Upload your photo to determine your face shape.'
+      description: 'Scan here to determine your face shape.',
+      image: '/tutorials/scanner.png'
     },
     {
       id: 5,
-      src: '/tutorials/recommended.png',
       title: '5. View Recommended Hairstyles',
-      description: 'Get personalized hairstyle suggestions based on your face shape.'
+      description: 'Get personalized hairstyle suggestions based on your face shape.',
+      image: '/tutorials/recommendation.png'
     },
     {
       id: 6,
-      src: '/tutorials/profile.png',
       title: '6. Profile',
-      description: 'Access your personal profile and saved hairstyles.'
+      description: 'Access your personal profile and saved hairstyles.',
+      image: '/tutorials/profile.png'
     },
-    {
-      id: 7,
-      src: '/tutorials/settings.png',
-      title: '7. Settings',
-      description: 'Access edit profile and logout options.'
-    },
-    {
-      id: 8,
-      src: '/tutorials/editprofile.png',
-      title: '8. Edit Profile',
-      description: 'Update your personal information and preferences.'
-    }
   ];
 
   useEffect(() => {
@@ -342,12 +330,8 @@ const Home: React.FC = () => {
               <div className="tutorial-step-inHomeScreen-inUsersScreen current-inHomeScreen-inUsersScreen">
                 <div className="tutorial-image-container-inHomeScreen-inUsersScreen">
                   <img
-                    src={tutorialImages[currentTutorialIndex].src}
+                    src={tutorialImages[currentTutorialIndex].image}
                     alt={tutorialImages[currentTutorialIndex].title}
-                    onError={(e) => {
-                      console.error(`Failed to load tutorial image: ${tutorialImages[currentTutorialIndex].src}`);
-                      e.currentTarget.src = '/fallback-tutorial.jpg';
-                    }}
                   />
                 </div>
                 <div className="tutorial-step-content-inHomeScreen-inUsersScreen">

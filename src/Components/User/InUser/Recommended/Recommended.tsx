@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Recommended.css';
 import * as mediapipe from '@mediapipe/face_mesh';
 import * as drawing from '@mediapipe/drawing_utils';
+import { FaCamera } from 'react-icons/fa';
 
 const Recommended: React.FC = () => {
   const navigate = useNavigate();
@@ -436,7 +437,7 @@ const Recommended: React.FC = () => {
       <div className="recommended-header-inRecommendedScreen">
         <h2>Your Face Shape Analysis</h2>
         <button className="scanner-button-inRecommendedScreen" onClick={() => navigate('/user/scanner')}>
-          Scan Again
+          <FaCamera /> Scan Again
         </button>
       </div>
 

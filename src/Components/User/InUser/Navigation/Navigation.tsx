@@ -49,7 +49,7 @@ const Navigation: React.FC = () => {
     <>
       <nav className="navigation-inuser">
         <div className="navigation-inuser-brand">
-          <h2>HAIRSTYLE</h2>
+          <img src="/LOGO1.png" alt="" />
         </div>
         <div className="navigation-inuser-links">
           <Link to="/user/home" className={location.pathname === '/user/home' ? 'active' : ''}>

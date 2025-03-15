@@ -214,8 +214,8 @@ const Scanner: React.FC = () => {
     if (results.multiFaceLandmarks.length > 0) {
       const landmarks = results.multiFaceLandmarks[0];
 
-      // Make guide box square and bigger (changed from 0.3 to 0.6)
-      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.6;
+      // Make guide box square and smaller (changed from 0.6 to 0.5)
+      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.5;
       const guideWidth = boxSize;
       const guideHeight = boxSize;
       const guideX = (canvasElement.width - guideWidth) / 2;
@@ -322,7 +322,7 @@ const Scanner: React.FC = () => {
       }
     } else {
       // Update the default guide box size when no face is detected
-      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.6;
+      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.5;
       const guideWidth = boxSize;
       const guideHeight = boxSize;
       const guideX = (canvasElement.width - guideWidth) / 2;
@@ -463,11 +463,15 @@ const Scanner: React.FC = () => {
           <IoArrowBack /> Back
         </button>
         <canvas ref={canvasRef} className="output-canvas-in-scanner" width="640" height="480" />
+        {/* Add the in-video button container */}
       </div>
 
-      <div className="face-shape-container">
-        <h2>Detected Face Shape:</h2>
-        <p>{faceShape}</p>
+      <div className="face-shape-container-in-scanner">
+        <div className="face-shape-header-in-scanner">
+          <h2>Detected Face Shape:</h2>
+          <p>{faceShape}</p>
+        </div>
+        {/* This button will only show on mobile */}
         <button
           className="result-button-in-scanner"
           onClick={captureImage}
