@@ -1,0 +1,421 @@
+.comments-ratings-container-CommentsRatings-in-Adminscreen {
+  padding: 5px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: calc(100vh - 100px);
+}
+
+.split-screen-container {
+  display: grid;
+  grid-template-columns: 0.7fr 1.3fr; /* Changed from 350px 1fr to 1fr 1fr for equal width */
+  gap: 20px;
+  height: 100%;
+}
+
+.hairstyles-list {
+  overflow-y: auto;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  height: calc(100vh - 150px);
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(160px, 1fr)
+  ); /* Adjusted grid */
+  gap: 15px;
+}
+
+.hairstyles-heading {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0 0 10px 15px;
+  padding: 0;
+}
+
+.hairstyles-grid-CommentsRatings-in-Adminscreen {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.hairstyle-box-CommentsRatings-in-Adminscreen {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin: 0 auto 15px auto; /* Center the box and keep bottom margin */
+  width: 160px; /* Fixed width */
+  height: 200px; /* Fixed height */
+}
+
+.hairstyle-box-CommentsRatings-in-Adminscreen:hover {
+  transform: translateY(-5px);
+}
+
+.hairstyle-box-CommentsRatings-in-Adminscreen.selected {
+  border: 2px solid #007bff;
+  transform: translateX(5px);
+}
+
+.hairstyle-image-CommentsRatings-in-Adminscreen {
+  width: 160px; /* Fixed width */
+  height: 160px; /* Fixed height */
+  object-fit: cover;
+  display: block; /* Remove any extra spacing */
+}
+
+.hairstyle-name-CommentsRatings-in-Adminscreen {
+  padding: 8px; /* Reduced padding */
+  margin: 0;
+  text-align: center;
+  font-size: 0.9rem; /* Smaller font size */
+  height: 40px; /* Fixed height for the name */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden; /* Hide overflow text */
+}
+
+.hairstyle-details-panel {
+  padding: 5px;
+  overflow-y: auto;
+  height: calc(100vh - 150px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal styles */
+.modal-overlay-CommentsRatings-in-Adminscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content-CommentsRatings-in-Adminscreen {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 20px;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-close-button-CommentsRatings-in-Adminscreen {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: white;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  padding: 5px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.modal-close-button-CommentsRatings-in-Adminscreen:hover {
+  background: #f0f0f0;
+  transform: scale(1.1);
+}
+
+.modal-image-CommentsRatings-in-Adminscreen {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modal-info-CommentsRatings-in-Adminscreen {
+  padding: 0;
+}
+
+.modal-info-CommentsRatings-in-Adminscreen h3 {
+  font-size: 1.4rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.hairstyle-details-CommentsRatings-in-Adminscreen {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: #f8f9fa;
+  padding: 3px; /* Reduced padding */
+  border-radius: 8px;
+  margin: 5px;
+}
+
+.detail-item-CommentsRatings-in-Adminscreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.detail-label-CommentsRatings-in-Adminscreen {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 3px;
+}
+
+.detail-value-CommentsRatings-in-Adminscreen {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.rating-info-CommentsRatings-in-Adminscreen {
+  padding: 5px;
+  background: linear-gradient(to right, #f8f9fa, #e9ecef);
+  border-radius: 6px;
+  margin: 0;
+}
+
+.rating-info-CommentsRatings-in-Adminscreen span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+}
+
+.comments-section-CommentsRatings-in-Adminscreen {
+  margin-top: 5px;
+  padding: 0;
+  border-radius: 8px;
+  background: #f8f9fa;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.comments-section-CommentsRatings-in-Adminscreen h4 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.comment-box-CommentsRatings-in-Adminscreen {
+  background: white;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.comment-box-CommentsRatings-in-Adminscreen:hover {
+  transform: translateX(5px);
+}
+
+.comment-header-CommentsRatings-in-Adminscreen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.85rem;
+}
+
+.comment-box-CommentsRatings-in-Adminscreen p {
+  font-size: 0.9rem;
+  margin: 5px 0;
+  color: #444;
+}
+
+.comment-box-CommentsRatings-in-Adminscreen small {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.details-panel-image {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.details-panel-content {
+  padding: 0 5px; /* Reduced padding */
+}
+
+.no-selection-message {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  color: #666;
+}
+
+.description {
+  margin: 20px 0;
+  line-height: 1.6;
+}
+
+.reviews-table {
+  width: 100%;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.reviews-header {
+  display: grid;
+  grid-template-columns: 150px 100px 1fr 100px;
+  padding: 5px;
+  background: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+.reviews-body {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.review-row {
+  display: grid;
+  grid-template-columns: 150px 100px 1fr 100px;
+  padding: 3px 5px;
+  transition: background-color 0.2s;
+}
+
+.review-row:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.review-row:hover {
+  background-color: #f0f0f0;
+}
+
+.review-col {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.user-col {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.rating-col {
+  color: #f1c40f;
+}
+
+.comment-col {
+  color: #555;
+}
+
+.date-col {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.stars {
+  color: #f1c40f;
+  letter-spacing: 2px;
+}
+
+.no-reviews-message {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  background-color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.no-reviews-message p {
+  margin: 0;
+}
+
+/* Update media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .modal-content-CommentsRatings-in-Adminscreen {
+    grid-template-columns: 1fr;
+    width: 95%;
+    padding: 15px;
+  }
+
+  .modal-image-CommentsRatings-in-Adminscreen {
+    height: 250px;
+  }
+
+  .split-screen-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hairstyles-list {
+    height: auto;
+    max-height: 300px;
+  }
+
+  .hairstyle-details-panel {
+    height: auto;
+  }
+
+  .reviews-header,
+  .review-row {
+    grid-template-columns: 100px 80px 1fr 90px;
+    font-size: 0.9em;
+  }
+
+  .review-col {
+    padding: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .reviews-header,
+  .review-row {
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+  }
+
+  .review-col {
+    border-bottom: 1px solid #eee;
+    padding: 8px 4px;
+  }
+
+  .review-row:last-child .review-col:last-child {
+    border-bottom: none;
+  }
+}

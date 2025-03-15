@@ -1,0 +1,288 @@
+.recommended-inRecommendedScreen {
+  padding: 5px;
+  height: calc(
+    100vh - 60px
+  ); /* Adjust height to account for any header/navbar */
+  overflow-y: auto; /* Enable vertical scrolling */
+  position: relative;
+  scroll-behavior: smooth;
+}
+
+.recommended-inRecommendedScreen::-webkit-scrollbar {
+  width: 8px;
+}
+
+.recommended-inRecommendedScreen::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.recommended-inRecommendedScreen::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.recommended-inRecommendedScreen::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.recommended-header-inRecommendedScreen {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.scanner-button-inRecommendedScreen {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.scanner-button-inRecommendedScreen:hover {
+  background-color: #0056b3;
+}
+
+.face-shape-info-inRecommendedScreen {
+  text-align: center;
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.facemesh-container-inRecommendedScreen {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: white; /* Changed to white for contrast */
+  border-radius: 10px;
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Added subtle shadow */
+  visibility: hidden;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.facemesh-container-inRecommendedScreen canvas {
+  filter: none; /* Ensure the canvas doesn't have any default filters */
+}
+
+.facemesh-image-inRecommendedScreen {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  image-rendering: -webkit-optimize-contrast; /* Improve image quality */
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.recommended-hairstyles-section-inRecommendedScreen {
+  margin-top: 5px;
+  padding: 5px;
+}
+
+.recommended-hairstyles-section-inRecommendedScreen h3 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.hairstyles-grid-inRecommendedScreen {
+  display: grid;
+  grid-template-columns: repeat(
+    3,
+    400px
+  ); /* Fixed width of 300px per column, 3 columns */
+  gap: 2rem;
+  padding: 1rem;
+  width: 100%;
+  justify-content: center; /* Center the grid items */
+}
+
+.hairstyle-card-inRecommendedScreen {
+  background: white; /* Ensure cards stay white */
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhanced shadow for better contrast */
+  overflow: hidden;
+  /* Remove hover transform effect */
+}
+
+.hairstyle-canvas-container-inRecommendedScreen {
+  position: relative;
+  width: 100%;
+  height: 250px; /* Increased height for better visualization */
+  overflow: hidden; /* Changed from visible to hidden */
+  background: white; /* Add solid background */
+  perspective: 1000px; /* Adds depth perception for rotations */
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform;
+  isolation: isolate;
+  contain: layout;
+  transform-style: preserve-3d !important;
+  perspective: 1000px !important;
+  isolation: isolate !important;
+  display: flex; /* Added */
+  align-items: flex-start; /* Added */
+  justify-content: center; /* Added */
+}
+
+.background-container-inRecommendedScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hairstyle-background-canvas-inRecommendedScreen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto; /* Changed from 100% to auto */
+  object-fit: contain; /* Changed from cover to contain */
+  object-position: top; /* Keep aligned to top */
+  max-height: 100%; /* Add max-height to prevent overflow */
+}
+
+.hairstyle-overlay-image-inRecommendedScreen {
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: contrast(1.2) brightness(1.1);
+  z-index: 10;
+  max-width: 90%; /* Reduced from none to 90% */
+  display: block;
+  transition: transform 0.2s ease-out; /* Smooth rotation transition */
+  transform-origin: center 70%; /* Adjusted to match inline style */
+  will-change: transform; /* Optimize transform performance */
+  transform-box: fill-box; /* Helps with scaling relative to content */
+  margin-top: 20px; /* Added to help position hair lower */
+  transform-style: preserve-3d;
+  mix-blend-mode: multiply !important;
+  transform-style: preserve-3d !important;
+  mix-blend-mode: multiply !important;
+  isolation: auto;
+}
+
+.hairstyle-card-inRecommendedScreen:hover,
+.hairstyle-image-inRecommendedScreen:hover,
+:hover {
+  transform: none;
+}
+
+.hairstyle-image-inRecommendedScreen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: contrast(1.1);
+  transition: all 0.3s ease;
+}
+
+.hairstyle-info-inRecommendedScreen {
+  padding: 5px;
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+  border-top: 1px solid #eee;
+}
+
+.hairstyle-info-inRecommendedScreen h4 {
+  margin: 0 0 0.8rem 0;
+  color: #2d2d2e;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.hairstyle-info-inRecommendedScreen p {
+  margin: 0.7rem 0;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #f8f9fa;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.hairstyle-info-inRecommendedScreen p:before {
+  content: "•";
+  color: #090909;
+  font-size: 1.2em;
+}
+
+.description-inRecommendedScreen {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 1200px) {
+  .hairstyles-grid-inRecommendedScreen {
+    grid-template-columns: repeat(2, 300px); /* Show 2 columns */
+  }
+}
+
+@media (max-width: 768px) {
+  .hairstyles-grid-inRecommendedScreen {
+    grid-template-columns: repeat(1, 300px); /* Show 1 column */
+    gap: 1rem;
+  }
+
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 250px;
+  }
+}
+
+/* For extra large screens (1400px and up) */
+@media (min-width: 1400px) {
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 300px;
+  }
+}
+
+/* For large screens (1200px to 1399px) */
+@media (min-width: 1200px) and (max-width: 1399px) {
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 300px;
+  }
+}
+
+/* For medium screens (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+}
+
+/* For tablets (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 250px;
+  }
+}
+
+/* For large mobile devices (576px to 767px) */
+@media (min-width: 576px) and (max-width: 767px) {
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 250px;
+  }
+}
+
+/* For small mobile devices (less than 576px) */
+@media (max-width: 575px) {
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 250px;
+  }
+}

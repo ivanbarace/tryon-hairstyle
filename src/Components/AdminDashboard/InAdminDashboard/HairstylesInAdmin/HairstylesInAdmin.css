@@ -1,0 +1,1547 @@
+.content-hairstyle-inadmin {
+  padding: 5px;
+}
+
+.header-container-hairstyle-inadmin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.add-button-hairstyle-inadmin {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-button-hairstyle-inadmin:hover {
+  background-color: #218838;
+}
+
+.table-container-hairstyle-inadmin {
+  margin-top: 5px;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-height: 70vh; /* Set maximum height to 70% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.table-container-hairstyle-inadmin table {
+  position: relative;
+}
+
+.table-container-hairstyle-inadmin thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: #f8f9fa;
+}
+
+/* Add custom scrollbar styling (optional) */
+.table-container-hairstyle-inadmin::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-container-hairstyle-inadmin::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-container-hairstyle-inadmin::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.table-container-hairstyle-inadmin::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.modal-overlay-hairstyle-inadmin,
+.edit-modal-overlay-hairstyle-inadmin {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+}
+
+.modal-content-hairstyle-inadmin,
+.edit-modal-content-hairstyle-inadmin {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 20px;
+  width: 95%;
+  max-width: 1000px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  animation: modalFadeIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Updated Validation Message Styles */
+.validation-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1200;
+  animation: slideInRight 0.3s ease-out forwards;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.validation-message.success {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.validation-message.success::before {
+  content: "✓";
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.validation-message.error {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+}
+
+.validation-message.error::before {
+  content: "!";
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.form-group-in-adding-hairstyles,
+.form-group-in-editing-hairstyles {
+  margin: 0 0 1.25rem 0; /* Added bottom margin for spacing */
+}
+
+.form-group-in-adding-hairstyles label,
+.form-group-in-editing-hairstyles label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #222;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.form-group-in-adding-hairstyles input,
+.form-group-in-adding-hairstyles select,
+.form-group-in-adding-hairstyles textarea,
+.form-group-in-editing-hairstyles input,
+.form-group-in-editing-hairstyles select,
+.form-group-in-editing-hairstyles textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.875rem; /* Smaller font size for input text */
+  transition: all 0.3s ease;
+  background-color: white;
+  color: #222;
+}
+
+.form-group-in-adding-hairstyles input:focus,
+.form-group-in-adding-hairstyles select:focus,
+.form-group-in-adding-hairstyles textarea:focus,
+.form-group-in-editing-hairstyles input:focus,
+.form-group-in-editing-hairstyles select:focus,
+.form-group-in-editing-hairstyles textarea:focus {
+  border-color: #222;
+  box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+  outline: none;
+}
+
+.form-group-in-adding-hairstyles textarea,
+.form-group-in-editing-hairstyles textarea {
+  min-height: 120px;
+  resize: vertical;
+  line-height: 1.4; /* Better line height for textarea */
+}
+
+/* Placeholder styling */
+.form-group-in-adding-hairstyles input::placeholder,
+.form-group-in-adding-hairstyles select::placeholder,
+.form-group-in-adding-hairstyles textarea::placeholder,
+.form-group-in-editing-hairstyles input::placeholder,
+.form-group-in-editing-hairstyles select::placeholder,
+.form-group-in-editing-hairstyles textarea::placeholder {
+  color: #999;
+  font-size: 0.875rem;
+}
+
+.modal-buttons-in-adding-hairstyles,
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid #e2e8f0;
+}
+
+.submit-button-in-adding-hairstyles,
+.save-button {
+  background-color: #222;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #222;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.submit-button-in-adding-hairstyles:hover,
+.save-button:hover {
+  background-color: white;
+  color: #222;
+  transform: translateY(-1px);
+}
+
+.cancel-button-in-adding-hairstyles,
+.delete-button {
+  background-color: white;
+  color: #222;
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #222;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cancel-button-in-adding-hairstyles:hover,
+.delete-button:hover {
+  background-color: #222;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.hairstyle-image-label {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
+}
+
+.hairstyle-image-label:hover {
+  transform: scale(1.02);
+}
+
+.hairstyle-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.image-upload-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  text-align: center;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hairstyle-image-label:hover .image-upload-hint {
+  opacity: 1;
+}
+
+/* Custom file input styling */
+input[type="file"] {
+  padding: 0.5rem;
+  border: 2px dashed #e2e8f0;
+  border-radius: 8px;
+  background-color: #f7fafc;
+  cursor: pointer;
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #4299e1;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .modal-content-hairstyle-inadmin,
+  .edit-modal-content-hairstyle-inadmin {
+    width: 95%;
+    padding: 10px;
+  }
+}
+
+.table-container-hairstyle-inadmin {
+  margin-top: 5px;
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #333;
+}
+
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+.hairstyle-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.description-cell {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .table-container-hairstyle-inadmin {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+  }
+
+  .description-cell {
+    max-width: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .description-cell {
+    max-width: 100px;
+  }
+
+  .hairstyle-thumbnail {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.modal-overlay-in-adding-hairstyles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content-in-adding-hairstyles {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content-in-adding-hairstyles h3 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.form-group-in-adding-hairstyles {
+  margin-bottom: 15px;
+}
+
+.form-group-in-adding-hairstyles label {
+  display: block;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+.form-group-in-adding-hairstyles input,
+.form-group-in-adding-hairstyles select,
+.form-group-in-adding-hairstyles textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group-in-adding-hairstyles textarea {
+  height: 100px;
+  resize: vertical;
+}
+
+.modal-buttons-in-adding-hairstyles {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.submit-button-in-adding-hairstyles,
+.cancel-button-in-adding-hairstyles {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.submit-button-in-adding-hairstyles {
+  background-color: #28a745;
+  color: white;
+}
+
+.submit-button-in-adding-hairstyles:hover {
+  background-color: #218838;
+}
+
+.cancel-button-in-adding-hairstyles {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cancel-button-in-adding-hairstyles:hover {
+  background-color: #c82333;
+}
+
+@media (max-width: 768px) {
+  .modal-content-in-adding-hairstyles {
+    width: 95%;
+    padding: 15px;
+  }
+}
+
+/* Styles for the hairstyle details modal */
+.modal-overlay-in-editing-hairstyles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for better contrast */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content-in-editing-hairstyles {
+  background-color: white;
+  padding: 30px; /* Increased padding for better spacing */
+  border-radius: 10px; /* More rounded corners */
+  width: 90%;
+  max-width: 600px; /* Slightly wider modal */
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Added shadow for depth */
+}
+
+.modal-content-in-editing-hairstyles h3 {
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center; /* Centered title */
+}
+
+.modal-content-in-editing-hairstyles img {
+  display: block; /* Ensures the image is centered */
+  margin: 0 auto 15px; /* Center image with margin below */
+  max-width: 100%; /* Responsive image */
+  height: auto; /* Maintain aspect ratio */
+}
+
+.modal-content-in-editing-hairstyles p {
+  margin: 10px 0; /* Spacing between paragraphs */
+  color: #555; /* Slightly lighter text color */
+}
+
+.modal-content-in-editing-hairstyles button {
+  margin-top: 20px; /* Space above the button */
+  padding: 10px 15px; /* Increased padding for button */
+  background-color: #007bff; /* Primary button color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modal-content-in-editing-hairstyles button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.input-field {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.textarea-field {
+  height: 100px;
+  resize: vertical;
+}
+
+.hairstyle-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between; /* Space between buttons */
+  margin-top: 20px; /* Space above buttons */
+}
+
+.save-button {
+  background-color: #007bff; /* Primary button color */
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.delete-button {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.modal-form-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.image-section {
+  flex: 0 0 300px;
+}
+
+.form-section {
+  flex: 1;
+}
+
+.image-upload-container {
+  width: 300px;
+  height: 300px;
+  border: 2px dashed #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-color: #f7fafc;
+  transition: all 0.3s ease;
+}
+
+.image-upload-container:hover {
+  border-color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+.image-upload-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-upload-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #718096;
+}
+
+/* Remove the old font awesome icon styling */
+.hidden {
+  display: none;
+}
+.image-upload-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #a0aec0;
+}
+
+.image-upload-hint {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.image-upload-container:hover .image-upload-hint {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .modal-form-container {
+    flex-direction: column;
+  }
+
+  .image-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  .image-upload-container {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+  }
+}
+
+/* Add Modal Specific Styles */
+.modal-form-container-in-add-hairstyle {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+  align-items: flex-start; /* Align items to top */
+  justify-content: space-between; /* Distribute space evenly */
+}
+
+.image-section-in-add-hairstyle {
+  flex: 0 0 350px;
+  height: 400px; /* Fixed height */
+  position: relative; /* Added for better positioning */
+}
+
+.image-upload-container-in-add-hairstyle {
+  width: 100%;
+  height: 100%;
+  border: 3px dashed #222;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-section-in-add-hairstyle {
+  flex: 1;
+  max-width: calc(
+    100% - 380px
+  ); /* Adjust width accounting for image section + gap */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Reduced gap between form groups */
+}
+
+.form-group-in-adding-hairstyles {
+  margin: 0; /* Remove default margin */
+}
+
+.form-group-in-adding-hairstyles label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.form-group-in-adding-hairstyles input,
+.form-group-in-adding-hairstyles select,
+.form-group-in-adding-hairstyles textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.875rem; /* Smaller font size for input text */
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.form-group-in-adding-hairstyles textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Updated image upload placeholder styles */
+.image-upload-placeholder {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+}
+
+.upload-icon {
+  font-size: 3.5rem;
+  color: #222;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.image-upload-placeholder p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .modal-form-container-in-add-hairstyle {
+    gap: 1.5rem;
+  }
+
+  .image-section-in-add-hairstyle {
+    flex: 0 0 300px;
+    height: 350px;
+  }
+
+  .form-section-in-add-hairstyle {
+    max-width: calc(100% - 330px);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-form-container-in-add-hairstyle {
+    flex-direction: column;
+  }
+
+  .image-section-in-add-hairstyle {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-section-in-add-hairstyle {
+    max-width: 100%;
+  }
+
+  .upload-icon {
+    font-size: 3rem;
+  }
+}
+
+/* Edit Modal Specific Styles */
+.modal-form-container-in-edit-hairstyle {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 1.5rem;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.image-section-in-edit-hairstyle {
+  flex: 0 0 350px;
+  height: 400px; /* Fixed height */
+}
+
+.image-upload-container-in-edit-hairstyle {
+  width: 100%;
+  height: 100%;
+  border: 3px dashed #222;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-upload-container-in-edit-hairstyle:hover .image-upload-hint {
+  opacity: 1; /* Show hint on hover */
+}
+
+.image-upload-container-in-edit-hairstyle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-upload-container-in-edit-hairstyle:hover {
+  border-color: #000;
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-upload-container-in-edit-hairstyle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.modal-buttons-in-edit-hairstyle {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid #e2e8f0;
+}
+
+.form-section-in-edit-hairstyle {
+  flex: 1;
+  max-width: calc(100% - 380px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem; /* Reduced gap between form groups */
+}
+
+.form-group-in-editing-hairstyles {
+  margin: 0;
+  width: 100%;
+}
+
+.form-group-in-editing-hairstyles label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.form-group-in-editing-hairstyles input,
+.form-group-in-editing-hairstyles select,
+.form-group-in-editing-hairstyles textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.875rem; /* Smaller font size for input text */
+  background-color: white;
+  transition: all 0.3s ease;
+}
+
+.form-group-in-editing-hairstyles input:focus,
+.form-group-in-editing-hairstyles select:focus,
+.form-group-in-editing-hairstyles textarea:focus {
+  border-color: #222;
+  box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+  outline: none;
+}
+
+.form-group-in-editing-hairstyles textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Shared hover effects */
+.image-upload-container-in-add-hairstyle:hover,
+.image-upload-container-in-edit-hairstyle:hover {
+  border-color: #4299e1;
+  background-color: #ebf8ff;
+}
+
+/* Responsive design for both modals */
+@media (max-width: 768px) {
+  .modal-form-container-in-add-hairstyle,
+  .modal-form-container-in-edit-hairstyle {
+    flex-direction: column;
+  }
+
+  .image-section-in-add-hairstyle,
+  .image-section-in-edit-hairstyle {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 300px; /* Maintain height on mobile */
+    margin-bottom: 2rem;
+  }
+
+  .image-upload-container-in-add-hairstyle,
+  .image-upload-container-in-edit-hairstyle {
+    width: 100%;
+    max-width: 300px;
+    height: 300px; /* Maintain height on mobile */
+  }
+
+  .form-section-in-add-hairstyle,
+  .form-section-in-edit-hairstyle {
+    width: 100%;
+  }
+}
+
+/* Image placeholder styles */
+.image-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1;
+  position: relative; /* Changed to relative for better stacking */
+  text-align: center;
+  color: #222;
+}
+
+.upload-icon {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.image-upload-placeholder p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Update all button styles to black and white theme */
+.add-button-hairstyle-inadmin,
+.submit-button-in-adding-hairstyles,
+.save-button,
+.modal-content-in-editing-hairstyles button {
+  background-color: #222;
+  color: white;
+  border: 2px solid #222;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.add-button-hairstyle-inadmin:hover,
+.submit-button-in-adding-hairstyles:hover,
+.save-button:hover,
+.modal-content-in-editing-hairstyles button:hover {
+  background-color: white;
+  color: #222;
+  transform: translateY(-1px);
+}
+
+.cancel-button-in-adding-hairstyles,
+.delete-button,
+button[type="button"] {
+  background-color: white;
+  color: #222;
+  border: 2px solid #222;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.cancel-button-in-adding-hairstyles:hover,
+.delete-button:hover,
+button[type="button"]:hover {
+  background-color: #222;
+  color: white;
+  transform: translateY(-1px);
+}
+
+/* Remove any conflicting button styles */
+.add-button,
+.submit-button-in-adding-hairstyles,
+.cancel-button-in-adding-hairstyles,
+.delete-button,
+.save-button {
+  background-color: #222 !important;
+  color: white !important;
+  border: 2px solid #222 !important;
+}
+
+.add-button:hover,
+.submit-button-in-adding-hairstyles:hover,
+.save-button:hover {
+  background-color: white !important;
+  color: #222 !important;
+}
+
+/* Modal buttons container */
+.modal-buttons-in-add-hairstyle,
+.modal-buttons-in-edit-hairstyle,
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 2px solid #222;
+}
+
+/* Update responsive styles for edit modal */
+@media (max-width: 1024px) {
+  .form-section-in-edit-hairstyle {
+    max-width: calc(100% - 330px);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-form-container-in-edit-hairstyle {
+    flex-direction: column;
+  }
+
+  .form-section-in-edit-hairstyle {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Add Modal Image Section Updates */
+.image-section-in-add-hairstyle {
+  flex: 0 0 300px; /* Fixed width */
+  min-width: 300px; /* Ensure minimum width */
+  height: 300px; /* Fixed height to match width */
+  position: relative;
+  margin-right: 2rem; /* Add space between image and form */
+}
+
+.image-upload-container-in-add-hairstyle {
+  width: 300px; /* Fixed width */
+  height: 300px; /* Fixed height */
+  border: 3px dashed #222;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  background-color: #f8f8f8;
+  transition: border-color 0.3s ease; /* Only transition border-color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-upload-container-in-add-hairstyle:hover {
+  border-color: #4299e1;
+}
+
+.image-upload-container-in-add-hairstyle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: none; /* Remove any transitions on the image */
+}
+
+.image-upload-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+  z-index: 1;
+  transition: none; /* Remove transitions */
+  pointer-events: none; /* Prevent placeholder from interfering with hover */
+}
+
+.upload-icon {
+  font-size: 4rem;
+  color: #222;
+  margin-bottom: 0.5rem;
+  transition: none; /* Remove transitions */
+}
+
+.image-upload-placeholder p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+  margin: 0;
+  transition: none; /* Remove transitions */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .image-section-in-add-hairstyle {
+    min-width: 250px; /* Slightly smaller on mobile */
+    height: 250px;
+    margin: 0 auto 1.5rem; /* Center image on mobile */
+  }
+
+  .image-upload-container-in-add-hairstyle {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* Delete Confirmation Modal Styles */
+.delete-confirmation-modal-in-HairstylesInAdmin {
+  position: fixed;
+  top: 30%;
+  left: 40%;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  z-index: 1100;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.delete-confirmation-content-in-HairstylesInAdmin {
+  text-align: center;
+}
+
+.delete-confirmation-title-in-HairstylesInAdmin {
+  color: #dc3545;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.delete-confirmation-message {
+  color: #555;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.delete-confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.delete-confirm-button {
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid #dc3545;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.delete-confirm-button:hover {
+  background-color: #c82333;
+  border-color: #c82333;
+  transform: translateY(-1px);
+}
+
+.delete-cancel-button {
+  background-color: white;
+  color: #555;
+  border: 2px solid #555;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.delete-cancel-button:hover {
+  background-color: #555;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.delete-icon {
+  font-size: 3rem;
+  color: #dc3545;
+  margin-bottom: 1rem;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Add overlay for delete confirmation */
+.delete-confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.25);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Mobile responsiveness for delete confirmation */
+@media (max-width: 768px) {
+  .delete-confirmation-modal-in-HairstylesInAdmin {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .delete-confirmation-title {
+    font-size: 1.25rem;
+  }
+
+  .delete-confirmation-message {
+    font-size: 0.9rem;
+  }
+
+  .delete-confirmation-buttons {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .delete-confirm-button,
+  .delete-cancel-button {
+    width: 100%;
+  }
+}
+
+/* Enhanced Delete Confirmation Styles */
+.delete-confirmation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.confirm-button {
+  background-color: #dc3545;
+  color: white;
+  border: 2px solid #dc3545;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.confirm-button:hover {
+  background-color: #dc3545;
+  color: white;
+  transform: none;
+  box-shadow: none;
+}
+
+.cancel-button {
+  background-color: #fff;
+  color: #666;
+  border: 2px solid #666;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cancel-button:hover {
+  background-color: #fff;
+  color: #666;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Delete Success Message */
+.delete-success-message {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1200;
+  animation: slideInRight 0.3s ease-out forwards;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.delete-success-message::before {
+  content: "✓";
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.search-and-filters-hairstyle-inadmin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  gap: 2rem;
+}
+
+.search-bar-hairstyle-inadmin {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.2rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 3rem;
+  border: 2px solid #222;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #000;
+  box-shadow: 0 0 0 3px rgba(34, 34, 34, 0.1);
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.filters-hairstyle-inadmin {
+  display: flex;
+  gap: 1rem;
+}
+
+.filter-button {
+  background-color: white;
+  color: #222;
+  border: 2px solid #222;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-button:hover {
+  background-color: #222;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.filter-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+
+.filter-button:hover .filter-arrow {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+  .search-and-filters-hairstyle-inadmin {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .search-bar-hairstyle-inadmin {
+    width: 100%;
+    max-width: none;
+  }
+
+  .filters-hairstyle-inadmin {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .filter-button {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* ... existing styles ... */
+
+.filter-container {
+  position: relative;
+  display: inline-block;
+}
+
+.filter-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  border: 2px solid #222;
+  border-radius: 8px;
+  margin-top: 5px;
+  width: 150px;
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.filter-option {
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-option:hover {
+  background-color: #f0f0f0;
+}
+
+.filter-option.active {
+  background-color: #222;
+  color: white;
+}
+
+.filter-button.active {
+  background-color: #222;
+  color: white;
+}
+
+.filter-button.active .filter-arrow {
+  transform: rotate(180deg);
+  color: white;
+}
+
+/* ... rest of existing styles ... */

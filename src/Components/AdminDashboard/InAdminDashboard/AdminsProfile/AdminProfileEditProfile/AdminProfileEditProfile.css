@@ -1,0 +1,178 @@
+.edit-profile-section-inAdminProfileEditProfile {
+  padding: 1rem;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+  position: relative;
+}
+
+.edit-profile-section-inAdminProfileEditProfile::-webkit-scrollbar {
+  width: 8px;
+}
+
+.edit-profile-section-inAdminProfileEditProfile::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.edit-profile-section-inAdminProfileEditProfile::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.edit-profile-section-inAdminProfileEditProfile::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.form-group-inAdminProfileEditProfile {
+  margin-bottom: 0.8rem;
+  max-width: 500px; /* Added max-width */
+  margin-left: auto; /* Center the form group */
+  margin-right: auto; /* Center the form group */
+}
+
+.form-group-inAdminProfileEditProfile label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.form-group-inAdminProfileEditProfile input,
+.form-group-inAdminProfileEditProfile textarea {
+  width: 100%;
+  max-width: 500px;
+  padding: 0.8rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  transition: all 0.2s ease-in-out;
+  background-color: #f8f9fa;
+}
+
+.form-group-inAdminProfileEditProfile input:focus,
+.form-group-inAdminProfileEditProfile textarea:focus {
+  border-color: #000;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.form-group-inAdminProfileEditProfile input:hover,
+.form-group-inAdminProfileEditProfile textarea:hover {
+  border-color: #666;
+}
+
+.form-group-inAdminProfileEditProfile input.error,
+.form-group-inAdminProfileEditProfile textarea.error {
+  border-color: #dc3545;
+}
+
+.error-input-inAdminProfileEditProfile {
+  border: 2px solid #dc3545 !important;
+  background-color: #fff8f8 !important;
+}
+
+.error-input-inAdminProfileEditProfile:focus {
+  box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2) !important;
+}
+
+.input-error-message {
+  color: #dc3545;
+  font-size: 0.75rem;
+  margin-top: 4px;
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  animation: fadeIn 0.2s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.address-input-inAdminProfileEditProfile {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.profile-upload-container-inAdminProfileEditProfile {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #000;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 auto 1rem auto; /* Adjusted margin for better spacing */
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-upload-preview-inAdminProfileEditProfile {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-upload-placeholder-inAdminProfileEditProfile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.hidden-input-inAdminProfileEditProfile {
+  display: none;
+}
+
+.error-message-inAdminProfileEditProfile {
+  color: #dc3545;
+  background: #feebed;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.error-text-inAdminProfileEditProfile {
+  color: #dc3545;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  display: block;
+}
+
+.form-buttons-inAdminProfileEditProfile {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 500px; /* Added max-width */
+  margin-left: auto; /* Center the buttons container */
+  margin-right: auto; /* Center the buttons container */
+}
+
+.save-btn-inAdminProfileEditProfile {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.save-btn-inAdminProfileEditProfile:hover {
+  background: #333;
+  transform: translateY(-2px);
+}

@@ -1,0 +1,132 @@
+.tutorial-image-grid-inScannerTutorial {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.image-container-inScannerTutorial {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.image-container-inScannerTutorial:hover {
+  transform: scale(1.05);
+}
+
+.image-container-inScannerTutorial img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tutorial-tips-inScannerTutorial {
+  grid-column: 1 / -1;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.do-inScannerTutorial .tutorial-image-grid-inScannerTutorial {
+  border: 2px solid #4caf50;
+}
+
+.dont-inScannerTutorial .tutorial-image-grid-inScannerTutorial {
+  border: 2px solid #f44336;
+}
+
+.tutorial-section-inScannerTutorial h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.tutorial-item-inScannerTutorial h3 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.do-inScannerTutorial h3 {
+  color: #4caf50;
+}
+
+.dont-inScannerTutorial h3 {
+  color: #f44336;
+}
+
+.scanner-tutorial-inScannerTutorial {
+  height: 100vh;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.tutorial-content-inScannerTutorial {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 2rem;
+}
+
+.tutorial-items-inScannerTutorial {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 5px;
+}
+
+.tutorial-item-inScannerTutorial {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.proceed-button-inScannerTutorial {
+  position: sticky;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: background-color 0.2s ease;
+}
+
+.proceed-button-inScannerTutorial:hover {
+  background-color: #45a049;
+}
+
+/* Add smooth scrolling to the container */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Add custom scrollbar */
+.scanner-tutorial-inScannerTutorial::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scanner-tutorial-inScannerTutorial::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.scanner-tutorial-inScannerTutorial::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scanner-tutorial-inScannerTutorial::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

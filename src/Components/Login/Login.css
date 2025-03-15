@@ -1,0 +1,582 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #e6e6e6 0%, #b3b3b3 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.curved-bg-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  background-color: #000;
+  border-bottom-right-radius: 100%;
+  z-index: 0;
+  opacity: 0.8;
+}
+
+.curved-bg-bottom {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 300px;
+  height: 300px;
+  background-color: #000;
+  border-top-left-radius: 100%;
+  z-index: 0;
+  opacity: 0.8;
+}
+
+.loginPage-inloginscreen {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh; /* Changed from 100vh to 90vh */
+  width: 85%; /* Changed from 90% to 85% */
+  max-width: 1100px; /* Reduced from 1200px */
+  margin: auto;
+  overflow: hidden;
+  background-color: white;
+  border-radius: 25px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.image-column-inloginscreen {
+  flex: 1;
+  background-color: white; /* Reverted back to white */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  height: 90vh; /* Changed from 100vh to 90vh */
+  position: relative;
+  overflow: hidden;
+}
+
+.image-column-inloginscreen img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent; /* Removed gradient */
+  z-index: 1;
+}
+
+.image-content {
+  position: relative;
+  padding: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.image-text {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 3;
+  padding: 20px;
+  color: white;
+  background: linear-gradient(
+    to bottom,
+    rgba(168, 165, 165, 0.9) 0%,
+    rgba(168, 165, 165, 0.7) 20%,
+    rgba(168, 165, 165, 0.4) 40%,
+    rgba(168, 165, 165, 0.2) 60%,
+    rgba(168, 165, 165, 0.1) 80%,
+    rgba(168, 165, 165, 0) 100%
+  );
+  padding-bottom: 150px; /* Increased padding to extend fade effect */
+}
+
+.image-text h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.image-text p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  color: #fff;
+}
+
+.image-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.feature-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove all hover effects */
+.feature-image:hover,
+.btn-inloginscreen:hover,
+.guest-btn-inloginscreen:hover,
+.guest-btn-inloginscreen:hover span {
+  transform: none;
+  box-shadow: none;
+}
+
+.login-form-inloginscreen {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Changed from center */
+  align-items: center;
+  max-height: 90vh; /* Changed from height: 100vh */
+  padding: 1rem 0;
+  background-color: white;
+  background: linear-gradient(to bottom, #ffffff, #f8f8f8);
+  border-radius: 10px;
+  margin: 0;
+  gap: 0.5rem;
+  overflow-y: auto; /* Add scrolling */
+  position: relative;
+}
+
+/* Add custom scrollbar styles */
+.login-form-inloginscreen::-webkit-scrollbar {
+  width: 6px;
+}
+
+.login-form-inloginscreen::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.login-form-inloginscreen::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.login-form-inloginscreen::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.input-container-inloginscreen {
+  position: relative;
+  margin-bottom: 20px;
+  width: 350px; /* Increased from whatever the previous width was */
+}
+
+.input-container-inloginscreen input {
+  width: 100%;
+  padding: 8px 10px; /* Reduced padding */
+  border: 1px solid black;
+  border-radius: 8px;
+  font-size: 0.9rem; /* Reduced from 1rem */
+  background-color: white;
+  color: black;
+  transition: border-color 0.3s;
+  outline: none;
+  height: 40px; /* Reduced from 45px */
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+}
+
+.input-container-inloginscreen input:focus {
+  border-color: black;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+  background-color: white;
+}
+
+.input-container-inloginscreen label {
+  position: absolute;
+  left: 10px;
+  top: 10px; /* Adjusted from 12px */
+  color: black;
+  font-size: 10px; /* Reduced from 11px */
+  transition: 0.2s ease all;
+  pointer-events: none;
+  background-color: #f8f8f8; /* Changed from white to match form background */
+  padding: 0 5px;
+}
+
+.input-container-inloginscreen input:focus + label,
+.input-container-inloginscreen input:not(:placeholder-shown) + label {
+  top: -8px;
+  left: 10px;
+  font-size: 0.8rem;
+  color: black;
+  background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #f8f8f8
+  ); /* Match form gradient */
+}
+
+.btn-inloginscreen {
+  height: 30px;
+  width: 100%;
+  border: 2px solid black;
+  outline: none;
+  padding: 1rem 1.5rem;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  font-weight: 600;
+  height: 45px;
+  font-size: 1.1rem;
+  background: linear-gradient(45deg, #000000, #333333);
+  transition: all 0.3s ease;
+}
+
+.btn-inloginscreen:active {
+  transform: scale(0.98);
+}
+
+.guest-btn-inloginscreen {
+  width: 40%;
+  border: 2px solid #e0e0e0;
+  outline: none;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  color: #757575;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+  font-weight: 600;
+  height: 45px;
+  font-size: 1.1rem;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg, #ffffff, #f5f5f5);
+}
+
+.guest-btn-inloginscreen:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.Register-btn-inloginscreen {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
+  background-color: rgba(168, 165, 165, 0.7);
+  color: white;
+  z-index: 3;
+  transition: all 0.3s ease;
+}
+
+.Register-btn-inloginscreen a {
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  transition: border-color 0.3s ease;
+}
+
+.Register-btn-inloginscreen a:hover {
+  border-bottom-color: white;
+}
+
+/* Add this new class outside media queries */
+.Register-btn-inloginscreen.mobile-only {
+  display: none; /* Hide by default */
+}
+
+.forgot-password-inloginscreen {
+  text-align: left;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.forgot-password-inloginscreen a {
+  color: black;
+  text-decoration: none;
+  margin-left: 0.25rem;
+}
+
+/* Remove old error/success message styles */
+.error-message-inloginscreen,
+.success-message-inloginscreen {
+  display: none;
+}
+
+/* Add toast notification styles */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast-message {
+  min-width: 300px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  animation: slideIn 0.3s ease-out forwards;
+  transition: all 0.3s ease;
+}
+
+.toast-message:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.toast-message.error {
+  background-color: #fee2e2;
+  border-left: 4px solid #ef4444;
+  color: #991b1b;
+}
+
+.toast-message.success {
+  background-color: #dcfce7;
+  border-left: 4px solid #22c55e;
+  color: #166534;
+}
+
+.toast-message.closing {
+  animation: slideOut 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .login-container {
+    padding: 0.5rem;
+    background: linear-gradient(
+      135deg,
+      #e6e6e6 0%,
+      #b3b3b3 100%
+    ); /* Keep gradient on mobile */
+  }
+
+  .curved-bg-top {
+    width: 200px;
+    height: 200px;
+  }
+
+  .curved-bg-bottom {
+    width: 200px;
+    height: 200px;
+  }
+
+  .loginPage-inloginscreen {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    padding: 1rem;
+    width: 100%; /* Take full width on mobile */
+    margin: 0;
+    border-radius: 0; /* Remove border radius on mobile */
+    box-shadow: none; /* Remove shadow on mobile */
+  }
+
+  .image-column-inloginscreen {
+    display: none;
+  }
+
+  .login-form-inloginscreen {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    height: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: calc(100vh - 60px); /* Adjust for the fixed register button */
+    padding: 2rem;
+    padding-bottom: 80px; /* Increased padding to prevent content from being hidden */
+  }
+
+  .Register-btn-inloginscreen.mobile-only {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    margin: 0;
+    z-index: 100;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+    font-size: 0.8rem; /* Reduced font size for mobile */
+  }
+
+  .image-column-inloginscreen .Register-btn-inloginscreen {
+    display: none; /* Hide the register button in image column on mobile */
+  }
+
+  .welcome-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .welcome-section p {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .input-container-inloginscreen {
+    width: 100%; /* Full width inputs on mobile */
+    margin-bottom: 0.8rem;
+  }
+
+  .btn-inloginscreen,
+  .guest-btn-inloginscreen {
+    width: 100%; /* Full width buttons */
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .guest-btn-inloginscreen {
+    width: 60%; /* Slightly wider than default */
+  }
+
+  /* Adjust vertical spacing */
+  .forgot-password-inloginscreen {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+  }
+
+  .Register-btn-inloginscreen {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Add new media queries for smaller screens */
+@media (max-width: 480px) {
+  .Register-btn-inloginscreen.mobile-only {
+    font-size: 0.75rem; /* Even smaller font size for very small screens */
+    padding: 12px; /* Slightly reduced padding */
+  }
+}
+
+@media (max-width: 360px) {
+  .Register-btn-inloginscreen.mobile-only {
+    font-size: 0.7rem; /* Smallest font size for tiny screens */
+    padding: 10px; /* Minimal padding */
+  }
+}
+
+.welcome-section {
+  text-align: center;
+  margin-bottom: 2rem;
+  animation: fadeIn 0.6s ease-in;
+}
+
+.welcome-section h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.welcome-section p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.logo-inloginscreen {
+  text-align: center;
+}
+
+.logo-inloginscreen .logo-image {
+  max-width: 100px; /* Smaller logo on mobile */
+}
