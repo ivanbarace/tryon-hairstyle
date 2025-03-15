@@ -52,30 +52,30 @@ const Recommended: React.FC = () => {
       const width = window.innerWidth;
       if (width <= 480) { // Mobile
         setResponsivePosition({
-          topOffset: -23,
+          topOffset: -19,
           leftOffset: 0,
-          scale: 1
+          scale: .83
         });
       } else if (width <= 768) { // Tablet
         setResponsivePosition({
-          topOffset: -23,
+          topOffset: -19,
           leftOffset: 0,
-          scale: 1
+          scale: .83
         });
 
       }
       else if (width <= 1200) { // Tablet
         setResponsivePosition({
-          topOffset: -25,
+          topOffset: -20,
           leftOffset: 0,
-          scale: 1
+          scale: .85
         });
 
       } else { // Desktop
         setResponsivePosition({
-          topOffset: -20,
+          topOffset: -18,
           leftOffset: 0,
-          scale: 1
+          scale: .75
         });
       }
     };

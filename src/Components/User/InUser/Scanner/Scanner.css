@@ -10,34 +10,33 @@
 
 .video-container-in-scanner {
   position: relative;
-  width: 640px;
+  width: 480px;
   height: 480px;
   margin: 30px 0;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   border: 3px solid white;
+  aspect-ratio: 1/1;
 }
 
-.video-container-in-scanner .result-button-in-scanner {
-  position: absolute;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
+.result-button-in-scanner {
+  position: relative; /* Change from absolute to relative */
+  margin-top: 20px;
   background: black;
   color: white;
   padding: 12px 30px;
   border-radius: 30px;
-  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
 }
 
-.video-container-in-scanner .result-button-in-scanner:hover {
+.result-button-in-scanner:hover {
   background: rgba(0, 0, 0, 0.9);
-  transform: translateX(-50%) translateY(-2px);
+  transform: translateY(-2px);
 }
 
 .input-video-in-scanner {
@@ -89,13 +88,13 @@
 
   .video-container-in-scanner {
     width: 100vw;
-    height: 100vh;
+    height: 100vw; /* Make it square */
     max-height: 75vh;
-    margin: 0;
+    max-width: 75vh; /* Ensure it stays square */
+    margin: 0 auto;
     border-radius: 0;
     border: none;
-    position: relative;
-    overflow: hidden;
+    aspect-ratio: 1/1;
   }
 
   .input-video-in-scanner,
@@ -103,6 +102,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
+    aspect-ratio: 1/1;
   }
 
   .back-button-in-scanner {
@@ -114,11 +114,16 @@
     font-size: 14px;
   }
 
-  .video-container-in-scanner .result-button-in-scanner {
-    bottom: 30px;
+  .result-button-in-scanner {
+    margin-top: 15px;
     font-size: 16px;
     padding: 10px 25px;
-    background: black;
+    position: relative; /* Ensure it's not absolute on mobile */
+  }
+
+  .face-shape-container {
+    margin-top: 15px;
+    padding: 0 20px;
   }
 
   .face-shape-result-in-scanner {
@@ -158,7 +163,10 @@
   }
 
   .captured-image-container-in-scanner {
-    margin: 10px 0;
+    width: 100%;
+    max-width: 75vh;
+    margin: 10px auto;
+    aspect-ratio: 1/1;
   }
 
   .close-button-in-scanner {
@@ -312,13 +320,15 @@
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 1/1;
 }
 
 .captured-image-container-in-scanner img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: cover;
+  aspect-ratio: 1/1;
 }
 
 @keyframes modalFadeIn {
@@ -373,4 +383,12 @@
 .result-button-in-scanner:disabled {
   background: rgba(0, 0, 0, 0.3);
   cursor: not-allowed;
+}
+
+.face-shape-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  text-align: center;
 }

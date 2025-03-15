@@ -49,3 +49,4 @@ export default tseslint.config({
 })
 ```
 # tryon-hairstyle
+# tryon-hairstyle-frontend

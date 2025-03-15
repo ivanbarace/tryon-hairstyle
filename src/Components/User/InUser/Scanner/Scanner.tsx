@@ -65,16 +65,16 @@ const Scanner: React.FC = () => {
 
   const captureImage = () => {
     if (videoRef.current) {
+      const dimensions = calculateDimensions();
       const captureCanvas = document.createElement('canvas');
-      captureCanvas.width = 640;  // Match video dimensions
-      captureCanvas.height = 480;
+      captureCanvas.width = dimensions.width;
+      captureCanvas.height = dimensions.height;
       const ctx = captureCanvas.getContext('2d');
 
       if (ctx) {
-        // Apply consistent mirroring for the captured image
         ctx.scale(-1, 1);
         ctx.translate(-captureCanvas.width, 0);
-        ctx.drawImage(videoRef.current, 0, 0, captureCanvas.width, captureCanvas.height);
+        ctx.drawImage(videoRef.current, 0, 0, dimensions.width, dimensions.height);
 
         const image = captureCanvas.toDataURL('image/png');
         setCapturedImage(image);
@@ -128,8 +128,25 @@ const Scanner: React.FC = () => {
     }
   };
 
+  const calculateDimensions = () => {
+    const isMobile = window.innerWidth <= 680;
+    if (isMobile) {
+      // For mobile, use a square aspect ratio (1:1)
+      const size = Math.min(window.innerWidth, window.innerHeight * 0.75);
+      return {
+        width: size,
+        height: size
+      };
+    }
+    // For desktop, maintain square aspect ratio
+    return {
+      width: 480,
+      height: 480
+    };
+  };
+
   useEffect(() => {
-    let isMounted = true; // Add this flag
+    let isMounted = true;
 
     if (!videoRef.current || !canvasRef.current) return;
 
@@ -146,20 +163,34 @@ const Scanner: React.FC = () => {
 
     faceMesh.onResults(onResults);
 
+    const dimensions = calculateDimensions();
+
     const camera = new Camera(videoRef.current, {
       onFrame: async () => {
-        if (isMounted && videoRef.current) { // Check the flag
+        if (isMounted && videoRef.current) {
           await faceMesh.send({ image: videoRef.current });
         }
       },
-      width: 640,
-      height: 480
+      width: dimensions.width,
+      height: dimensions.height
     });
+
+    // Set canvas dimensions
+    if (canvasRef.current) {
+      canvasRef.current.width = dimensions.width;
+      canvasRef.current.height = dimensions.height;
+    }
+
+    // Set video dimensions
+    if (videoRef.current) {
+      videoRef.current.width = dimensions.width;
+      videoRef.current.height = dimensions.height;
+    }
 
     camera.start().catch((err) => console.error("Error starting camera:", err));
 
     return () => {
-      isMounted = false; // Update the flag
+      isMounted = false;
       camera.stop();
       faceMesh.close();
     };
@@ -183,9 +214,10 @@ const Scanner: React.FC = () => {
     if (results.multiFaceLandmarks.length > 0) {
       const landmarks = results.multiFaceLandmarks[0];
 
-      // Define guide box dimensions
-      const guideWidth = canvasElement.width * 0.3;
-      const guideHeight = canvasElement.height * 0.45;
+      // Make guide box square and bigger (changed from 0.3 to 0.6)
+      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.6;
+      const guideWidth = boxSize;
+      const guideHeight = boxSize;
       const guideX = (canvasElement.width - guideWidth) / 2;
       const guideY = (canvasElement.height - guideHeight) / 2;
 
@@ -289,9 +321,10 @@ const Scanner: React.FC = () => {
         ctx.stroke();
       }
     } else {
-      // Draw default guide box when no face is detected
-      const guideWidth = canvasElement.width * 0.3;
-      const guideHeight = canvasElement.height * 0.45;
+      // Update the default guide box size when no face is detected
+      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.6;
+      const guideWidth = boxSize;
+      const guideHeight = boxSize;
       const guideX = (canvasElement.width - guideWidth) / 2;
       const guideY = (canvasElement.height - guideHeight) / 2;
 
@@ -424,14 +457,17 @@ const Scanner: React.FC = () => {
 
   return (
     <div className="scanner-container-in-scanner">
-
       <div className="video-container-in-scanner">
-
         <video ref={videoRef} className="input-video-in-scanner" />
         <button className="back-button-in-scanner" onClick={() => navigate('/user/haircuts')}>
           <IoArrowBack /> Back
         </button>
         <canvas ref={canvasRef} className="output-canvas-in-scanner" width="640" height="480" />
+      </div>
+
+      <div className="face-shape-container">
+        <h2>Detected Face Shape:</h2>
+        <p>{faceShape}</p>
         <button
           className="result-button-in-scanner"
           onClick={captureImage}
@@ -456,9 +492,6 @@ const Scanner: React.FC = () => {
           </div>
         </div>
       )}
-
-      <h2>Detected Face Shape:</h2>
-      <p>{faceShape}</p>
     </div>
   );
 };
