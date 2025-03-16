@@ -53,7 +53,7 @@
   .user-mobile-login {
     display: block;
     position: fixed;
-    top: 1rem;
+    bottom: 80px; /* Changed from top: 1rem to bottom: 80px */
     right: 1rem;
     z-index: 1001;
   }
@@ -61,12 +61,13 @@
   .user-mobile-login button {
     display: flex;
     align-items: center;
+    justify-content: center; /* Added to center the icon */
     gap: 8px;
     padding: 8px;
-    width: 40px;
-    height: 40px;
+    width: 45px; /* Slightly increased size */
+    height: 45px; /* Slightly increased size */
     border: none;
-    border-radius: 30px;
+    border-radius: 50%; /* Changed to make it perfectly circular */
     background: linear-gradient(45deg, #000, #333);
     color: white;
     font-weight: 600;

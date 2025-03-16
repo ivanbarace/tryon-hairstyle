@@ -45,6 +45,14 @@ const Navigation: React.FC = () => {
     }
   }, [userData?.id, fetchProfilePicture]);
 
+  const handleProfileClick = () => {
+    if (!isLoggedIn) {
+      setShowModal(true);
+    } else {
+      navigate('/user/profile');
+    }
+  };
+
   return (
     <>
       <nav className="navigation-inuser">
@@ -61,50 +69,58 @@ const Navigation: React.FC = () => {
             <span className="navigation-inuser-text">Hairstyles</span>
           </Link>
 
-          {isLoggedIn ? (
-            <Link
-              to="/user/profile"
-              className={`navigation-inuser-info ${location.pathname === '/user/profile' ? 'active' : ''}`}
-            >
-              <div className="navigation-inuser-profile-container">
-                <span className="navigation-inuser-icon mobile-only"><FaUser /></span>
-                <div className="desktop-only profile-info-wrapper">
-                  <div className="profile-image-wrapper">
-                    {profilePicture ? (
-                      <img
-                        src={profilePicture}
-                        alt={userData?.fullname || 'Profile'}
-                        className="navigation-inuser-picture"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.onerror = null;
-                          target.style.display = 'none';
-                          const placeholder = target.parentElement?.querySelector('.navigation-inuser-picture-placeholder');
-                          if (placeholder) {
-                            (placeholder as HTMLElement).style.display = 'flex';
-                          }
-                        }}
-                      />
-                    ) : (
-                      <div className="navigation-inuser-picture-placeholder">
-                        {userData?.fullname?.charAt(0).toUpperCase()}
-                      </div>
-                    )}
+          <div
+            className={`navigation-inuser-profile ${location.pathname === '/user/profile' ? 'active' : ''}`}
+            onClick={handleProfileClick}
+          >
+            {isLoggedIn ? (
+              <Link
+                to="/user/profile"
+                className={`navigation-inuser-info ${location.pathname === '/user/profile' ? 'active' : ''}`}
+              >
+                <div className="navigation-inuser-profile-container">
+                  <span className="navigation-inuser-icon mobile-only"><FaUser /></span>
+                  <div className="desktop-only profile-info-wrapper">
+                    <div className="profile-image-wrapper">
+                      {profilePicture ? (
+                        <img
+                          src={profilePicture}
+                          alt={userData?.fullname || 'Profile'}
+                          className="navigation-inuser-picture"
+                          onError={(e) => {
+                            const target = e.target as HTMLImageElement;
+                            target.onerror = null;
+                            target.style.display = 'none';
+                            const placeholder = target.parentElement?.querySelector('.navigation-inuser-picture-placeholder');
+                            if (placeholder) {
+                              (placeholder as HTMLElement).style.display = 'flex';
+                            }
+                          }}
+                        />
+                      ) : (
+                        <div className="navigation-inuser-picture-placeholder">
+                          {userData?.fullname?.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <span className="desktop-only navigation-inuser-fullname">
+                      {userData?.fullname || 'User'}
+                    </span>
                   </div>
-                  <span className="desktop-only navigation-inuser-fullname">
-                    {userData?.fullname || 'User'}
-                  </span>
                 </div>
-              </div>
-            </Link>
-          ) : (
-            <div className="navigation-inuser-login">
-              <button onClick={() => navigate('/login')}>
-                <FaSignInAlt />
-                <span>Login</span>
-              </button>
-            </div>
-          )}
+              </Link>
+            ) : (
+              <>
+                <span className="navigation-inuser-icon mobile-only"><FaUser /></span>
+                <div className="navigation-inuser-login desktop-only">
+                  <button onClick={() => navigate('/login')}>
+                    <FaSignInAlt />
+                    <span>Login</span>
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </nav>
 

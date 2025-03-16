@@ -116,6 +116,10 @@
 .navigation-inuser-profile {
   display: flex;
   align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  padding: 8px;
+  flex: 1;
 }
 
 .navigation-inuser-info {
@@ -331,6 +335,8 @@
     flex: 1;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    gap: 4px;
   }
 
   .navigation-inuser-info {

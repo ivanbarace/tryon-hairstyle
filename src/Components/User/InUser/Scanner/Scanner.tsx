@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FaceMesh, Results, NormalizedLandmarkList } from '@mediapipe/face_mesh';
 import { Camera } from '@mediapipe/camera_utils';
-import { FACEMESH_TESSELATION } from '@mediapipe/face_mesh';
 import './Scanner.css';
 import { useNavigate } from 'react-router-dom';
 import { IoArrowBack } from 'react-icons/io5';
@@ -205,6 +204,18 @@ const Scanner: React.FC = () => {
     const ctx = canvasElement.getContext('2d');
     if (!ctx) return;
 
+    // Reset face shape to "Detecting..." if no face is detected
+    if (results.multiFaceLandmarks.length === 0) {
+      setFaceShape("Detecting...");
+      setShapePercentages({
+        Triangle: 0,
+        Round: 0,
+        Square: 0,
+        Oval: 0,
+        Rectangle: 0
+      });
+    }
+
     ctx.save();
     ctx.clearRect(0, 0, canvasElement.width, canvasElement.height);
     ctx.scale(-1, 1);
@@ -257,7 +268,7 @@ const Scanner: React.FC = () => {
         // More strict thresholds
         const ROTATION_THRESHOLD = 0.02; // Reduced from 0.05
         const TILT_THRESHOLD = 0.01;    // Reduced from 0.02
-        const VERTICAL_THRESHOLD = 0.03;
+        const VERTICAL_THRESHOLD = 0.009;
         const CENTER_THRESHOLD = 0.02;
 
         // Check multiple alignment conditions
@@ -306,20 +317,6 @@ const Scanner: React.FC = () => {
 
       setIsAligned(isProperlyAligned);
 
-      // Draw face mesh
-      ctx.scale(-1, 1);
-      ctx.strokeStyle = isProperlyAligned ? '#00FF00' : '#FF0000';
-      ctx.lineWidth = 1;
-
-      for (const connection of FACEMESH_TESSELATION) {
-        const start = landmarks[connection[0]];
-        const end = landmarks[connection[1]];
-
-        ctx.beginPath();
-        ctx.moveTo(start.x * canvasElement.width, start.y * canvasElement.height);
-        ctx.lineTo(end.x * canvasElement.width, end.y * canvasElement.height);
-        ctx.stroke();
-      }
     } else {
       // Update the default guide box size when no face is detected
       const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.5;

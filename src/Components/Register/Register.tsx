@@ -76,12 +76,17 @@ const Register: React.FC = () => {
       }
     }
 
-    // Only keep email validation while typing
+    // Email validation - only show red border, no error message
     if (name === 'email') {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (value && !emailRegex.test(value)) {
-        setInvalidFields(prev => [...prev.filter(f => f !== 'email'), 'email']);
-        showMessage('Please enter a valid email address', 'error');
+      if (value && !value.includes('@')) {
+        setInvalidFields(prev => prev.includes('email') ? prev : [...prev, 'email']);
+      } else if (value.includes('@')) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (emailRegex.test(value)) {
+          setInvalidFields(prev => prev.filter(f => f !== 'email'));
+        } else {
+          setInvalidFields(prev => prev.includes('email') ? prev : [...prev, 'email']);
+        }
       }
     }
 
@@ -100,6 +105,8 @@ const Register: React.FC = () => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setProfilePicture(file);
+      // Remove profilePicture from invalidFields when a file is selected
+      setInvalidFields(prev => prev.filter(field => field !== 'profilePicture'));
 
       // Create preview URL
       const reader = new FileReader();

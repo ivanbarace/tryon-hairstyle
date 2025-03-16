@@ -8,6 +8,19 @@
   border-radius: 8px;
 }
 
+/* Add media queries for responsive design */
+@media screen and (min-width: 768px) {
+  .tutorial-image-grid-inScannerTutorial {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tutorial-image-grid-inScannerTutorial {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .image-container-inScannerTutorial {
   position: relative;
   aspect-ratio: 1;
@@ -90,22 +103,21 @@
 }
 
 .proceed-button-inScannerTutorial {
-  position: sticky;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  display: block;
+  margin: 2rem auto 4rem auto; /* increased bottom margin to 4rem */
   padding: 1rem 2rem;
-  background-color: #4caf50;
+  background-color: black;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.1rem;
   transition: background-color 0.2s ease;
+  width: fit-content;
 }
 
 .proceed-button-inScannerTutorial:hover {
-  background-color: #45a049;
+  background-color: #434643;
 }
 
 /* Add smooth scrolling to the container */
