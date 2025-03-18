@@ -309,7 +309,6 @@
   max-height: 90vh; /* Changed from height: 100vh */
   padding: 1rem 0; /* Added padding */
   background-color: white;
-  background: linear-gradient(to bottom, #ffffff, #f8f8f8);
   border-radius: 10px;
   margin: 0;
   gap: 0.5rem; /* Added to control spacing between elements */
@@ -1077,7 +1076,7 @@
     box-shadow: none;
     height: auto;
     min-height: 100vh;
-    padding: 1rem;
+    padding: 0;
     margin: 0;
   }
   .register-form-inregisterscreen {
