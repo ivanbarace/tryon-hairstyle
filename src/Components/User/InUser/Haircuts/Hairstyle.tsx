@@ -433,7 +433,7 @@ const Hairstyle: React.FC = () => {
                     <FaHeart />
                   </button>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
+                    src={`http://localhost:5000${hairstyle.hairstyle_picture}`}
                     alt={hairstyle.hairstyle_name}
                     className="hairstyle-image-Inhairstyle-InUserScreen"
                     onClick={() => handleHairstyleClick(hairstyle)}
@@ -468,7 +468,7 @@ const Hairstyle: React.FC = () => {
             <button className="nav-button-Inhairstyle-InUserScreen nav-button-next-Inhairstyle-InUserScreen" onClick={handleNextHairstyle}>›</button>
             <div className="hairstyle-modal-image-Inhairstyle-InUserScreen">
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture}`}
+                src={`http://localhost:5000${selectedHairstyle.hairstyle_picture}`}
                 alt={selectedHairstyle.hairstyle_name}
               />
               <button
