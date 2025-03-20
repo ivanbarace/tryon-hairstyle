@@ -692,9 +692,13 @@ const HairstylesInAdmin: React.FC = () => {
                 <td>{hairstyle.hairstyle_id}</td>
                 <td>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}public/hairstyles/${hairstyle.hairstyle_picture}`}
                     alt={hairstyle.hairstyle_name}
                     className="hairstyle-thumbnail"
+                    onError={(e) => {
+                      console.error('Image failed to load:', hairstyle.hairstyle_picture);
+                      e.currentTarget.src = 'fallback-image-url.jpg'; // Add a fallback image
+                    }}
                   />
                 </td>
                 <td>{hairstyle.hairstyle_name}</td>
@@ -734,7 +738,8 @@ const HairstylesInAdmin: React.FC = () => {
                   />
                   <label htmlFor="image-upload" className="image-upload-container-in-edit-hairstyle">
                     <img
-                      src={selectedHairstyle.imagePreview || `${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture}`}
+                      src={selectedHairstyle.imagePreview ||
+                        `${import.meta.env.VITE_BACKEND_URL}public/hairstyles/${selectedHairstyle.hairstyle_picture}`}
                       alt={selectedHairstyle.hairstyle_name}
                     />
                     <div className="image-upload-hint">Click to change image</div>
