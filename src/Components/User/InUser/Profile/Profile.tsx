@@ -202,7 +202,7 @@ const Profile: React.FC = () => {
           <div className="profile-picture-container-inprofilescreen">
             {userData.profilePicture ? (
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}${userData.profilePicture}`}
+                src={`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, '')}/${userData.profilePicture.replace(/^\//, '')}`}
                 alt="Profile"
                 className="profile-picture-inprofilescreen"
               />
@@ -257,7 +257,7 @@ const Profile: React.FC = () => {
                   onClick={() => handleHairstyleClick(hairstyle)}
                 >
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, '')}/${hairstyle.hairstyle_picture.replace(/^\//, '')}`}
                     alt={hairstyle.hairstyle_name}
                     className="favorite-image-inprofilescreen"
                   />
@@ -306,7 +306,7 @@ const Profile: React.FC = () => {
             </button>
             <div className="hairstyle-modal-image-inprofilescreen">
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture}`}
+                src={`${import.meta.env.VITE_BACKEND_URL.replace(/\/$/, '')}/${selectedHairstyle.hairstyle_picture.replace(/^\//, '')}`}
                 alt={selectedHairstyle.hairstyle_name}
               />
             </div>
