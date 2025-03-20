@@ -107,7 +107,7 @@
     400px
   ); /* Fixed width of 300px per column, 3 columns */
   gap: 2rem;
-  padding: 1rem;
+  padding: 5px;
   width: 100%;
   justify-content: center; /* Center the grid items */
 }
@@ -177,6 +177,33 @@
   transform-style: preserve-3d !important;
   mix-blend-mode: multiply !important;
   isolation: auto;
+}
+
+.save-button-inRecommendedScreen {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 20;
+  transition: transform 0.2s ease;
+}
+
+.save-button-inRecommendedScreen:hover {
+  transform: scale(1.1);
+}
+
+.save-button-inRecommendedScreen svg {
+  font-size: 1.2rem;
+  color: #333;
 }
 
 .hairstyle-card-inRecommendedScreen:hover,

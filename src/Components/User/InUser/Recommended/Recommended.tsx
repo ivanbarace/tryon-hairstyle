@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Recommended.css';
 import * as mediapipe from '@mediapipe/face_mesh';
 import * as drawing from '@mediapipe/drawing_utils';
-import { FaCamera } from 'react-icons/fa';
+import { FaCamera, FaRegBookmark } from 'react-icons/fa';  // Add FaRegBookmark import
 
 const Recommended: React.FC = () => {
   const navigate = useNavigate();
@@ -192,53 +192,69 @@ const Recommended: React.FC = () => {
       const highestY = Math.min(...hairAreaPoints.map(index => landmarks[index].y)) * canvas.height;
       const maxHeight = highestY - (canvas.height * 0.15); // Limit the height to 15% above highest landmark
 
-      // Get leftmost and rightmost points
+      // Get leftmost and rightmost points with wider spread and adjusted height
       const leftPoint = landmarks[234]; // Left temple
       const rightPoint = landmarks[454]; // Right temple
 
-      // Start the path
-      ctx.moveTo(leftPoint.x * canvas.width, leftPoint.y * canvas.height);
+      // Calculate adjusted ear positions (moved up by 2%)
+      const adjustedLeftY = leftPoint.y - 0.02;  // Move up by 2%
+      const adjustedRightY = rightPoint.y - 0.02; // Move up by 2%
 
-      // Calculate intermediate control points
-      const leftControlX = leftPoint.x * canvas.width * 0.9;
-      const rightControlX = rightPoint.x * canvas.width * 1.1;
-      const sideHeight = maxHeight + (canvas.height * 0.05); // Slightly higher on the sides
+      // Calculate wider points for more circular effect with adjusted height
+      const extraWidth = canvas.width * 0.08; // Reduced from 0.1 to 0.08 for less width
+      const leftX = (leftPoint.x * canvas.width) - extraWidth;
+      const rightX = (rightPoint.x * canvas.width) + extraWidth;
 
-      // Create curved path for left side with two control points
+      // Start the path from the wider left point with adjusted height
+      ctx.moveTo(leftX, adjustedLeftY * canvas.height);
+
+      // Calculate intermediate control points with wider spread
+      const leftControlX = leftX * 0.95;
+      const rightControlX = rightX * 1.05;
+      const sideHeight = maxHeight + (canvas.height * 0.08);
+
+      // Create curved path for left side with enhanced curve and adjusted height
       ctx.bezierCurveTo(
-        leftControlX, // First control point X
-        sideHeight, // First control point Y
-        canvas.width * 0.3, // Second control point X
-        maxHeight, // Second control point Y
-        canvas.width * 0.5, // End point X (middle)
-        maxHeight + (canvas.height * 0.02) // End point Y (slightly higher in middle)
+        leftControlX,
+        sideHeight,
+        canvas.width * 0.25,
+        maxHeight - (canvas.height * 0.05),
+        canvas.width * 0.5,
+        maxHeight
       );
 
-      // Create curved path for right side with two control points
+      // Create curved path for right side with enhanced curve and adjusted height
       ctx.bezierCurveTo(
-        canvas.width * 0.7, // First control point X
-        maxHeight, // First control point Y
-        rightControlX, // Second control point X
-        sideHeight, // Second control point Y
-        rightPoint.x * canvas.width, // End point X
-        rightPoint.y * canvas.height // End point Y
+        canvas.width * 0.75,
+        maxHeight - (canvas.height * 0.05),
+        rightControlX,
+        sideHeight,
+        rightX,
+        adjustedRightY * canvas.height // Use adjusted right ear height
       );
 
-      // Create the bottom path following face landmarks
-      hairAreaPoints.forEach((index) => {
+      // Create the bottom path with smoother transition
+      hairAreaPoints.forEach((index, i) => {
         const point = landmarks[index];
-        ctx.lineTo(point.x * canvas.width, point.y * canvas.height);
+        if (i === 0) {
+          ctx.lineTo(point.x * canvas.width, point.y * canvas.height);
+        } else {
+          const prevPoint = landmarks[hairAreaPoints[i - 1]];
+          const cpX = (prevPoint.x + point.x) / 2 * canvas.width;
+          const cpY = (prevPoint.y + point.y) / 2 * canvas.height;
+          ctx.quadraticCurveTo(cpX, cpY, point.x * canvas.width, point.y * canvas.height);
+        }
       });
 
       ctx.closePath();
 
       // Sample skin color from forehead
-      const foreheadPoint = landmarks[151]; // Center of forehead
+      const foreheadPoint = landmarks[151];
       const sx = Math.floor(foreheadPoint.x * canvas.width);
       const sy = Math.floor(foreheadPoint.y * canvas.height);
       const skinColorData = ctx.getImageData(sx, sy, 1, 1).data;
 
-      // Create temp canvas for blur effect
+      // Create temp canvas for enhanced blur effect
       const tempCanvas = document.createElement('canvas');
       tempCanvas.width = canvas.width;
       tempCanvas.height = canvas.height;
@@ -248,23 +264,58 @@ const Recommended: React.FC = () => {
         // Copy original image
         tempCtx.drawImage(img, 0, 0);
 
-        // Apply graduated blur effect
+        // Create gradient blur effect
+        // Inner strong blur (close to face)
+        tempCtx.filter = 'blur(10px)';
+        tempCtx.globalAlpha = 0.8;
+        tempCtx.drawImage(canvas, 0, 0);
+
+        // Middle blur layer (transition)
         tempCtx.filter = 'blur(12px)';
-        tempCtx.drawImage(canvas, 0, 0);
+        tempCtx.globalAlpha = 0.5;
+        // Scale and position for middle layer
+        const middleScale = 1.02;
+        tempCtx.scale(middleScale, middleScale);
+        tempCtx.drawImage(canvas,
+          -canvas.width * (middleScale - 1) / 2,
+          -canvas.height * (middleScale - 1) / 2
+        );
+        tempCtx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
 
-        // Add second blur layer with less intensity
-        tempCtx.filter = 'blur(8px)';
-        tempCtx.globalAlpha = 0.6;
-        tempCtx.drawImage(canvas, 0, 0);
+        // Outer blur layer (edges)
+        tempCtx.filter = 'blur(15px)';
+        tempCtx.globalAlpha = 0.3;
+        // Scale and position for outer layer
+        const outerScale = 1.04;
+        tempCtx.scale(outerScale, outerScale);
+        tempCtx.drawImage(canvas,
+          -canvas.width * (outerScale - 1) / 2,
+          -canvas.height * (outerScale - 1) / 2
+        );
+        tempCtx.setTransform(1, 0, 0, 1, 0, 0); // Reset transform
 
-        // Add skin tone overlay with reduced opacity
-        tempCtx.globalAlpha = 0.6;
-        tempCtx.fillStyle = `rgba(${skinColorData[0]}, ${skinColorData[1]}, ${skinColorData[2]}, 0.6)`;
+        // Add skin tone overlay with gradient
+        const gradient = tempCtx.createRadialGradient(
+          sx, sy, 0,          // Inner circle center and radius
+          sx, sy, canvas.width * 0.3  // Outer circle radius
+        );
+        gradient.addColorStop(0, `rgba(${skinColorData[0]}, ${skinColorData[1]}, ${skinColorData[2]}, 0.5)`);
+        gradient.addColorStop(1, `rgba(${skinColorData[0]}, ${skinColorData[1]}, ${skinColorData[2]}, 0)`);
+
+        tempCtx.globalAlpha = 0.5;
+        tempCtx.fillStyle = gradient;
         tempCtx.globalCompositeOperation = 'overlay';
         tempCtx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Add subtle highlight
-        tempCtx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+        // Add subtle highlight with fade
+        const highlightGradient = tempCtx.createRadialGradient(
+          sx, sy, 0,
+          sx, sy, canvas.width * 0.25
+        );
+        highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+        highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+
+        tempCtx.fillStyle = highlightGradient;
         tempCtx.globalCompositeOperation = 'soft-light';
         tempCtx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -272,7 +323,7 @@ const Recommended: React.FC = () => {
         tempCtx.globalCompositeOperation = 'source-over';
         tempCtx.globalAlpha = 1.0;
 
-        // Only apply the effect to hair area
+        // Apply the effect to hair area
         ctx.clip();
         ctx.drawImage(tempCanvas, 0, 0);
       }
@@ -484,6 +535,9 @@ const Recommended: React.FC = () => {
           {matchingHairstyles.map((hairstyle) => (
             <div key={hairstyle.id} className="hairstyle-card-inRecommendedScreen">
               <div className="hairstyle-canvas-container-inRecommendedScreen">
+                <button className="save-button-inRecommendedScreen" aria-label="Save_tryon_hairstyle">
+                  <FaRegBookmark />
+                </button>
                 {processedBackground && headDimensions && facePosition && (
                   <>
                     <img

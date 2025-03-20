@@ -337,8 +337,13 @@
 
 .forgot-password-inloginscreen a {
   color: black;
-  text-decoration: none;
+  text-decoration: underline;
   margin-left: 0.25rem;
+  transition: opacity 0.3s ease;
+}
+
+.forgot-password-inloginscreen a:hover {
+  opacity: 0.7;
 }
 
 /* Remove old error/success message styles */
