@@ -67,7 +67,7 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const serverUrl = `http://${window.location.hostname}:5000/login`;
+      const serverUrl = `${import.meta.env.VITE_BACKEND_URL}login`;
       const response = await fetch(serverUrl, {
         method: 'POST',
         headers: {

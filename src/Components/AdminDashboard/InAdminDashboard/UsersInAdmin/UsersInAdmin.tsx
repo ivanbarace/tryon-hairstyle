@@ -19,7 +19,7 @@ const UsersInAdmin: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(`http://${window.location.hostname}:5000/users`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users`, {
           credentials: 'include'
         });
 
@@ -61,7 +61,7 @@ const UsersInAdmin: React.FC = () => {
               <td>{user.user_id}</td>
               <td>
                 <img
-                  src={`http://${window.location.hostname}:5000/${user.profile_picture}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}${user.profile_picture}`}
                   alt={`${user.fullname}'s profile`}
                   className="profile-picture-User-inAdminScreen"
                 />

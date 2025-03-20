@@ -176,7 +176,7 @@ const Register: React.FC = () => {
 
     try {
       // First, check if username exists
-      const checkUsernameResponse = await fetch('http://localhost:5000/check-username', {
+      const checkUsernameResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}check-username`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -196,7 +196,7 @@ const Register: React.FC = () => {
       }
 
       // Then check if email exists in database
-      const checkEmailResponse = await fetch('http://localhost:5000/check-email', {
+      const checkEmailResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}check-email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -219,7 +219,7 @@ const Register: React.FC = () => {
       const code = generateVerificationCode();
       setActualCode(code);
 
-      const verificationResponse = await fetch('http://localhost:5000/send-verification', {
+      const verificationResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}send-verification`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -277,7 +277,7 @@ const Register: React.FC = () => {
 
       try {
         // Proceed with registration
-        const registerResponse = await fetch('http://localhost:5000/register', {
+        const registerResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}register`, {
           method: 'POST',
           credentials: 'include',
           body: formDataToSend,
@@ -294,7 +294,7 @@ const Register: React.FC = () => {
           throw new Error('Temporary form data is missing');
         }
 
-        const loginResponse = await fetch('http://localhost:5000/login', {
+        const loginResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -332,7 +332,7 @@ const Register: React.FC = () => {
     setActualCode(newCode);
 
     try {
-      const response = await fetch('http://localhost:5000/send-verification', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}send-verification`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -51,7 +51,7 @@ const TopbarInAdmin: React.FC<TopbarProps> = ({
           throw new Error('Admin ID not found in user data');
         }
 
-        const response = await fetch(`http://${window.location.hostname}:5000/admin/${adminId}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}admin/${adminId}`);
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -113,7 +113,7 @@ const TopbarInAdmin: React.FC<TopbarProps> = ({
             >
               {localAdminData?.profile_picture ? (
                 <img
-                  src={`http://${window.location.hostname}:5000/uploads/${localAdminData.profile_picture}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}uploads/${localAdminData.profile_picture}`}
                   alt="Admin profile"
                   className="profile-image"
                 />

@@ -38,7 +38,7 @@ const AdminsProfile: React.FC = () => {
           throw new Error('Admin ID not found in user data');
         }
 
-        const response = await fetch(`http://${window.location.hostname}:5000/admin/${adminId}`);
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}admin/${adminId}`);
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -72,7 +72,7 @@ const AdminsProfile: React.FC = () => {
           <div className="profile-picture-container">
             {adminData?.profile_picture ? (
               <img
-                src={`http://${window.location.hostname}:5000/uploads/${adminData.profile_picture}`}
+                src={`${import.meta.env.VITE_BACKEND_URL}uploads/${adminData.profile_picture}`}
                 alt="Admin profile"
                 className="admin-profile-picture"
               />

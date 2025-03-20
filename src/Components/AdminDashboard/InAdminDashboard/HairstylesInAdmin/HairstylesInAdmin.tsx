@@ -84,7 +84,7 @@ const HairstylesInAdmin: React.FC = () => {
 
   const fetchHairstyles = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/hairstyles`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}hairstyles`, {
         credentials: 'include'
       });
 
@@ -208,7 +208,7 @@ const HairstylesInAdmin: React.FC = () => {
       formDataToSend.append('hair_length', formData.hair_length);
       formDataToSend.append('description', formData.description);
 
-      const response = await fetch(`http://localhost:5000/hairstyles`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}hairstyles`, {
         method: 'POST',
         credentials: 'include',
         body: formDataToSend,
@@ -307,7 +307,7 @@ const HairstylesInAdmin: React.FC = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/hairstyles/${selectedHairstyle.hairstyle_id}`,
+        `${import.meta.env.VITE_BACKEND_URL}hairstyles/${selectedHairstyle.hairstyle_id}`,
         {
           method: 'PUT',
           credentials: 'include',
@@ -352,7 +352,7 @@ const HairstylesInAdmin: React.FC = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/hairstyles/${selectedHairstyle.hairstyle_id}`,
+        `${import.meta.env.VITE_BACKEND_URL}hairstyles/${selectedHairstyle.hairstyle_id}`,
         {
           method: 'DELETE',
           credentials: 'include',
@@ -692,7 +692,7 @@ const HairstylesInAdmin: React.FC = () => {
                 <td>{hairstyle.hairstyle_id}</td>
                 <td>
                   <img
-                    src={`http://localhost:5000${hairstyle.hairstyle_picture}`}
+                    src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
                     alt={hairstyle.hairstyle_name}
                     className="hairstyle-thumbnail"
                   />
@@ -734,7 +734,7 @@ const HairstylesInAdmin: React.FC = () => {
                   />
                   <label htmlFor="image-upload" className="image-upload-container-in-edit-hairstyle">
                     <img
-                      src={selectedHairstyle.imagePreview || `http://localhost:5000${selectedHairstyle.hairstyle_picture}`}
+                      src={selectedHairstyle.imagePreview || `${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture}`}
                       alt={selectedHairstyle.hairstyle_name}
                     />
                     <div className="image-upload-hint">Click to change image</div>

@@ -38,7 +38,7 @@ const ArchiveInAdmin: React.FC = () => {
 
     const fetchArchivedHairstyles = async () => {
         try {
-            const response = await fetch('http://localhost:5000/archived-hairstyles', {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}archived-hairstyles`, {
                 credentials: 'include'
             });
 
@@ -100,7 +100,7 @@ const ArchiveInAdmin: React.FC = () => {
 
     const handleRestore = async (hairstyleId: number) => {
         try {
-            const response = await fetch(`http://localhost:5000/restore-hairstyle/${hairstyleId}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}restore-hairstyle/${hairstyleId}`, {
                 method: 'PUT',
                 credentials: 'include'
             });
@@ -259,7 +259,7 @@ const ArchiveInAdmin: React.FC = () => {
                                     <td>{hairstyle.hairstyle_id}</td>
                                     <td>
                                         <img
-                                            src={`http://localhost:5000${hairstyle.hairstyle_picture}`}
+                                            src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
                                             alt={hairstyle.hairstyle_name}
                                             className="archive-thumbnail-inArchive_Inadminscreen"
                                         />

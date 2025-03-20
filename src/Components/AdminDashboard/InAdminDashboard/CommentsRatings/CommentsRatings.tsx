@@ -35,7 +35,7 @@ const CommentsRatings: React.FC = () => {
 
   const fetchHairstyles = async () => {
     try {
-      const hairstylesResponse = await fetch('http://localhost:5000/hairstyles', {
+      const hairstylesResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}hairstyles`, {
         credentials: 'include'
       });
       const hairstylesData = await hairstylesResponse.json();
@@ -50,7 +50,7 @@ const CommentsRatings: React.FC = () => {
 
   const fetchRatings = async (hairstyleId: number) => {
     try {
-      const response = await fetch(`http://localhost:5000/admin/ratings/${hairstyleId}`, {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}admin/ratings/${hairstyleId}`, {
         credentials: 'include'
       });
       const data = await response.json();
@@ -90,7 +90,7 @@ const CommentsRatings: React.FC = () => {
                 onClick={() => selectHairstyle(hairstyle)}
               >
                 <img
-                  src={`http://localhost:5000${hairstyle.hairstyle_picture}`}
+                  src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
                   alt={hairstyle.hairstyle_name}
                   className="hairstyle-image-CommentsRatings-in-Adminscreen"
                 />

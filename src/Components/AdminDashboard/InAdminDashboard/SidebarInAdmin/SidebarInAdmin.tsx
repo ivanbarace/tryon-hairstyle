@@ -26,7 +26,7 @@ const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage }) => {
 
   const fetchTotalPending = async () => {
     try {
-      const response = await fetch(`http://${window.location.hostname}:5000/messages/total-pending`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}messages/total-pending`);
       const data = await response.json();
       setTotalPending(data.total);
     } catch (error) {

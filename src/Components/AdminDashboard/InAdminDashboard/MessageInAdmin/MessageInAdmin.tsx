@@ -29,7 +29,7 @@ const MessageInAdmin: React.FC = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await fetch(`http://${window.location.hostname}:5000/messages/users`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}messages/users`);
             const data = await response.json();
             setUsers(data);
         } catch (error) {
@@ -39,7 +39,7 @@ const MessageInAdmin: React.FC = () => {
 
     const fetchMessages = async (userId: number) => {
         try {
-            const response = await fetch(`http://${window.location.hostname}:5000/messages/user/${userId}`);
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}messages/user/${userId}`);
             const data = await response.json();
             setMessages(data);
         } catch (error) {
@@ -53,7 +53,7 @@ const MessageInAdmin: React.FC = () => {
 
         // Update messages status to seen
         try {
-            await fetch(`http://${window.location.hostname}:5000/messages/update-status/${user.user_id}`, {
+            await fetch(`${import.meta.env.VITE_BACKEND_URL}messages/update-status/${user.user_id}`, {
                 method: 'PUT'
             });
             // Refresh users list to update pending count
@@ -77,7 +77,7 @@ const MessageInAdmin: React.FC = () => {
                             <div className="user-avatar">
                                 {user.profile_picture ? (
                                     <img
-                                        src={`http://${window.location.hostname}:5000/${user.profile_picture}`}
+                                        src={`${import.meta.env.VITE_BACKEND_URL}${user.profile_picture}`}
                                         alt={user.fullname}
                                     />
                                 ) : (
