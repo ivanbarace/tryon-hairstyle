@@ -24,7 +24,7 @@ const EditProfile: React.FC = () => {
     const storedUserData = localStorage.getItem('userData');
     if (storedUserData) {
       const parsedData = JSON.parse(storedUserData);
-      fetch(`http://localhost:5000/user/${parsedData.id}`)
+      fetch(`${import.meta.env.VITE_BACKEND_URL}user/${parsedData.id}`)
         .then((response) => response.json())
         .then((data) => {
           setUserData({
@@ -38,7 +38,7 @@ const EditProfile: React.FC = () => {
             fullname: data.fullname,
             profilePicture: null,
           });
-          setImagePreview(data.profile_picture ? `http://${window.location.hostname}:5000/${data.profile_picture}` : null);
+          setImagePreview(data.profile_picture ? `${import.meta.env.VITE_BACKEND_URL}${data.profile_picture}` : null);
         });
     }
   }, []);
@@ -91,7 +91,7 @@ const EditProfile: React.FC = () => {
       formData.append('profilePicture', editData.profilePicture);
     }
 
-    fetch(`http://localhost:5000/user/${userData.id}`, {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}user/${userData.id}`, {
       method: 'PUT',
       body: formData,
     })

@@ -28,7 +28,7 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
         setIsLoading(true);
 
         try {
-            const response = await fetch(`http://${window.location.hostname}:5000/admin/verify-credentials`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}admin/verify-credentials`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
         }
 
         try {
-            const response = await fetch(`http://${window.location.hostname}:5000/admin/update-password/${adminId}`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}admin/update-password/${adminId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -33,7 +33,7 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
     });
     const [previewImage, setPreviewImage] = useState<string>(
         adminData?.profile_picture
-            ? `http://${window.location.hostname}:5000/uploads/${adminData.profile_picture}`
+            ? `${import.meta.env.VITE_BACKEND_URL}uploads/${adminData.profile_picture}`
             : ''
     );
     const [error, setError] = useState('');
@@ -126,7 +126,7 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
                 formData.append('profile_picture', editForm.profile_picture);
             }
 
-            const response = await fetch(`http://${window.location.hostname}:5000/admin/${adminData?.admin_id}/update`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}admin/${adminData?.admin_id}/update`, {
                 method: 'PUT',
                 body: formData,
             });

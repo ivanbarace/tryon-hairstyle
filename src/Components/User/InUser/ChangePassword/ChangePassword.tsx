@@ -35,7 +35,7 @@ const ChangePassword: React.FC = () => {
         setError('');
 
         try {
-            const response = await axios.post(`http://localhost:5000/verify-credentials`, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}verify-credentials`, {
                 email,
                 password: currentPassword,
                 userId: userData?.id
@@ -73,7 +73,7 @@ const ChangePassword: React.FC = () => {
         }
 
         try {
-            const response = await axios.post(`http://localhost:5000/update-password`, {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}update-password`, {
                 email,
                 newPassword,
                 userId: userData?.id

@@ -304,6 +304,10 @@ const HairstylesInAdmin: React.FC = () => {
       const fileInput = document.getElementById('image-upload') as HTMLInputElement;
       if (fileInput && fileInput.files && fileInput.files[0]) {
         formDataToSend.append('hairstyle_picture', fileInput.files[0]);
+      } else if (typeof selectedHairstyle.hairstyle_picture === 'string') {
+        // If no new file, send the existing path without leading slash
+        const normalizedPath = selectedHairstyle.hairstyle_picture.replace(/^\/+/, '');
+        formDataToSend.append('hairstyle_picture_path', normalizedPath);
       }
 
       const response = await fetch(
@@ -427,6 +431,13 @@ const HairstylesInAdmin: React.FC = () => {
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
   }, []);
+
+  // Add this utility function near the top of your component
+  const constructImageUrl = (path: string) => {
+    const baseUrl = import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, ''); // Remove trailing slashes
+    const imagePath = path.replace(/^\/+/, ''); // Remove leading slashes
+    return `${baseUrl}/${imagePath}`;
+  };
 
   if (loading) return <LoadingAnimation />;
   if (error) return <div>Error: {error}</div>;
@@ -692,12 +703,13 @@ const HairstylesInAdmin: React.FC = () => {
                 <td>{hairstyle.hairstyle_id}</td>
                 <td>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}public/hairstyles/${hairstyle.hairstyle_picture}`}
+                    src={constructImageUrl(hairstyle.hairstyle_picture as string)}
                     alt={hairstyle.hairstyle_name}
                     className="hairstyle-thumbnail"
                     onError={(e) => {
                       console.error('Image failed to load:', hairstyle.hairstyle_picture);
-                      e.currentTarget.src = 'fallback-image-url.jpg'; // Add a fallback image
+                      console.log('Full URL:', constructImageUrl(hairstyle.hairstyle_picture as string));
+                      e.currentTarget.src = '/placeholder.png'; // Add a placeholder image
                     }}
                   />
                 </td>
@@ -739,7 +751,7 @@ const HairstylesInAdmin: React.FC = () => {
                   <label htmlFor="image-upload" className="image-upload-container-in-edit-hairstyle">
                     <img
                       src={selectedHairstyle.imagePreview ||
-                        `${import.meta.env.VITE_BACKEND_URL}public/hairstyles/${selectedHairstyle.hairstyle_picture}`}
+                        constructImageUrl(selectedHairstyle.hairstyle_picture as string)}
                       alt={selectedHairstyle.hairstyle_name}
                     />
                     <div className="image-upload-hint">Click to change image</div>

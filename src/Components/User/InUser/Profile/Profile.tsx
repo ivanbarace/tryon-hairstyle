@@ -41,7 +41,7 @@ const Profile: React.FC = () => {
 
     const parsedData = JSON.parse(storedUserData);
     try {
-      const response = await fetch(`http://localhost:5000/user/${parsedData.id}`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}user/${parsedData.id}`);
       if (!response.ok) throw new Error('Failed to fetch user details');
 
       const data = await response.json();
@@ -64,7 +64,7 @@ const Profile: React.FC = () => {
     if (!userData?.id) return;
 
     try {
-      const response = await axios.get(`http://localhost:5000/favorites/details/${userData.id}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}favorites/details/${userData.id}`);
       setFavorites(response.data);
     } catch (error) {
       console.error('Error fetching favorites:', error);
@@ -105,7 +105,7 @@ const Profile: React.FC = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:5000/favorites', {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}favorites`, {
         user_id: userData.id,
         hairstyle_id: hairstyleId
       });

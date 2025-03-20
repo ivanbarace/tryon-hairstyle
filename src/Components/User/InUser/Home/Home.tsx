@@ -121,7 +121,7 @@ const Home: React.FC = () => {
   const fetchTopHairstyles = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/top-rated-hairstyles');
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}top-rated-hairstyles`);
       const data = await response.json();
 
       if (response.ok) {
@@ -185,7 +185,7 @@ const Home: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/contact', {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -277,7 +277,7 @@ const Home: React.FC = () => {
                   <div key={hairstyle.hairstyle_id} className="hairstyle-card-inHomeScreen-inUsersScreen">
                     <div className="hairstyle-image-container-inHomeScreen-inUsersScreen">
                       <img
-                        src={`http://localhost:5000/hairstyles/${hairstyle.hairstyle_picture.split('/').pop()}`}
+                        src={`${import.meta.env.VITE_BACKEND_URL}hairstyles/${hairstyle.hairstyle_picture.split('/').pop()}`}
                         alt={hairstyle.hairstyle_name}
                         onError={(e) => {
                           console.error('Image failed to load:', hairstyle.hairstyle_picture);

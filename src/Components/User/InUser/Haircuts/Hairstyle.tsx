@@ -61,8 +61,8 @@ const Hairstyle: React.FC = () => {
     try {
       setLoading(true);
       const [hairstylesResponse, favoritesResponse] = await Promise.all([
-        axios.get('http://localhost:5000/hairstyles'), // This endpoint now only returns active hairstyles
-        currentUserId ? axios.get(`http://localhost:5000/favorites/${currentUserId}`) : Promise.resolve({ data: [] })
+        axios.get(`${import.meta.env.VITE_BACKEND_URL}hairstyles`),
+        currentUserId ? axios.get(`${import.meta.env.VITE_BACKEND_URL}favorites/${currentUserId}`) : Promise.resolve({ data: [] })
       ]);
 
       // Filter out any non-active hairstyles (as a safeguard)
@@ -100,7 +100,7 @@ const Hairstyle: React.FC = () => {
 
   const checkFacemeshData = async (userId: string) => {
     try {
-      const response = await axios.get(`http://localhost:5000/checkFacemesh/${userId}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}checkFacemesh/${userId}`);
       setFacemeshExists(response.data.exists);
     } catch (error) {
       console.error('Error checking facemesh data:', error);
@@ -178,7 +178,7 @@ const Hairstyle: React.FC = () => {
 
     handleActionRequiringLogin('add favorites', async () => {
       try {
-        const response = await axios.post('http://localhost:5000/favorites', {
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}favorites`, {
           user_id: userId,
           hairstyle_id: hairstyleId
         });
@@ -214,7 +214,7 @@ const Hairstyle: React.FC = () => {
     if (!selectedHairstyle || !userId) return;
 
     try {
-      await axios.post('http://localhost:5000/ratings', {
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL}ratings`, {
         user_id: userId,
         hairstyle_id: selectedHairstyle.hairstyle_id,
         rating: userRating,
@@ -235,7 +235,7 @@ const Hairstyle: React.FC = () => {
 
   const fetchRatings = async (hairstyleId: number) => {
     try {
-      const response = await axios.get(`http://localhost:5000/ratings/${hairstyleId}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}ratings/${hairstyleId}`);
       const averageRating = parseFloat(response.data.averageRating);
       const totalRatings = parseInt(response.data.totalRatings);
 

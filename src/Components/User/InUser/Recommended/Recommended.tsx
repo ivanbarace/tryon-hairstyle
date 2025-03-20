@@ -422,11 +422,13 @@ const Recommended: React.FC = () => {
         const storedUserData = localStorage.getItem('userData');
         if (storedUserData) {
           const userData = JSON.parse(storedUserData);
-          const response = await axios.get(`http://localhost:5000/getFacemesh/${userData.id}`);
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}getFacemesh/${userData.id}`);
           console.log('Facemesh response:', response.data);
 
-          // Construct the full URL for the image
-          const imageUrl = `http://localhost:5000${response.data.facemeshImage}`;
+          // Remove any leading slash from the facemeshImage path
+          const facemeshPath = response.data.facemeshImage.replace(/^\//, '');
+          // Construct the full URL ensuring no double slashes
+          const imageUrl = `${import.meta.env.VITE_BACKEND_URL}${facemeshPath}`;
           setFacemeshImage(imageUrl);
           setUserFaceShape(response.data.faceShape);
         }
@@ -455,8 +457,7 @@ const Recommended: React.FC = () => {
     const fetchMatchingHairstyles = async () => {
       if (userFaceShape) {
         try {
-          // Updated to use the correct route and include status filter
-          const response = await axios.get(`http://localhost:5000/matching-hairstyles/${userFaceShape}`, {
+          const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}matching-hairstyles/${userFaceShape}`, {
             params: {
               faceshape: userFaceShape,
               status: 'active'
@@ -466,10 +467,10 @@ const Recommended: React.FC = () => {
           if (response.data.length === 0) {
             console.log('No matching hairstyles found for face shape:', userFaceShape);
           } else {
-            console.log('Found matching hairstyles:', response.data);
+            // Log the full URL to debug
+            console.log('First hairstyle image URL:', `${import.meta.env.VITE_BACKEND_URL}${response.data[0].image_url}`);
+            setMatchingHairstyles(response.data);
           }
-
-          setMatchingHairstyles(response.data);
         } catch (error) {
           console.error('Error fetching matching hairstyles:', error);
         }
@@ -546,9 +547,13 @@ const Recommended: React.FC = () => {
                       className="hairstyle-background-canvas-inRecommendedScreen"
                     />
                     <img
-                      src={`http://localhost:5000${hairstyle.image_url}`}
+                      src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.image_url.replace(/^\//, '')}`}
                       alt={hairstyle.name}
                       className="hairstyle-overlay-image-inRecommendedScreen"
+                      onError={(e) => {
+                        console.error('Error loading hairstyle image:', e);
+                        console.log('Attempted URL:', `${import.meta.env.VITE_BACKEND_URL}${hairstyle.image_url.replace(/^\//, '')}`);
+                      }}
                       style={{
                         position: 'absolute',
                         top: `${facePosition.y + responsivePosition.topOffset}%`,

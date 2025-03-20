@@ -29,10 +29,10 @@ const Navigation: React.FC = () => {
     if (!userData?.id) return;
 
     try {
-      const response = await fetch(`http://${window.location.hostname}:5000/users/${userData.id}/profile-picture`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/${userData.id}/profile-picture`);
       const data = await response.json();
       if (data.profilePicture) {
-        setProfilePicture(`http://${window.location.hostname}:5000/${data.profilePicture}`);
+        setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}${data.profilePicture}`);
       }
     } catch (error) {
       console.error('Error fetching profile picture:', error);

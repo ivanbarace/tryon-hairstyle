@@ -100,7 +100,7 @@ const Scanner: React.FC = () => {
           imageSize: capturedImage.length
         });
 
-        const response = await fetch('http://localhost:5000/saveFacemesh', {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}saveFacemesh`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
