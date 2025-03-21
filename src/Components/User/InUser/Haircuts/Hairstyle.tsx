@@ -285,6 +285,12 @@ const Hairstyle: React.FC = () => {
     return faceShapeMatch && hairTypeMatch && hairLengthMatch;
   });
 
+  const getImageUrl = (path: string) => {
+    // Remove any leading slashes from the path
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+    return `${import.meta.env.VITE_BACKEND_URL}${cleanPath}`;
+  };
+
   if (loading) {
     return <LoadingAnimation />;
   }
@@ -424,6 +430,7 @@ const Hairstyle: React.FC = () => {
                 <div
                   key={hairstyle.hairstyle_id}
                   className="hairstyle-card-Inhairstyle-InUserScreen"
+                  onClick={() => handleHairstyleClick(hairstyle)}
                 >
                   <button
                     className={`favorite-button-Inhairstyle-InUserScreen ${hairstyle.isFavorite ? 'is-favorite' : ''}`}
@@ -433,10 +440,14 @@ const Hairstyle: React.FC = () => {
                     <FaHeart />
                   </button>
                   <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
+                    src={getImageUrl(hairstyle.hairstyle_picture)}
                     alt={hairstyle.hairstyle_name}
                     className="hairstyle-image-Inhairstyle-InUserScreen"
-                    onClick={() => handleHairstyleClick(hairstyle)}
+                    onError={(e) => {
+                      console.error('Image failed to load:', hairstyle.hairstyle_picture);
+                      console.log('Full URL:', getImageUrl(hairstyle.hairstyle_picture));
+                      e.currentTarget.src = '/placeholder.png';
+                    }}
                   />
                   <div className="hairstyle-name-Inhairstyle-InUserScreen">{hairstyle.hairstyle_name}</div>
                 </div>
@@ -468,7 +479,7 @@ const Hairstyle: React.FC = () => {
             <button className="nav-button-Inhairstyle-InUserScreen nav-button-next-Inhairstyle-InUserScreen" onClick={handleNextHairstyle}>›</button>
             <div className="hairstyle-modal-image-Inhairstyle-InUserScreen">
               <img
-                src={`${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture}`}
+                src={getImageUrl(selectedHairstyle.hairstyle_picture)}
                 alt={selectedHairstyle.hairstyle_name}
               />
               <button

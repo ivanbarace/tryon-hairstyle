@@ -14,6 +14,13 @@ interface ArchivedHairstyle {
     created_at: string;
 }
 
+// Add this utility function at the top of your component
+const constructImageUrl = (path: string) => {
+    const baseUrl = import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, ''); // Remove trailing slashes
+    const imagePath = path.replace(/^\/+/, ''); // Remove leading slashes
+    return `${baseUrl}/${imagePath}`;
+};
+
 const ArchiveInAdmin: React.FC = () => {
     const [archivedHairstyles, setArchivedHairstyles] = useState<ArchivedHairstyle[]>([]);
     const [loading, setLoading] = useState(true);
@@ -259,9 +266,14 @@ const ArchiveInAdmin: React.FC = () => {
                                     <td>{hairstyle.hairstyle_id}</td>
                                     <td>
                                         <img
-                                            src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
+                                            src={constructImageUrl(hairstyle.hairstyle_picture as string)}
                                             alt={hairstyle.hairstyle_name}
                                             className="archive-thumbnail-inArchive_Inadminscreen"
+                                            onError={(e) => {
+                                                console.error('Image failed to load:', hairstyle.hairstyle_picture);
+                                                console.log('Full URL:', constructImageUrl(hairstyle.hairstyle_picture as string));
+                                                e.currentTarget.src = '/placeholder.png';
+                                            }}
                                         />
                                     </td>
                                     <td>{hairstyle.hairstyle_name}</td>

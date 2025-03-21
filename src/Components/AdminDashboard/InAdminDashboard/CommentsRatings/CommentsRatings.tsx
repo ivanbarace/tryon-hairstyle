@@ -33,6 +33,12 @@ const CommentsRatings: React.FC = () => {
   const [selectedHairstyle, setSelectedHairstyle] = useState<Hairstyle | null>(null);
   const [ratingData, setRatingData] = useState<RatingData | null>(null);
 
+  const constructImageUrl = (path: string) => {
+    const baseUrl = import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, ''); // Remove trailing slashes
+    const imagePath = path.replace(/^\/+/, ''); // Remove leading slashes
+    return `${baseUrl}/${imagePath}`;
+  };
+
   const fetchHairstyles = async () => {
     try {
       const hairstylesResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}hairstyles`, {
@@ -90,9 +96,14 @@ const CommentsRatings: React.FC = () => {
                 onClick={() => selectHairstyle(hairstyle)}
               >
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture}`}
+                  src={constructImageUrl(hairstyle.hairstyle_picture as string)}
                   alt={hairstyle.hairstyle_name}
                   className="hairstyle-image-CommentsRatings-in-Adminscreen"
+                  onError={(e) => {
+                    console.error('Image failed to load:', hairstyle.hairstyle_picture);
+                    console.log('Full URL:', constructImageUrl(hairstyle.hairstyle_picture as string));
+                    e.currentTarget.src = '/placeholder.png';
+                  }}
                 />
                 <h3 className="hairstyle-name-CommentsRatings-in-Adminscreen">
                   {hairstyle.hairstyle_name}
