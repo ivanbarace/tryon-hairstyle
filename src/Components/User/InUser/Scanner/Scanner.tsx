@@ -225,13 +225,14 @@ const Scanner: React.FC = () => {
     if (results.multiFaceLandmarks.length > 0) {
       const landmarks = results.multiFaceLandmarks[0];
 
-      // Make guide box taller but keep same width (changed height multiplier to 0.6)
+      // Make guide box taller but keep same width
       const boxWidth = Math.min(canvasElement.width, canvasElement.height) * 0.5;
-      const boxHeight = boxWidth * 1.2; // Make height 20% taller than width
+      const boxHeight = boxWidth * 1.2;
       const guideWidth = boxWidth;
       const guideHeight = boxHeight;
       const guideX = (canvasElement.width - guideWidth) / 2;
-      const guideY = (canvasElement.height - guideHeight) / 2;
+      // Adjust Y position to be more centered - using 0.02 to match the white box
+      const guideY = (canvasElement.height - guideHeight) / 2 - (boxHeight * 0.02);
 
       // Calculate face bounding box
       const faceLeft = Math.min(...landmarks.map(l => l.x)) * canvasElement.width;
@@ -275,7 +276,9 @@ const Scanner: React.FC = () => {
         // Check multiple alignment conditions
         const isFacingStraight = noseCenterOffset < ROTATION_THRESHOLD;
         const isLevelTilt = Math.abs(rightEye.y - leftEye.y) < TILT_THRESHOLD;
-        const isVerticallyAligned = Math.abs(nose.y - (foreHead.y + chin.y) / 2) < VERTICAL_THRESHOLD;
+        // Modified vertical alignment check to allow slightly lower face position
+        const isVerticallyAligned = (nose.y - (foreHead.y + chin.y) / 2) > -VERTICAL_THRESHOLD &&
+          (nose.y - (foreHead.y + chin.y) / 2) < VERTICAL_THRESHOLD * 2;
         const isHorizontallyCentered = Math.abs(mouthCenter - (mouthLeft.x + mouthRight.x) / 2) < CENTER_THRESHOLD;
 
         if (!isFacingStraight) {
@@ -320,11 +323,12 @@ const Scanner: React.FC = () => {
 
     } else {
       // Update the default guide box size when no face is detected
-      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.5;
-      const guideWidth = boxSize;
-      const guideHeight = boxSize;
+      const boxWidth = Math.min(canvasElement.width, canvasElement.height) * 0.5;
+      const boxHeight = boxWidth * 1.2;
+      const guideWidth = boxWidth;
+      const guideHeight = boxHeight;
       const guideX = (canvasElement.width - guideWidth) / 2;
-      const guideY = (canvasElement.height - guideHeight) / 2;
+      const guideY = (canvasElement.height - guideHeight) / 2 - (boxHeight * 0.02);
 
       ctx.strokeStyle = 'white';
       ctx.lineWidth = 2;
