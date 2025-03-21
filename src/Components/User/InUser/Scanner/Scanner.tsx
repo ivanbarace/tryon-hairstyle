@@ -225,10 +225,11 @@ const Scanner: React.FC = () => {
     if (results.multiFaceLandmarks.length > 0) {
       const landmarks = results.multiFaceLandmarks[0];
 
-      // Make guide box square and smaller (changed from 0.6 to 0.5)
-      const boxSize = Math.min(canvasElement.width, canvasElement.height) * 0.5;
-      const guideWidth = boxSize;
-      const guideHeight = boxSize;
+      // Make guide box taller but keep same width (changed height multiplier to 0.6)
+      const boxWidth = Math.min(canvasElement.width, canvasElement.height) * 0.5;
+      const boxHeight = boxWidth * 1.2; // Make height 20% taller than width
+      const guideWidth = boxWidth;
+      const guideHeight = boxHeight;
       const guideX = (canvasElement.width - guideWidth) / 2;
       const guideY = (canvasElement.height - guideHeight) / 2;
 
@@ -268,7 +269,7 @@ const Scanner: React.FC = () => {
         // More strict thresholds
         const ROTATION_THRESHOLD = 0.02; // Reduced from 0.05
         const TILT_THRESHOLD = 0.01;    // Reduced from 0.02
-        const VERTICAL_THRESHOLD = 0.009;
+        const VERTICAL_THRESHOLD = 0.01;
         const CENTER_THRESHOLD = 0.02;
 
         // Check multiple alignment conditions
