@@ -425,12 +425,20 @@ const Recommended: React.FC = () => {
           const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}getFacemesh/${userData.id}`);
           console.log('Facemesh response:', response.data);
 
-          // Remove any leading slash from the facemeshImage path
-          const facemeshPath = response.data.facemeshImage.replace(/^\//, '');
-          // Construct the full URL ensuring no double slashes
-          const imageUrl = `${import.meta.env.VITE_BACKEND_URL}${facemeshPath}`;
-          setFacemeshImage(imageUrl);
-          setUserFaceShape(response.data.faceShape);
+          if (response.data.success) {
+            // Ensure proper URL construction by removing any double slashes
+            const baseUrl = import.meta.env.VITE_BACKEND_URL.endsWith('/')
+              ? import.meta.env.VITE_BACKEND_URL.slice(0, -1)
+              : import.meta.env.VITE_BACKEND_URL;
+
+            const imageUrl = `${baseUrl}/facemesh/${response.data.facemeshData}`;
+            console.log('Constructed image URL:', imageUrl); // Debug log
+
+            setFacemeshImage(imageUrl);
+            setUserFaceShape(response.data.faceShape);
+          } else {
+            console.error('Failed to fetch facemesh data:', response.data.error);
+          }
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
