@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 import './Profile.css';
-import { FaCog, FaHeart } from 'react-icons/fa';
+import { FaCog, FaHeart, FaImages } from 'react-icons/fa';
+import { MdFavorite } from 'react-icons/md';
 
 interface UserData {
   id: number;
@@ -23,6 +24,7 @@ interface FavoriteHairstyle {
   hairtype: string;
   hair_length: string;
   description: string;
+  isFavorite?: boolean;
 }
 
 const Profile: React.FC = () => {
@@ -233,13 +235,15 @@ const Profile: React.FC = () => {
           className={`toggle-button ${activeSection === 'favorites' ? 'active' : ''}`}
           onClick={() => setActiveSection('favorites')}
         >
-          My Favorites
+          <span className="button-text">My Favorites</span>
+          <MdFavorite className="button-icon" />
         </button>
         <button
           className={`toggle-button ${activeSection === 'tryon' ? 'active' : ''}`}
           onClick={() => setActiveSection('tryon')}
         >
-          Saved Try-On
+          <span className="button-text">Saved Try-On</span>
+          <FaImages className="button-icon" />
         </button>
       </div>
 
@@ -284,46 +288,38 @@ const Profile: React.FC = () => {
       )}
 
       {showHairstyleModal && selectedHairstyle && (
-        <div className="hairstyle-modal-inprofilescreen">
-          <div className="hairstyle-modal-content-inprofilescreen">
-            <button
-              className="close-button-inprofilescreen"
-              onClick={() => setShowHairstyleModal(false)}
-            >
-              ×
-            </button>
-            <button
-              className="nav-button-inprofilescreen prev"
-              onClick={handlePrevHairstyle}
-            >
-              ‹
-            </button>
-            <button
-              className="nav-button-inprofilescreen next"
-              onClick={handleNextHairstyle}
-            >
-              ›
-            </button>
-            <div className="hairstyle-modal-image-inprofilescreen">
+        <div className="hairstyle-modal-Inhairstyle-InUserScreen">
+          <div className="hairstyle-modal-content-Inhairstyle-InUserScreen">
+            <button className="close-button-Inhairstyle-InUserScreen" onClick={() => setShowHairstyleModal(false)}>×</button>
+            <button className="nav-button-Inhairstyle-InUserScreen prev" onClick={handlePrevHairstyle}>‹</button>
+            <button className="nav-button-Inhairstyle-InUserScreen next" onClick={handleNextHairstyle}>›</button>
+            <div className="hairstyle-modal-image-Inhairstyle-InUserScreen">
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture.replace(/^\//, '')}`}
                 alt={selectedHairstyle.hairstyle_name}
               />
+              <button
+                className={`favorite-button-Inhairstyle-InUserScreen modal-favorite ${selectedHairstyle.isFavorite ? 'is-favorite' : ''}`}
+                onClick={(e) => handleFavoriteClick(selectedHairstyle.hairstyle_id, e)}
+                title={selectedHairstyle.isFavorite ? "Remove from favorites" : "Add to favorites"}
+              >
+                <FaHeart />
+              </button>
             </div>
-            <div className="hairstyle-modal-info-inprofilescreen">
+            <div className="hairstyle-modal-info-Inhairstyle-InUserScreen">
               <h2>{selectedHairstyle.hairstyle_name}</h2>
-              <div className="info-grid-inprofilescreen">
-                <div className="info-item-inprofilescreen">
+              <div className="info-grid-Inhairstyle-InUserScreen">
+                <div className="info-item-Inhairstyle-InUserScreen">
                   <strong>Face Shape:</strong> {selectedHairstyle.faceshape}
                 </div>
-                <div className="info-item-inprofilescreen">
+                <div className="info-item-Inhairstyle-InUserScreen">
                   <strong>Hair Type:</strong> {selectedHairstyle.hairtype}
                 </div>
-                <div className="info-item-inprofilescreen">
+                <div className="info-item-Inhairstyle-InUserScreen">
                   <strong>Hair Length:</strong> {selectedHairstyle.hair_length}
                 </div>
               </div>
-              <div className="description-inprofilescreen">
+              <div className="description-Inhairstyle-InUserScreen">
                 <strong>Description:</strong>
                 <p>{selectedHairstyle.description}</p>
               </div>

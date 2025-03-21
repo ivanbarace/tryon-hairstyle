@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaHeart, FaBars, FaStar, FaCamera, FaMagic } from 'react-icons/fa';
 import { IoIosQrScanner } from "react-icons/io";
+import { BsSearch } from "react-icons/bs";
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';  // Add this import
 import './Hairstyle.css';
 
@@ -52,6 +53,7 @@ const Hairstyle: React.FC = () => {
   const [userComment, setUserComment] = useState<string>('');
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>('');
 
   const faceShapes = ['all', 'oval', 'round', 'square', 'heart'];
   const hairTypes = ['all', 'straight', 'wavy', 'curly', 'coily'];
@@ -272,6 +274,7 @@ const Hairstyle: React.FC = () => {
   }, [showDropdown]);
 
   const filteredHairstyles = hairstyles.filter((hairstyle) => {
+    const matchesSearch = hairstyle.hairstyle_name.toLowerCase().includes(searchTerm.toLowerCase());
     const faceShapeMatch =
       selectedFaceShape === 'all' ||
       hairstyle.faceshape.toLowerCase() === selectedFaceShape.toLowerCase();
@@ -282,7 +285,7 @@ const Hairstyle: React.FC = () => {
       selectedHairLength === 'all' ||
       hairstyle.hair_length.toLowerCase() === selectedHairLength.toLowerCase();
 
-    return faceShapeMatch && hairTypeMatch && hairLengthMatch;
+    return matchesSearch && faceShapeMatch && hairTypeMatch && hairLengthMatch;
   });
 
   const getImageUrl = (path: string) => {
@@ -309,35 +312,47 @@ const Hairstyle: React.FC = () => {
         >
           <FaBars />
         </button>
-        <h4>Hairstyle</h4>
 
-        <div className="actions-dropdown-Inhairstyle-InUserScreen">
-          <button
-            className="actions-button-Inhairstyle-InUserScreen"
-            onClick={toggleDropdown}
-            aria-label="Actions menu"
-          >
-            <IoIosQrScanner />
-          </button>
-          <div className={`dropdown-content-Inhairstyle-InUserScreen ${showDropdown ? 'show' : ''}`}>
+        <div className="search-and-actions-Inhairstyle-InUserScreen">
+          <div className="search-bar-Inhairstyle-InUserScreen">
+            <BsSearch className="search-icon-Inhairstyle-InUserScreen" />
+            <input
+              type="text"
+              placeholder="Search hairstyles..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input-Inhairstyle-InUserScreen"
+            />
+          </div>
+
+          <div className="actions-dropdown-Inhairstyle-InUserScreen">
             <button
-              className="dropdown-button-Inhairstyle-InUserScreen"
-              onClick={() => {
-                handleTryClick();
-                setShowDropdown(false);
-              }}
+              className="actions-button-Inhairstyle-InUserScreen"
+              onClick={toggleDropdown}
+              aria-label="Actions menu"
             >
-              Try On Hairstyles <FaMagic />
+              <IoIosQrScanner />
             </button>
-            <button
-              className="dropdown-button-Inhairstyle-InUserScreen"
-              onClick={() => {
-                handleScannerClick();
-                setShowDropdown(false);
-              }}
-            >
-              Scan Face Shape<FaCamera />
-            </button>
+            <div className={`dropdown-content-Inhairstyle-InUserScreen ${showDropdown ? 'show' : ''}`}>
+              <button
+                className="dropdown-button-Inhairstyle-InUserScreen"
+                onClick={() => {
+                  handleTryClick();
+                  setShowDropdown(false);
+                }}
+              >
+                Try On Hairstyles <FaMagic />
+              </button>
+              <button
+                className="dropdown-button-Inhairstyle-InUserScreen"
+                onClick={() => {
+                  handleScannerClick();
+                  setShowDropdown(false);
+                }}
+              >
+                Scan Face Shape<FaCamera />
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -363,52 +378,67 @@ const Hairstyle: React.FC = () => {
         >
           ×
         </button>
-        <div className="filter-section-Inhairstyle-InUserScreen">
-          <h3>Face Shape</h3>
-          <select
-            className="filter-select"
-            value={selectedFaceShape}
-            onChange={(e) => setSelectedFaceShape(e.target.value)}
-            aria-label="Face Shape"
-          >
-            {faceShapes.map((shape) => (
-              <option key={shape} value={shape}>
-                {shape.charAt(0).toUpperCase() + shape.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
 
-        <div className="filter-section-Inhairstyle-InUserScreen">
-          <h3>Hair Type</h3>
-          <select
-            className="filter-select"
-            value={selectedHairType}
-            onChange={(e) => setSelectedHairType(e.target.value)}
-            aria-label="Hair Type"
-          >
-            {hairTypes.map((type) => (
-              <option key={type} value={type}>
-                {type.charAt(0).toUpperCase() + type.slice(1)}
-              </option>
-            ))}
-          </select>
-        </div>
+        <div className="filter-buttons-container-Inhairstyle-InUserScreen">
+          <div className="filter-group-Inhairstyle-InUserScreen">
+            <button
+              className={`filter-button-Inhairstyle-InUserScreen ${selectedFaceShape !== 'all' ? 'active' : ''}`}
+              onClick={() => setSelectedFaceShape(selectedFaceShape === 'all' ? 'all' : 'all')}
+            >
+              Face Shape {selectedFaceShape !== 'all' && `(${selectedFaceShape})`}
+            </button>
+            <div className="filter-options-Inhairstyle-InUserScreen">
+              {faceShapes.map((shape) => (
+                <div
+                  key={shape}
+                  className={`filter-option-Inhairstyle-InUserScreen ${selectedFaceShape === shape ? 'active' : ''}`}
+                  onClick={() => setSelectedFaceShape(shape)}
+                >
+                  {shape.charAt(0).toUpperCase() + shape.slice(1)}
+                </div>
+              ))}
+            </div>
+          </div>
 
-        <div className="filter-section-Inhairstyle-InUserScreen">
-          <h3>Hair Length</h3>
-          <select
-            className="filter-select"
-            value={selectedHairLength}
-            onChange={(e) => setSelectedHairLength(e.target.value)}
-            aria-label="Hair Length"
-          >
-            {hairLengths.map((length) => (
-              <option key={length} value={length}>
-                {length.charAt(0).toUpperCase() + length.slice(1)}
-              </option>
-            ))}
-          </select>
+          <div className="filter-group-Inhairstyle-InUserScreen">
+            <button
+              className={`filter-button-Inhairstyle-InUserScreen ${selectedHairType !== 'all' ? 'active' : ''}`}
+              onClick={() => setSelectedHairType(selectedHairType === 'all' ? 'all' : 'all')}
+            >
+              Hair Type {selectedHairType !== 'all' && `(${selectedHairType})`}
+            </button>
+            <div className="filter-options-Inhairstyle-InUserScreen">
+              {hairTypes.map((type) => (
+                <div
+                  key={type}
+                  className={`filter-option-Inhairstyle-InUserScreen ${selectedHairType === type ? 'active' : ''}`}
+                  onClick={() => setSelectedHairType(type)}
+                >
+                  {type.charAt(0).toUpperCase() + type.slice(1)}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="filter-group-Inhairstyle-InUserScreen">
+            <button
+              className={`filter-button-Inhairstyle-InUserScreen ${selectedHairLength !== 'all' ? 'active' : ''}`}
+              onClick={() => setSelectedHairLength(selectedHairLength === 'all' ? 'all' : 'all')}
+            >
+              Hair Length {selectedHairLength !== 'all' && `(${selectedHairLength})`}
+            </button>
+            <div className="filter-options-Inhairstyle-InUserScreen">
+              {hairLengths.map((length) => (
+                <div
+                  key={length}
+                  className={`filter-option-Inhairstyle-InUserScreen ${selectedHairLength === length ? 'active' : ''}`}
+                  onClick={() => setSelectedHairLength(length)}
+                >
+                  {length.charAt(0).toUpperCase() + length.slice(1)}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
