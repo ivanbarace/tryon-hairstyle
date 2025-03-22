@@ -201,36 +201,38 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
                     </div>
                 </div>
 
-                <div className="form-group-inAdminProfileEditProfile">
-                    <label>Full Name</label>
-                    <input
-                        type="text"
-                        value={editForm.fullname}
-                        onChange={(e) => handleInputChange('fullname', e.target.value)}
-                        required
-                        placeholder="Enter full name"
-                        maxLength={50} // Add character limit
-                        className={fieldErrors.fullname ? 'error-input-inAdminProfileEditProfile' : ''}
-                    />
-                    {fieldErrors.fullname && (
-                        <span className="input-error-message">{fieldErrors.fullname}</span>
-                    )}
-                </div>
+                <div className="horizontal-fields-container">
+                    <div className="form-group-inAdminProfileEditProfile">
+                        <label>Full Name</label>
+                        <input
+                            type="text"
+                            value={editForm.fullname}
+                            onChange={(e) => handleInputChange('fullname', e.target.value)}
+                            required
+                            placeholder="Enter full name"
+                            maxLength={50} // Add character limit
+                            className={fieldErrors.fullname ? 'error-input-inAdminProfileEditProfile' : ''}
+                        />
+                        {fieldErrors.fullname && (
+                            <span className="input-error-message">{fieldErrors.fullname}</span>
+                        )}
+                    </div>
 
-                <div className="form-group-inAdminProfileEditProfile">
-                    <label>Phone Number</label>
-                    <input
-                        type="tel"
-                        value={editForm.phone_number}
-                        onChange={(e) => handleInputChange('phone_number', e.target.value)}
-                        required
-                        placeholder="Enter phone number"
-                        maxLength={15} // Add character limit
-                        className={fieldErrors.phone_number ? 'error-input-inAdminProfileEditProfile' : ''}
-                    />
-                    {fieldErrors.phone_number && (
-                        <span className="input-error-message">{fieldErrors.phone_number}</span>
-                    )}
+                    <div className="form-group-inAdminProfileEditProfile">
+                        <label>Phone Number</label>
+                        <input
+                            type="tel"
+                            value={editForm.phone_number}
+                            onChange={(e) => handleInputChange('phone_number', e.target.value)}
+                            required
+                            placeholder="Enter phone number"
+                            maxLength={15} // Add character limit
+                            className={fieldErrors.phone_number ? 'error-input-inAdminProfileEditProfile' : ''}
+                        />
+                        {fieldErrors.phone_number && (
+                            <span className="input-error-message">{fieldErrors.phone_number}</span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="form-group-inAdminProfileEditProfile">

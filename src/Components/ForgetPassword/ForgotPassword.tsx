@@ -21,6 +21,7 @@ const ForgotPassword: React.FC = () => {
   const [showPasswordReset, setShowPasswordReset] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [accountType, setAccountType] = useState('');
 
   useEffect(() => {
     // Check if user came from change password screen by checking the previous path
@@ -79,6 +80,7 @@ const ForgotPassword: React.FC = () => {
         showMessage('Verification code has been sent to your email.', 'success');
         setShowVerification(true);
         setActualCode(data.verificationCode);
+        setAccountType(data.accountType); // Store the account type
       } else {
         showMessage(data.message || 'An error occurred', 'error');
       }
@@ -114,7 +116,11 @@ const ForgotPassword: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, newPassword }),
+        body: JSON.stringify({
+          email,
+          newPassword,
+          accountType // Include the account type in the request
+        }),
       });
 
       const data = await response.json();

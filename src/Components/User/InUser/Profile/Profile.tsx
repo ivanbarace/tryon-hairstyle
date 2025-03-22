@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';
 import './Profile.css';
-import { FaCog, FaHeart, FaImages } from 'react-icons/fa';
+import { FaCog, FaHeart } from 'react-icons/fa';
 import { MdFavorite } from 'react-icons/md';
 
 interface UserData {
@@ -34,7 +34,7 @@ const Profile: React.FC = () => {
   const [favorites, setFavorites] = useState<FavoriteHairstyle[]>([]);
   const [showHairstyleModal, setShowHairstyleModal] = useState(false);
   const [selectedHairstyle, setSelectedHairstyle] = useState<FavoriteHairstyle | null>(null);
-  const [activeSection, setActiveSection] = useState<'favorites' | 'tryon'>('favorites');
+  const [activeSection, setActiveSection] = useState<'favorites'>('favorites');
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const fetchUserData = useCallback(async () => {
@@ -238,54 +238,38 @@ const Profile: React.FC = () => {
           <span className="button-text">My Favorites</span>
           <MdFavorite className="button-icon" />
         </button>
-        <button
-          className={`toggle-button ${activeSection === 'tryon' ? 'active' : ''}`}
-          onClick={() => setActiveSection('tryon')}
-        >
-          <span className="button-text">Saved Try-On</span>
-          <FaImages className="button-icon" />
-        </button>
       </div>
 
-      {activeSection === 'favorites' ? (
-        <div className="favorites-section-inprofilescreen">
-          <h2>My Favorite Hairstyles</h2>
-          <div className="favorites-grid-inprofilescreen">
-            {favorites.length === 0 ? (
-              <p className="no-favorites-inprofilescreen">No favorite hairstyles yet.</p>
-            ) : (
-              favorites.map((hairstyle) => (
-                <div
-                  key={hairstyle.hairstyle_id}
-                  className="favorite-card-inprofilescreen"
-                  onClick={() => handleHairstyleClick(hairstyle)}
+      <div className="favorites-section-inprofilescreen">
+        <h2>My Favorite Hairstyles</h2>
+        <div className="favorites-grid-inprofilescreen">
+          {favorites.length === 0 ? (
+            <p className="no-favorites-inprofilescreen">No favorite hairstyles yet.</p>
+          ) : (
+            favorites.map((hairstyle) => (
+              <div
+                key={hairstyle.hairstyle_id}
+                className="favorite-card-inprofilescreen"
+                onClick={() => handleHairstyleClick(hairstyle)}
+              >
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture.replace(/^\//, '')}`}
+                  alt={hairstyle.hairstyle_name}
+                  className="favorite-image-inprofilescreen"
+                />
+                <button
+                  className="favorite-button-inprofilescreen is-favorite"
+                  onClick={(e) => handleFavoriteClick(hairstyle.hairstyle_id, e)}
+                  title="Remove from favorites"
                 >
-                  <img
-                    src={`${import.meta.env.VITE_BACKEND_URL}${hairstyle.hairstyle_picture.replace(/^\//, '')}`}
-                    alt={hairstyle.hairstyle_name}
-                    className="favorite-image-inprofilescreen"
-                  />
-                  <button
-                    className="favorite-button-inprofilescreen is-favorite"
-                    onClick={(e) => handleFavoriteClick(hairstyle.hairstyle_id, e)}
-                    title="Remove from favorites"
-                  >
-                    <FaHeart />
-                  </button>
-                  <div className="favorite-name-inprofilescreen">{hairstyle.hairstyle_name}</div>
-                </div>
-              ))
-            )}
-          </div>
+                  <FaHeart />
+                </button>
+                <div className="favorite-name-inprofilescreen">{hairstyle.hairstyle_name}</div>
+              </div>
+            ))
+          )}
         </div>
-      ) : (
-        <div className="tryon-section-inprofilescreen">
-          <h2>SAVED TRY ON HAIRSTYLES</h2>
-          <div className="tryon-grid-inprofilescreen">
-            <p className="no-tryon-inprofilescreen">No saved try-on hairstyles yet.</p>
-          </div>
-        </div>
-      )}
+      </div>
 
       {showHairstyleModal && selectedHairstyle && (
         <div className="hairstyle-modal-Inhairstyle-InUserScreen">

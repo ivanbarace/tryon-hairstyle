@@ -23,6 +23,7 @@ const Recommended: React.FC = () => {
     scale: number;
   } | null>(null);
   const [faceRotation, setFaceRotation] = useState<number>(0);
+  const [savingTryOn, setSavingTryOn] = useState<boolean>(false);
   // Removed unused userData state
   interface Hairstyle {
     id: string;
@@ -407,6 +408,92 @@ const Recommended: React.FC = () => {
     }
   };
 
+  const handleSaveTryOn = async (hairstyleId: string, backgroundImage: string, hairstyleName: string) => {
+    try {
+      setSavingTryOn(true);
+
+      // Create a temporary canvas to merge the images
+      const mergeCanvas = document.createElement('canvas');
+      const mergeCtx = mergeCanvas.getContext('2d');
+      if (!mergeCtx) return;
+
+      // Create background image element
+      const bgImage = new Image();
+      bgImage.crossOrigin = "anonymous";
+      bgImage.src = backgroundImage;
+
+      await new Promise((resolve) => {
+        bgImage.onload = async () => {
+          // Set canvas size to match background image
+          mergeCanvas.width = bgImage.width;
+          mergeCanvas.height = bgImage.height;
+
+          // Draw background image
+          mergeCtx.drawImage(bgImage, 0, 0);
+
+          // Create hairstyle image element
+          const hairstyleImage = new Image();
+          hairstyleImage.crossOrigin = "anonymous";
+          hairstyleImage.src = `${import.meta.env.VITE_BACKEND_URL}${matchingHairstyles.find(h => h.id === hairstyleId)?.image_url.replace(/^\//, '')}`;
+
+          await new Promise((resolve) => {
+            hairstyleImage.onload = () => {
+              // Apply the same transformations as in the display
+              mergeCtx.save();
+              if (facePosition) {
+                const centerX = (mergeCanvas.width * facePosition.x) / 100;
+                const centerY = (mergeCanvas.height * facePosition.y) / 100;
+
+                mergeCtx.translate(centerX, centerY);
+                mergeCtx.rotate((faceRotation * Math.PI) / 180);
+
+                // Calculate the scale to match what's shown on screen
+                const displayScale = (facePosition.scale * responsivePosition.scale) / 100;
+                // Adjust scale factor to match display size
+                const scaleFactor = 1.2; // Increase this value to make the hair larger
+                const finalScale = displayScale * scaleFactor;
+
+                mergeCtx.scale(finalScale, finalScale);
+
+                // Set blend mode and filters
+                mergeCtx.globalCompositeOperation = 'multiply';
+                // Add contrast and brightness filters
+                mergeCtx.filter = 'contrast(1.2) brightness(1.1)';
+
+                // Draw hairstyle image
+                mergeCtx.drawImage(
+                  hairstyleImage,
+                  -hairstyleImage.width / 2,
+                  -hairstyleImage.height / 2
+                );
+              }
+              mergeCtx.restore();
+              resolve(true);
+            };
+            hairstyleImage.onerror = () => {
+              console.error('Error loading hairstyle image');
+              resolve(true);
+            };
+          });
+
+          // Create a download link
+          const downloadLink = document.createElement('a');
+          downloadLink.download = `tryon-${hairstyleName}-${new Date().getTime()}.png`;
+          downloadLink.href = mergeCanvas.toDataURL('image/png');
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+          resolve(true);
+        };
+      });
+    } catch (error) {
+      console.error('Error creating image:', error);
+      alert('Error creating image');
+    } finally {
+      setSavingTryOn(false);
+    }
+  };
+
   useEffect(() => {
     initializeFaceMesh();
     return () => {
@@ -544,7 +631,12 @@ const Recommended: React.FC = () => {
           {matchingHairstyles.map((hairstyle) => (
             <div key={hairstyle.id} className="hairstyle-card-inRecommendedScreen">
               <div className="hairstyle-canvas-container-inRecommendedScreen">
-                <button className="save-button-inRecommendedScreen" aria-label="Save_tryon_hairstyle">
+                <button
+                  className="save-button-inRecommendedScreen"
+                  aria-label="Download_tryon_hairstyle"
+                  onClick={() => processedBackground && handleSaveTryOn(hairstyle.id, processedBackground, hairstyle.name)}
+                  disabled={savingTryOn}
+                >
                   <FaRegBookmark />
                 </button>
                 {processedBackground && headDimensions && facePosition && (

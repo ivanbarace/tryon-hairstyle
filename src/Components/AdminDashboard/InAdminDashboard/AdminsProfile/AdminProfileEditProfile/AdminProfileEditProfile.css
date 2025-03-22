@@ -176,3 +176,15 @@
   background: #333;
   transform: translateY(-2px);
 }
+
+.horizontal-fields-container {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.horizontal-fields-container .form-group-inAdminProfileEditProfile {
+  flex: 1;
+  margin-bottom: 1.5rem;
+}
