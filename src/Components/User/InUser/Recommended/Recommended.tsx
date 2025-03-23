@@ -54,21 +54,21 @@ const Recommended: React.FC = () => {
       const width = window.innerWidth;
       if (width <= 480) { // Mobile
         setResponsivePosition({
-          topOffset: -19,
+          topOffset: -18,
           leftOffset: 0,
-          scale: .83
+          scale: .85
         });
       } else if (width <= 768) { // Tablet
         setResponsivePosition({
-          topOffset: -19,
+          topOffset: -18,
           leftOffset: 0,
-          scale: .83
+          scale: .85
         });
 
       }
       else if (width <= 1200) { // Tablet
         setResponsivePosition({
-          topOffset: -20,
+          topOffset: -17,
           leftOffset: 0,
           scale: .85
         });
@@ -408,6 +408,32 @@ const Recommended: React.FC = () => {
     }
   };
 
+  const getScaleFactor = () => {
+    const width = window.innerWidth;
+    if (width <= 480) { // Mobile
+      return 0.93;
+    } else if (width <= 768) { // Tablet
+      return 0.93;
+    } else if (width <= 1200) { // Small desktop
+      return 0.93
+    } else { // Large desktop
+      return 1.05;
+    }
+  };
+
+  const getHorizontalOffset = () => {
+    const width = window.innerWidth;
+    if (width <= 480) { // Mobile
+      return 2; // pixels
+    } else if (width <= 768) { // Tablet
+      return 2;
+    } else if (width <= 1200) { // Small desktop
+      return 2;
+    } else { // Large desktop
+      return 2;
+    }
+  };
+
   const handleSaveTryOn = async (hairstyleId: string, backgroundImage: string, hairstyleName: string) => {
     try {
       setSavingTryOn(true);
@@ -441,7 +467,9 @@ const Recommended: React.FC = () => {
               // Apply the same transformations as in the display
               mergeCtx.save();
               if (facePosition) {
-                const centerX = (mergeCanvas.width * facePosition.x) / 100;
+                // Add horizontal offset to centerX
+                const horizontalOffset = getHorizontalOffset();
+                const centerX = (mergeCanvas.width * facePosition.x) / 100 + horizontalOffset;
                 const centerY = (mergeCanvas.height * facePosition.y) / 100;
 
                 mergeCtx.translate(centerX, centerY);
@@ -449,8 +477,8 @@ const Recommended: React.FC = () => {
 
                 // Calculate the scale to match what's shown on screen
                 const displayScale = (facePosition.scale * responsivePosition.scale) / 100;
-                // Adjust scale factor to match display size
-                const scaleFactor = 1.2; // Increase this value to make the hair larger
+                // Get dynamic scale factor based on screen size
+                const scaleFactor = getScaleFactor();
                 const finalScale = displayScale * scaleFactor;
 
                 mergeCtx.scale(finalScale, finalScale);
