@@ -69,8 +69,8 @@
 /* Add new media query for tablets and mobile */
 @media (max-width: 1024px) {
   .welcome-section-inHomeScreen-inUsersScreen {
-    min-height: 100vh; /* Make first section full viewport height */
-    height: 100vh;
+    min-height: 90vh; /* Make first section full viewport height */
+    height: 90vh;
     margin: 0;
     padding: 0;
     display: flex;

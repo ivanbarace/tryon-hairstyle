@@ -34,7 +34,6 @@ const Profile: React.FC = () => {
   const [favorites, setFavorites] = useState<FavoriteHairstyle[]>([]);
   const [showHairstyleModal, setShowHairstyleModal] = useState(false);
   const [selectedHairstyle, setSelectedHairstyle] = useState<FavoriteHairstyle | null>(null);
-  const [activeSection, setActiveSection] = useState<'favorites'>('favorites');
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const fetchUserData = useCallback(async () => {
@@ -231,13 +230,10 @@ const Profile: React.FC = () => {
       </div>
 
       <div className="section-toggle-buttons">
-        <button
-          className={`toggle-button ${activeSection === 'favorites' ? 'active' : ''}`}
-          onClick={() => setActiveSection('favorites')}
-        >
-          <span className="button-text">My Favorites</span>
-          <MdFavorite className="button-icon" />
-        </button>
+        <span className="favorites-label">
+          <span className="label-text">My Favorites</span>
+          <MdFavorite className="label-icon" />
+        </span>
       </div>
 
       <div className="favorites-section-inprofilescreen">

@@ -76,7 +76,7 @@ const Recommended: React.FC = () => {
       } else { // Desktop
         setResponsivePosition({
           topOffset: -18,
-          leftOffset: 0,
+          leftOffset: 0.2,
           scale: .75
         });
       }
