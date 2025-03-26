@@ -1545,3 +1545,152 @@ button[type="button"]:hover {
 }
 
 /* ... rest of existing styles ... */
+
+.faceshape-input-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.add-faceshape-button {
+  background-color: #222;
+  color: white;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.add-faceshape-button:hover {
+  background-color: white;
+  color: #222;
+  border: 2px solid #222;
+}
+
+.additional-faceshape-input {
+  margin-top: 10px;
+}
+
+.additional-faceshape-input select {
+  width: calc(100% - 40px);
+}
+
+.form-group-in-adding-hairstyles select option:disabled {
+  color: #999;
+  background-color: #f5f5f5;
+}
+
+.face-shapes-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.face-shapes-dropdown .face-shapes-list {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 5px;
+  z-index: 1000;
+  min-width: 120px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.face-shapes-dropdown:hover .face-shapes-list {
+  display: block;
+}
+
+.face-shape-item {
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+.face-shape-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.face-shape-input select {
+  flex: 1;
+}
+
+.face-shape-input button {
+  padding: 0 10px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.face-shape-cell {
+  position: relative;
+}
+
+.face-shape-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.face-shape-button {
+  background: none;
+  border: 1px solid #ddd;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #333;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.face-shape-button:hover {
+  background-color: #f8f9fa;
+  border-color: #999;
+}
+
+.face-shape-count {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.dropdown-arrow {
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-arrow.expanded {
+  transform: rotate(180deg);
+}
+
+.face-shape-dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 120px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 6px 12px;
+  color: #333;
+  transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #f8f9fa;
+}

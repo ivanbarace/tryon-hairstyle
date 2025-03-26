@@ -20,11 +20,13 @@ interface FavoriteHairstyle {
   hairstyle_id: number;
   hairstyle_name: string;
   hairstyle_picture: string;
-  faceshape: string;
+  faceshape: string;  // This should be a string, not an array
   hairtype: string;
   hair_length: string;
   description: string;
   isFavorite?: boolean;
+  averageRating?: number;
+  totalRatings?: number;
 }
 
 const Profile: React.FC = () => {
@@ -35,6 +37,7 @@ const Profile: React.FC = () => {
   const [showHairstyleModal, setShowHairstyleModal] = useState(false);
   const [selectedHairstyle, setSelectedHairstyle] = useState<FavoriteHairstyle | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [expandedFaceShape, setExpandedFaceShape] = useState<number | null>(null);
 
   const fetchUserData = useCallback(async () => {
     const storedUserData = localStorage.getItem('userData');
@@ -144,6 +147,11 @@ const Profile: React.FC = () => {
       const nextIndex = (currentIndex + 1) % favorites.length;
       setSelectedHairstyle(favorites[nextIndex]);
     }
+  };
+
+  const handleFaceShapeClick = (hairstyleId: number, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setExpandedFaceShape(expandedFaceShape === hairstyleId ? null : hairstyleId);
   };
 
   if (!userData) {
@@ -290,7 +298,32 @@ const Profile: React.FC = () => {
               <h2>{selectedHairstyle.hairstyle_name}</h2>
               <div className="info-grid-Inhairstyle-InUserScreen">
                 <div className="info-item-Inhairstyle-InUserScreen">
-                  <strong>Face Shape:</strong> {selectedHairstyle.faceshape}
+                  <strong>Face Shape:</strong>
+                  {selectedHairstyle.faceshape && (
+                    <>
+                      <button
+                        className="face-shape-button-info"
+                        onClick={(e) => handleFaceShapeClick(selectedHairstyle.hairstyle_id, e)}
+                      >
+                        {selectedHairstyle.faceshape.split(',')[0]}
+                        {selectedHairstyle.faceshape.split(',').length > 1 && (
+                          <span className="additional-shapes">
+                            +{selectedHairstyle.faceshape.split(',').length - 1}
+                          </span>
+                        )}
+                        <span className={`dropdown-arrow ${expandedFaceShape === selectedHairstyle.hairstyle_id ? 'expanded' : ''}`}>▼</span>
+                      </button>
+                      {expandedFaceShape === selectedHairstyle.hairstyle_id && (
+                        <div className="face-shape-dropdown-content">
+                          {selectedHairstyle.faceshape.split(',').map((shape, index) => (
+                            <div key={index} className="dropdown-item">
+                              {shape.trim()}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
                 <div className="info-item-Inhairstyle-InUserScreen">
                   <strong>Hair Type:</strong> {selectedHairstyle.hairtype}

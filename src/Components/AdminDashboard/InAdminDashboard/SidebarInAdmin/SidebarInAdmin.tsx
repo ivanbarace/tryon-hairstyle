@@ -54,8 +54,10 @@ const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage }) => {
       <div className="logo-container">
         {!isCollapsed && (
           <>
-            <div className="logo">LOGO</div>
-            <div className="name">Name</div>
+            <div className="logo">
+              <img src="/LOGO1.png" alt="TryOnHair Logo" />
+            </div>
+            <div className="name">TryOnHair</div>
           </>
         )}
       </div>

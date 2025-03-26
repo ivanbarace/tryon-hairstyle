@@ -54,6 +54,7 @@ const Hairstyle: React.FC = () => {
   const [ratings, setRatings] = useState<Rating[]>([]);
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [expandedFaceShape, setExpandedFaceShape] = useState<number | null>(null);
 
   const faceShapes = ['all', 'oval', 'round', 'square', 'heart'];
   const hairTypes = ['all', 'straight', 'wavy', 'curly', 'coily'];
@@ -294,6 +295,11 @@ const Hairstyle: React.FC = () => {
     return `${import.meta.env.VITE_BACKEND_URL}${cleanPath}`;
   };
 
+  const handleFaceShapeClick = (hairstyleId: number, event: React.MouseEvent) => {
+    event.stopPropagation();
+    setExpandedFaceShape(expandedFaceShape === hairstyleId ? null : hairstyleId);
+  };
+
   if (loading) {
     return <LoadingAnimation />;
   }
@@ -525,7 +531,28 @@ const Hairstyle: React.FC = () => {
               {renderAverageRating(selectedHairstyle.averageRating, selectedHairstyle.totalRatings)}
               <div className="info-grid-Inhairstyle-InUserScreen">
                 <div className="info-item-Inhairstyle-InUserScreen">
-                  <strong>Face Shape:</strong> {selectedHairstyle.faceshape}
+                  <strong>Face Shape:</strong>
+                  <button
+                    className="face-shape-button-info"
+                    onClick={(e) => handleFaceShapeClick(selectedHairstyle.hairstyle_id, e)}
+                  >
+                    {selectedHairstyle.faceshape.split(',')[0]}
+                    {selectedHairstyle.faceshape.split(',').length > 1 && (
+                      <span className="additional-shapes">
+                        +{selectedHairstyle.faceshape.split(',').length - 1}
+                      </span>
+                    )}
+                    <span className={`dropdown-arrow ${expandedFaceShape === selectedHairstyle.hairstyle_id ? 'expanded' : ''}`}>▼</span>
+                  </button>
+                  {expandedFaceShape === selectedHairstyle.hairstyle_id && (
+                    <div className="face-shape-dropdown-content">
+                      {selectedHairstyle.faceshape.split(',').map((shape, index) => (
+                        <div key={index} className="dropdown-item">
+                          {shape.trim()}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
                 <div className="info-item-Inhairstyle-InUserScreen">
                   <strong>Hair Type:</strong> {selectedHairstyle.hairtype}

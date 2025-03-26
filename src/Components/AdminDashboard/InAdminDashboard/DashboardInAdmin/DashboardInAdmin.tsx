@@ -43,6 +43,12 @@ interface DashboardStats {
   recentHairstyles: Array<{ hairstyle_name: string; created_at: string }>;
   userGrowth: Array<{ month: string; new_users: number }>;
   hairstyleGrowth: Array<{ month: string; new_hairstyles: number }>;
+  users: Array<{
+    user_id: number;
+    fullname: string;
+    profile_picture: string | null;
+    email: string;
+  }>;
 }
 
 const DashboardInAdmin: React.FC = () => {
@@ -162,47 +168,47 @@ const DashboardInAdmin: React.FC = () => {
   const hairLengthData = createChartData(stats.hairLengthStats, 'hair_length');
 
   return (
-    <div className="dashboard-content">
-      <h2><MdTimeline className="header-icon" /> Dashboard Overview</h2>
+    <div className="dashboard-content-inDashboard-screen">
+      <h2><MdTimeline className="header-icon-inDashboard-screen" /> Dashboard Overview</h2>
 
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon">
+      <div className="stats-grid-inDashboard-screen">
+        <div className="stat-card-inDashboard-screen">
+          <div className="stat-icon-inDashboard-screen">
             <FaUsers />
           </div>
-          <div className="stat-info">
+          <div className="stat-info-inDashboard-screen">
             <h3>Total Users</h3>
-            <p className="stat-number">{stats.totalUsers}</p>
+            <p className="stat-number-inDashboard-screen">{stats.totalUsers}</p>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">
+        <div className="stat-card-inDashboard-screen">
+          <div className="stat-icon-inDashboard-screen">
             <FaCut />
           </div>
-          <div className="stat-info">
+          <div className="stat-info-inDashboard-screen">
             <h3>Total Hairstyles</h3>
-            <p className="stat-number">{stats.totalHairstyles}</p>
+            <p className="stat-number-inDashboard-screen">{stats.totalHairstyles}</p>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">
+        <div className="stat-card-inDashboard-screen">
+          <div className="stat-icon-inDashboard-screen">
             <FaHeart />
           </div>
-          <div className="stat-info">
+          <div className="stat-info-inDashboard-screen">
             <h3>Total Ratings</h3>
-            <p className="stat-number">{stats.totalRatings}</p>
+            <p className="stat-number-inDashboard-screen">{stats.totalRatings}</p>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">
+        <div className="stat-card-inDashboard-screen">
+          <div className="stat-icon-inDashboard-screen">
             <FaStar />
           </div>
-          <div className="stat-info">
+          <div className="stat-info-inDashboard-screen">
             <h3>Average Rating</h3>
-            <p className="stat-number">
+            <p className="stat-number-inDashboard-screen">
               {typeof stats.averageRating === 'number'
                 ? stats.averageRating.toFixed(1)
                 : 'N/A'}
@@ -211,53 +217,90 @@ const DashboardInAdmin: React.FC = () => {
         </div>
       </div>
 
-      <div className="charts-grid">
-        <div className="chart-section pie-chart">
-          <h3>Face Shape Distribution</h3>
-          <div className="chart-container">
-            <Pie data={faceShapeData} options={chartOptions} />
-          </div>
-        </div>
+      <div className="dashboard-main-content-inDashboard-screen">
+        <div className="charts-section-inDashboard-screen">
+          <div className="charts-grid-top-inDashboard-screen">
+            <div className="chart-section pie-chart-inDashboard-screen">
+              <h3>Face Shape Distribution</h3>
+              <div className="chart-container-inDashboard-screen">
+                <Pie data={faceShapeData} options={chartOptions} />
+              </div>
+            </div>
 
-        <div className="chart-section doughnut-chart">
-          <h3> Hair Type Distribution</h3>
-          <div className="chart-container">
-            <Doughnut data={hairTypeData} options={chartOptions} />
+            <div className="chart-section doughnut-chart-inDashboard-screen">
+              <h3>Hair Type Distribution</h3>
+              <div className="chart-container-inDashboard-screen">
+                <Doughnut data={hairTypeData} options={chartOptions} />
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="chart-section bar-chart">
-          <h3>Hair Length Distribution</h3>
-          <div className="chart-container">
-            <Bar
-              data={hairLengthData}
-              options={{
-                ...chartOptions,
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    ticks: {
-                      stepSize: 1
+          <div className="charts-grid-bottom-inDashboard-screen">
+            <div className="chart-section bar-chart-inDashboard-screen">
+              <h3>Hair Length Distribution</h3>
+              <div className="chart-container-inDashboard-screen">
+                <Bar
+                  data={hairLengthData}
+                  options={{
+                    ...chartOptions,
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: {
+                          stepSize: 1
+                        }
+                      }
                     }
-                  }
-                }
-              }}
-            />
+                  }}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="chart-section full-width">
-          <h3>Growth Trends</h3>
-          <div className="chart-container">
-            <Line data={createLineChartData()} options={lineChartOptions} />
+
+        <div className="users-section-inDashboard-screen">
+          <h3>Users</h3>
+          <div className="users-list-inDashboard-screen">
+            {stats.users.map((user) => (
+              <div key={user.user_id} className="user-item-inDashboard-screen">
+                <div className="user-avatar-inDashboard-screen">
+                  {user.profile_picture ? (
+                    <img
+                      src={`${import.meta.env.VITE_BACKEND_URL}${user.profile_picture}`}
+                      alt={user.fullname}
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = 'https://via.placeholder.com/24';
+                      }}
+                    />
+                  ) : (
+                    <div className="default-avatar-inDashboard-screen">
+                      {user.fullname.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+                <div className="user-info-inDashboard-screen">
+                  <div className="user-name-inDashboard-screen">{user.fullname}</div>
+                  <div className="user-email-inDashboard-screen">{user.email}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      <div className="recent-section">
+      <div className="growth-trends-section-inDashboard-screen">
+        <h3>Growth Trends</h3>
+        <div className="growth-chart-container-inDashboard-screen">
+          <Line data={createLineChartData()} options={lineChartOptions} />
+        </div>
+      </div>
+
+      <div className="recent-section-inDashboard-screen">
         <h3>Recently Added Hairstyles</h3>
-        <div className="recent-list">
+        <div className="recent-list-inDashboard-screen">
           {stats.recentHairstyles.map((hairstyle) => (
-            <div key={hairstyle.hairstyle_name} className="recent-item">
+            <div key={hairstyle.hairstyle_name} className="recent-item-inDashboard-screen">
               <span>{hairstyle.hairstyle_name}</span>
               <span>{new Date(hairstyle.created_at).toLocaleDateString('en-US', {
                 year: 'numeric',

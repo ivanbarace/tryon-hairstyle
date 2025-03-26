@@ -41,6 +41,19 @@
   min-height: 60px;
 }
 
+.logo img {
+  width: 100%;
+  max-width: 50px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.name {
+  margin-top: 5px;
+  font-size: 1em;
+  font-weight: bold;
+}
+
 .nav-menu {
   display: flex;
   flex-direction: column;

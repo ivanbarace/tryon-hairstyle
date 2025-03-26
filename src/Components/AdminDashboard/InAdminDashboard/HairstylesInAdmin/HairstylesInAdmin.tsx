@@ -8,6 +8,7 @@ interface Hairstyle {
   hairstyle_name: string;
   hairstyle_picture: string | File;
   faceshape: string;
+  face_shapes: string[];  // Add this line
   hairtype: string;
   hair_length: string;
   description: string;
@@ -18,6 +19,7 @@ interface HairstyleForm {
   hairstyle_name: string;
   hairstyle_picture: File | null;
   faceshape: string;
+  additionalFaceShapes: string[];  // Add this line
   hairtype: string;
   hair_length: string;
   description: string;
@@ -43,6 +45,7 @@ const HairstylesInAdmin: React.FC = () => {
     hairstyle_name: '',
     hairstyle_picture: null,
     faceshape: '',
+    additionalFaceShapes: [],  // Add this line
     hairtype: '',
     hair_length: '',
     description: ''
@@ -168,6 +171,26 @@ const HairstylesInAdmin: React.FC = () => {
     }
   };
 
+  // Add this function
+  const handleAddFaceShape = () => {
+    if (formData.additionalFaceShapes.length < 4) {
+      setFormData({
+        ...formData,
+        additionalFaceShapes: [...formData.additionalFaceShapes, '']
+      });
+    }
+  };
+
+  // Add this function
+  const handleAdditionalFaceShapeChange = (index: number, value: string) => {
+    const newFaceShapes = [...formData.additionalFaceShapes];
+    newFaceShapes[index] = value;
+    setFormData({
+      ...formData,
+      additionalFaceShapes: newFaceShapes
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -204,6 +227,7 @@ const HairstylesInAdmin: React.FC = () => {
         formDataToSend.append('hairstyle_picture', formData.hairstyle_picture);
       }
       formDataToSend.append('faceshape', formData.faceshape);
+      formDataToSend.append('additionalFaceShapes', JSON.stringify(formData.additionalFaceShapes.filter(shape => shape)));
       formDataToSend.append('hairtype', formData.hairtype);
       formDataToSend.append('hair_length', formData.hair_length);
       formDataToSend.append('description', formData.description);
@@ -229,6 +253,7 @@ const HairstylesInAdmin: React.FC = () => {
         hairstyle_name: '',
         hairstyle_picture: null,
         faceshape: '',
+        additionalFaceShapes: [],  // Add this line
         hairtype: '',
         hair_length: '',
         description: ''
@@ -270,32 +295,17 @@ const HairstylesInAdmin: React.FC = () => {
       return;
     }
 
-    // Validate form fields
-    if (!selectedHairstyle.hairstyle_name.trim()) {
-      setEditMessage({ type: 'error', text: 'Hairstyle name is required' });
-      return;
-    }
-    if (!selectedHairstyle.faceshape) {
-      setEditMessage({ type: 'error', text: 'Face shape is required' });
-      return;
-    }
-    if (!selectedHairstyle.hairtype) {
-      setEditMessage({ type: 'error', text: 'Hair type is required' });
-      return;
-    }
-    if (!selectedHairstyle.hair_length) {
-      setEditMessage({ type: 'error', text: 'Hair length is required' });
-      return;
-    }
-    if (!selectedHairstyle.description.trim()) {
-      setEditMessage({ type: 'error', text: 'Description is required' });
+    // Filter out empty face shapes
+    const validFaceShapes = selectedHairstyle.face_shapes.filter(shape => shape.trim());
+    if (validFaceShapes.length === 0) {
+      setEditMessage({ type: 'error', text: 'At least one face shape is required' });
       return;
     }
 
     try {
       const formDataToSend = new FormData();
       formDataToSend.append('hairstyle_name', selectedHairstyle.hairstyle_name);
-      formDataToSend.append('faceshape', selectedHairstyle.faceshape);
+      formDataToSend.append('face_shapes', JSON.stringify(validFaceShapes));
       formDataToSend.append('hairtype', selectedHairstyle.hairtype);
       formDataToSend.append('hair_length', selectedHairstyle.hair_length);
       formDataToSend.append('description', selectedHairstyle.description);
@@ -344,6 +354,17 @@ const HairstylesInAdmin: React.FC = () => {
         setEditMessage(null);
       }, 2000);
     }
+  };
+
+  // Add this function to handle removing a face shape
+  const handleRemoveFaceShape = (index: number) => {
+    if (!selectedHairstyle) return;
+
+    const newFaceShapes = selectedHairstyle.face_shapes.filter((_, i) => i !== index);
+    setSelectedHairstyle({
+      ...selectedHairstyle,
+      face_shapes: newFaceShapes
+    });
   };
 
   const handleDelete = async () => {
@@ -408,7 +429,8 @@ const HairstylesInAdmin: React.FC = () => {
   // Add this function to filter hairstyles
   const filteredHairstyles = hairstyles.filter(hairstyle => {
     const matchesSearch = hairstyle.hairstyle_name.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFaceShape = !filters.faceshape || hairstyle.faceshape === filters.faceshape;
+    const matchesFaceShape = !filters.faceshape ||
+      (hairstyle.face_shapes && hairstyle.face_shapes.includes(filters.faceshape));
     const matchesHairType = !filters.hairtype || hairstyle.hairtype === filters.hairtype;
     const matchesHairLength = !filters.hair_length || hairstyle.hair_length === filters.hair_length;
 
@@ -437,6 +459,15 @@ const HairstylesInAdmin: React.FC = () => {
     const baseUrl = import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, ''); // Remove trailing slashes
     const imagePath = path.replace(/^\/+/, ''); // Remove leading slashes
     return `${baseUrl}/${imagePath}`;
+  };
+
+  // Add this to your state declarations
+  const [expandedFaceShape, setExpandedFaceShape] = useState<number | null>(null);
+
+  // Add this handler function
+  const handleFaceShapeClick = (hairstyleId: number, event: React.MouseEvent) => {
+    event.stopPropagation(); // Prevent row click event
+    setExpandedFaceShape(expandedFaceShape === hairstyleId ? null : hairstyleId);
   };
 
   if (loading) return <LoadingAnimation />;
@@ -607,22 +638,59 @@ const HairstylesInAdmin: React.FC = () => {
                     />
                   </div>
 
-                  <div className="form-group-in-adding-hairstyles">
+                  <div className="form-group-in-adding-hairstyles faceshape-group">
                     <label htmlFor="faceshape">Face Shape</label>
-                    <select
-                      id="faceshape"
-                      name="faceshape"
-                      value={formData.faceshape}
-                      onChange={handleInputChange}
-                      required
-                    >
-                      <option value="">Select Face Shape</option>
-                      <option value="Triangle">Triangle</option>
-                      <option value="Round">Round</option>
-                      <option value="Square">Square</option>
-                      <option value="Oval">Oval</option>
-                      <option value="Rectangle">Rectangle</option>
-                    </select>
+                    <div className="faceshape-input-group">
+                      <select
+                        aria-label="Primary Face Shape"
+                        id="faceshape"
+                        name="faceshape"
+                        value={formData.faceshape}
+                        onChange={handleInputChange}
+                        required
+                      >
+                        <option value="">Select Face Shape</option>
+                        {faceShapeOptions.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                      {formData.additionalFaceShapes.length < 4 && (
+                        <button
+                          type="button"
+                          className="add-faceshape-button"
+                          onClick={handleAddFaceShape}
+                        >
+                          +
+                        </button>
+                      )}
+                    </div>
+
+                    {formData.additionalFaceShapes.map((shape, index) => (
+                      <div key={index} className="additional-faceshape-input">
+                        <select
+                          value={shape}
+                          onChange={(e) => handleAdditionalFaceShapeChange(index, e.target.value)}
+                          required
+                          aria-label={`Additional Face Shape ${index + 1}`}
+                        >
+                          <option value="">Select Additional Face Shape</option>
+                          {faceShapeOptions.map(option => (
+                            <option
+                              key={option}
+                              value={option}
+                              disabled={
+                                formData.faceshape === option ||
+                                formData.additionalFaceShapes.some(
+                                  (selectedShape, i) => i !== index && selectedShape === option
+                                )
+                              }
+                            >
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="form-group-in-adding-hairstyles">
@@ -714,7 +782,31 @@ const HairstylesInAdmin: React.FC = () => {
                   />
                 </td>
                 <td>{hairstyle.hairstyle_name}</td>
-                <td>{hairstyle.faceshape}</td>
+                <td className="face-shape-cell">
+                  {hairstyle.face_shapes?.length > 1 ? (
+                    <div className="face-shape-dropdown">
+                      <button
+                        className={`face-shape-button ${expandedFaceShape === hairstyle.hairstyle_id ? 'expanded' : ''}`}
+                        onClick={(e) => handleFaceShapeClick(hairstyle.hairstyle_id, e)}
+                      >
+                        {hairstyle.face_shapes[0]}
+                        <span className="face-shape-count">{` (+${hairstyle.face_shapes.length - 1})`}</span>
+                        <span className={`dropdown-arrow ${expandedFaceShape === hairstyle.hairstyle_id ? 'expanded' : ''}`}>▼</span>
+                      </button>
+                      {expandedFaceShape === hairstyle.hairstyle_id && (
+                        <div className="face-shape-dropdown-content">
+                          {hairstyle.face_shapes.slice(1).map((shape, index) => (
+                            <div key={index} className="dropdown-item">
+                              {shape}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    hairstyle.face_shapes[0] || hairstyle.faceshape
+                  )}
+                </td>
                 <td>{hairstyle.hairtype}</td>
                 <td>{hairstyle.hair_length}</td>
                 <td className="description-cell">{hairstyle.description}</td>
@@ -772,21 +864,87 @@ const HairstylesInAdmin: React.FC = () => {
                       title="Only letters and spaces are allowed"
                     />
                   </div>
-                  <div className="form-group-in-editing-hairstyles">
-                    <label htmlFor="faceshape">Face Shape</label>
-                    <select
-                      id="faceshape"
-                      value={selectedHairstyle.faceshape}
-                      onChange={(e) => setSelectedHairstyle({ ...selectedHairstyle, faceshape: e.target.value })}
-                      className="input-field"
-                    >
-                      <option value="">Select Face Shape</option>
-                      <option value="Triangle">Triangle</option>
-                      <option value="Round">Round</option>
-                      <option value="Square">Square</option>
-                      <option value="Oval">Oval</option>
-                      <option value="Rectangle">Rectangle</option>
-                    </select>
+                  <div className="form-group-in-editing-hairstyles faceshape-group">
+                    <label htmlFor="faceshape">Face Shapes</label>
+                    <div className="faceshape-input-group">
+                      <select
+                        id="faceshape"
+                        aria-label="Primary Face Shape"
+                        value={selectedHairstyle.face_shapes[0] || ''}
+                        onChange={(e) => {
+                          const newShapes = [e.target.value, ...selectedHairstyle.face_shapes.slice(1)];
+                          setSelectedHairstyle({
+                            ...selectedHairstyle,
+                            face_shapes: newShapes,
+                            faceshape: e.target.value // Keep this for backwards compatibility
+                          });
+                        }}
+                        className="input-field"
+                        required
+                      >
+                        <option value="">Select Face Shape</option>
+                        {faceShapeOptions.map(option => (
+                          <option
+                            key={option}
+                            value={option}
+                            disabled={selectedHairstyle.face_shapes.includes(option) && option !== selectedHairstyle.face_shapes[0]}
+                          >
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      {selectedHairstyle.face_shapes.length < 4 && (
+                        <button
+                          type="button"
+                          className="add-faceshape-button"
+                          onClick={() => {
+                            setSelectedHairstyle({
+                              ...selectedHairstyle,
+                              face_shapes: [...selectedHairstyle.face_shapes, '']
+                            });
+                          }}
+                        >
+                          +
+                        </button>
+                      )}
+                    </div>
+
+                    {selectedHairstyle.face_shapes.slice(1).map((shape, index) => (
+                      <div key={index} className="additional-faceshape-input">
+                        <select
+                          aria-label={`Additional Face Shape ${index + 2}`}
+                          value={shape}
+                          onChange={(e) => {
+                            const newShapes = [...selectedHairstyle.face_shapes];
+                            newShapes[index + 1] = e.target.value;
+                            setSelectedHairstyle({
+                              ...selectedHairstyle,
+                              face_shapes: newShapes
+                            });
+                          }}
+                          required
+                          className="input-field"
+                        >
+                          <option value="">Select Additional Face Shape</option>
+                          {faceShapeOptions.map(option => (
+                            <option
+                              key={option}
+                              value={option}
+                              disabled={selectedHairstyle.face_shapes.includes(option) && option !== shape}
+                            >
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          type="button"
+                          className="remove-faceshape-button"
+                          onClick={() => handleRemoveFaceShape(index + 1)}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
                   </div>
                   <div className="form-group-in-editing-hairstyles">
                     <label htmlFor="hairtype">Hair Type</label>
@@ -857,6 +1015,7 @@ const HairstylesInAdmin: React.FC = () => {
           </div>
         </div>
       )}
+
       {showDeleteConfirmation && (
         <>
           <div className="delete-confirmation-overlay" />
@@ -873,7 +1032,6 @@ const HairstylesInAdmin: React.FC = () => {
               </div>
             </div>
           </div>
-
         </>
       )}
     </div>

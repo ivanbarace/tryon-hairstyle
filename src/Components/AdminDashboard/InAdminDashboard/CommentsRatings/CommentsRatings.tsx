@@ -10,6 +10,7 @@ interface Hairstyle {
   faceshape: string;  // Changed from face_shape
   hairtype: string;   // Changed from hair_type
   hair_length: string;
+  face_shapes: string[];  // Add this line
 }
 
 interface Rating {
@@ -32,6 +33,7 @@ const CommentsRatings: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedHairstyle, setSelectedHairstyle] = useState<Hairstyle | null>(null);
   const [ratingData, setRatingData] = useState<RatingData | null>(null);
+  const [expandedFaceShapes, setExpandedFaceShapes] = useState<number | null>(null);
 
   const constructImageUrl = (path: string) => {
     const baseUrl = import.meta.env.VITE_BACKEND_URL.replace(/\/+$/, ''); // Remove trailing slashes
@@ -131,7 +133,35 @@ const CommentsRatings: React.FC = () => {
                 <div className="hairstyle-details-CommentsRatings-in-Adminscreen">
                   <div className="detail-item-CommentsRatings-in-Adminscreen">
                     <span className="detail-label-CommentsRatings-in-Adminscreen">Face Shape:</span>
-                    <span className="detail-value-CommentsRatings-in-Adminscreen">{selectedHairstyle.faceshape}</span>
+                    <div className="face-shapes-dropdown">
+                      <button
+                        className="face-shapes-button"
+                        onClick={() => setExpandedFaceShapes(
+                          expandedFaceShapes === selectedHairstyle.hairstyle_id
+                            ? null
+                            : selectedHairstyle.hairstyle_id
+                        )}
+                      >
+                        {selectedHairstyle.face_shapes[0]}
+                        {selectedHairstyle.face_shapes.length > 1 &&
+                          <span className="additional-count">
+                            {` (+${selectedHairstyle.face_shapes.length - 1})`}
+                          </span>
+                        }
+                        <span className={`dropdown-arrow ${expandedFaceShapes === selectedHairstyle.hairstyle_id ? 'expanded' : ''}`}>
+                          ▼
+                        </span>
+                      </button>
+                      {expandedFaceShapes === selectedHairstyle.hairstyle_id && selectedHairstyle.face_shapes.length > 1 && (
+                        <div className="face-shapes-dropdown-content">
+                          {selectedHairstyle.face_shapes.slice(1).map((shape, index) => (
+                            <div key={index} className="dropdown-item">
+                              {shape}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
                   </div>
                   <div className="detail-item-CommentsRatings-in-Adminscreen">
                     <span className="detail-label-CommentsRatings-in-Adminscreen">Hair Type:</span>

@@ -12,6 +12,7 @@ interface ArchivedHairstyle {
     hair_length: string;
     description: string;
     created_at: string;
+    face_shapes: string[];  // Add this line
 }
 
 // Add this utility function at the top of your component
@@ -277,7 +278,7 @@ const ArchiveInAdmin: React.FC = () => {
                                         />
                                     </td>
                                     <td>{hairstyle.hairstyle_name}</td>
-                                    <td>{hairstyle.faceshape}</td>
+                                    <td>{hairstyle.face_shapes?.join(', ') || hairstyle.faceshape}</td>
                                     <td>{hairstyle.hairtype}</td>
                                     <td>{hairstyle.hair_length}</td>
                                     <td className="description-cell-inArchive_Inadminscreen">{hairstyle.description}</td>
