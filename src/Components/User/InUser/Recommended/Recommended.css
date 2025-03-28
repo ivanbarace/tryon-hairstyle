@@ -123,10 +123,10 @@
 .hairstyle-canvas-container-inRecommendedScreen {
   position: relative;
   width: 100%;
-  height: 250px; /* Increased height for better visualization */
-  overflow: hidden; /* Changed from visible to hidden */
-  background: white; /* Add solid background */
-  perspective: 1000px; /* Adds depth perception for rotations */
+  height: 250px;
+  overflow: hidden;
+  background: white;
+  perspective: 1000px;
   transform-style: preserve-3d;
   backface-visibility: hidden;
   will-change: transform;
@@ -135,9 +135,9 @@
   transform-style: preserve-3d !important;
   perspective: 1000px !important;
   isolation: isolate !important;
-  display: flex; /* Added */
-  align-items: flex-start; /* Added */
-  justify-content: center; /* Added */
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .background-container-inRecommendedScreen {
@@ -177,33 +177,6 @@
   transform-style: preserve-3d !important;
   mix-blend-mode: multiply !important;
   isolation: auto;
-}
-
-.save-button-inRecommendedScreen {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: white;
-  border: none;
-  border-radius: 50%;
-  width: 35px;
-  height: 35px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 20;
-  transition: transform 0.2s ease;
-}
-
-.save-button-inRecommendedScreen:hover {
-  transform: scale(1.1);
-}
-
-.save-button-inRecommendedScreen svg {
-  font-size: 1.2rem;
-  color: #333;
 }
 
 .hairstyle-card-inRecommendedScreen:hover,
@@ -262,9 +235,57 @@
   line-height: 1.5;
 }
 
+.save-button-inRecommendedScreen {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 20;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.save-button-inRecommendedScreen:hover {
+  background-color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+
+.save-button-inRecommendedScreen:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.save-button-inRecommendedScreen svg {
+  width: 20px;
+  height: 20px;
+  color: #333;
+}
+
 @media (max-width: 1200px) {
   .hairstyles-grid-inRecommendedScreen {
     grid-template-columns: repeat(2, 300px); /* Show 2 columns */
+  }
+
+  .recommended-header-inRecommendedScreen h2 {
+    font-size: 1.5rem;
+  }
+
+  .scanner-button-inRecommendedScreen {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+
+  .recommended-hairstyles-section-inRecommendedScreen h3 {
+    font-size: 1.3rem;
   }
 }
 
@@ -276,6 +297,19 @@
 
   .hairstyle-canvas-container-inRecommendedScreen {
     height: 250px;
+  }
+
+  .recommended-header-inRecommendedScreen h2 {
+    font-size: 1.3rem;
+  }
+
+  .scanner-button-inRecommendedScreen {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .recommended-hairstyles-section-inRecommendedScreen h3 {
+    font-size: 1.2rem;
   }
 }
 
@@ -315,5 +349,18 @@
 @media (max-width: 575px) {
   .hairstyle-canvas-container-inRecommendedScreen {
     height: 250px;
+  }
+
+  .recommended-header-inRecommendedScreen h2 {
+    font-size: 1.1rem;
+  }
+
+  .scanner-button-inRecommendedScreen {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .recommended-hairstyles-section-inRecommendedScreen h3 {
+    font-size: 1.1rem;
   }
 }
