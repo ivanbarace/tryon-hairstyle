@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Recommended.css';
 import * as mediapipe from '@mediapipe/face_mesh';
 import * as drawing from '@mediapipe/drawing_utils';
-import { FaCamera, FaRegBookmark } from 'react-icons/fa';  // Add FaRegBookmark import
+import { FaCamera, FaDownload } from 'react-icons/fa';  // Change FaRegBookmark to FaDownload
 
 const Recommended: React.FC = () => {
   const navigate = useNavigate();
@@ -43,9 +43,11 @@ const Recommended: React.FC = () => {
 
   // Add these new states for responsive positioning
   const [responsivePosition, setResponsivePosition] = useState({
-    topOffset: 0,
-    leftOffset: 1,
-    scale: 1
+    topOffset: -17,
+    leftOffset: 0,
+    scale: 0.85,
+    downloadTopOffset: -17,  // New property for download adjustments
+    downloadLeftOffset: 0    // New property for download adjustments
   });
 
   // Add this new useEffect for handling responsive adjustments
@@ -56,28 +58,33 @@ const Recommended: React.FC = () => {
         setResponsivePosition({
           topOffset: -18,
           leftOffset: 0,
-          scale: .85
+          scale: 0.85,
+          downloadTopOffset: -18,
+          downloadLeftOffset: 2
         });
       } else if (width <= 768) { // Tablet
         setResponsivePosition({
           topOffset: -18,
           leftOffset: 0,
-          scale: .85
+          scale: 0.85,
+          downloadTopOffset: -18,
+          downloadLeftOffset: 2
         });
-
-      }
-      else if (width <= 1200) { // Tablet
+      } else if (width <= 1200) { // Small Desktop
         setResponsivePosition({
           topOffset: -17,
           leftOffset: 0,
-          scale: .85
+          scale: 0.85,
+          downloadTopOffset: -17,
+          downloadLeftOffset: 2
         });
-
-      } else { // Desktop
+      } else { // Large Desktop
         setResponsivePosition({
           topOffset: -18,
-          leftOffset: 0.2,
-          scale: .75
+          leftOffset: 0.09,
+          scale: 0.75,
+          downloadTopOffset: -18,
+          downloadLeftOffset: 2
         });
       }
     };
@@ -411,26 +418,26 @@ const Recommended: React.FC = () => {
   const getScaleFactor = () => {
     const width = window.innerWidth;
     if (width <= 480) { // Mobile
-      return 0.93;
-    } else if (width <= 768) { // Tablet
-      return 0.93;
-    } else if (width <= 1200) { // Small desktop
-      return 0.93
-    } else { // Large desktop
       return 1.05;
+    } else if (width <= 768) { // Tablet
+      return 1.05;
+    } else if (width <= 1200) { // Small desktop
+      return 1.05;
+    } else { // Large desktop
+      return 1.2;
     }
   };
 
   const getHorizontalOffset = () => {
     const width = window.innerWidth;
     if (width <= 480) { // Mobile
-      return 2; // pixels
+      return 0; // pixels
     } else if (width <= 768) { // Tablet
-      return 2;
+      return 0;
     } else if (width <= 1200) { // Small desktop
-      return 2;
+      return 0;
     } else { // Large desktop
-      return 2;
+      return 0;
     }
   };
 
@@ -438,64 +445,61 @@ const Recommended: React.FC = () => {
     try {
       setSavingTryOn(true);
 
-      // Create a temporary canvas to merge the images
+      // Get the specific hairstyle data
+      const selectedHairstyle = matchingHairstyles.find(h => h.id === hairstyleId);
+      if (!selectedHairstyle) {
+        throw new Error('Hairstyle not found');
+      }
+
+      // Create temporary canvas to merge the images
       const mergeCanvas = document.createElement('canvas');
       const mergeCtx = mergeCanvas.getContext('2d');
       if (!mergeCtx) return;
 
-      // Create background image element
+      // Load background image
       const bgImage = new Image();
       bgImage.crossOrigin = "anonymous";
       bgImage.src = backgroundImage;
 
       await new Promise((resolve) => {
         bgImage.onload = async () => {
-          // Set canvas size to match background image
           mergeCanvas.width = bgImage.width;
           mergeCanvas.height = bgImage.height;
-
-          // Draw background image
           mergeCtx.drawImage(bgImage, 0, 0);
 
-          // Create hairstyle image element
+          // Load the specific hairstyle image
           const hairstyleImage = new Image();
           hairstyleImage.crossOrigin = "anonymous";
-          hairstyleImage.src = `${import.meta.env.VITE_BACKEND_URL}${matchingHairstyles.find(h => h.id === hairstyleId)?.image_url.replace(/^\//, '')}`;
+          const hairstyleUrl = `${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.image_url.replace(/^\//, '')}`;
+          hairstyleImage.src = hairstyleUrl;
 
           await new Promise((resolve) => {
             hairstyleImage.onload = () => {
-              // Apply the same transformations as in the display
-              mergeCtx.save();
               if (facePosition) {
-                // Add horizontal offset to centerX
-                const horizontalOffset = getHorizontalOffset();
+                mergeCtx.save();
+                const horizontalOffset = getHorizontalOffset() + responsivePosition.downloadLeftOffset;
                 const centerX = (mergeCanvas.width * facePosition.x) / 100 + horizontalOffset;
-                const centerY = (mergeCanvas.height * facePosition.y) / 100;
+                const centerY = (mergeCanvas.height * facePosition.y) / 100 + responsivePosition.downloadTopOffset;
 
                 mergeCtx.translate(centerX, centerY);
                 mergeCtx.rotate((faceRotation * Math.PI) / 180);
 
-                // Calculate the scale to match what's shown on screen
                 const displayScale = (facePosition.scale * responsivePosition.scale) / 100;
-                // Get dynamic scale factor based on screen size
                 const scaleFactor = getScaleFactor();
                 const finalScale = displayScale * scaleFactor;
 
                 mergeCtx.scale(finalScale, finalScale);
 
-                // Set blend mode and filters
                 mergeCtx.globalCompositeOperation = 'multiply';
-                // Add contrast and brightness filters
                 mergeCtx.filter = 'contrast(1.2) brightness(1.1)';
 
-                // Draw hairstyle image
                 mergeCtx.drawImage(
                   hairstyleImage,
                   -hairstyleImage.width / 2,
                   -hairstyleImage.height / 2
                 );
+                mergeCtx.restore();
               }
-              mergeCtx.restore();
               resolve(true);
             };
             hairstyleImage.onerror = () => {
@@ -504,7 +508,7 @@ const Recommended: React.FC = () => {
             };
           });
 
-          // Create a download link
+          // Create download link
           const downloadLink = document.createElement('a');
           downloadLink.download = `tryon-${hairstyleName}-${new Date().getTime()}.png`;
           downloadLink.href = mergeCanvas.toDataURL('image/png');
@@ -665,7 +669,7 @@ const Recommended: React.FC = () => {
                   onClick={() => processedBackground && handleSaveTryOn(hairstyle.id, processedBackground, hairstyle.name)}
                   disabled={savingTryOn}
                 >
-                  <FaRegBookmark />
+                  <FaDownload />
                 </button>
                 {processedBackground && headDimensions && facePosition && (
                   <>
