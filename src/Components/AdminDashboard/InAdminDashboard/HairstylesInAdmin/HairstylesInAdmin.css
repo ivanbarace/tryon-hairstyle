@@ -1550,6 +1550,24 @@ button[type="button"]:hover {
   display: flex;
   gap: 10px;
   align-items: center;
+  width: 100%;
+}
+
+.additional-faceshape-input {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+}
+
+.additional-faceshape-input select {
+  width: calc(100% - 40px); /* Match the width of the primary select */
+}
+
+.faceshape-input-group select,
+.additional-faceshape-input select {
+  flex: 1;
 }
 
 .add-faceshape-button {

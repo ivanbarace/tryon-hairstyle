@@ -13,6 +13,10 @@
   transition: background-color 0.3s ease;
 }
 
+.mobile-logo-inHomeScreen-inUsersScreen {
+  display: none;
+}
+
 .home-inHomeScreen-inUsersScreen.darkened::before {
   content: "";
   position: fixed;
@@ -97,6 +101,23 @@
   /* Adjust spacing between sections */
   .home-content-inHomeScreen-inUsersScreen {
     gap: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .mobile-logo-inHomeScreen-inUsersScreen {
+    display: block;
+    width: 50px;
+    height: auto;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 5;
+  }
+
+  /* Adjust welcome section padding to accommodate logo */
+  .welcome-section-inHomeScreen-inUsersScreen {
+    padding-top: 80px;
   }
 }
 

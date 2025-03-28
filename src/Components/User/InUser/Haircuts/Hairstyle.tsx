@@ -278,7 +278,7 @@ const Hairstyle: React.FC = () => {
     const matchesSearch = hairstyle.hairstyle_name.toLowerCase().includes(searchTerm.toLowerCase());
     const faceShapeMatch =
       selectedFaceShape === 'all' ||
-      hairstyle.faceshape.toLowerCase() === selectedFaceShape.toLowerCase();
+      hairstyle.faceshape.toLowerCase().split(',').map(shape => shape.trim()).includes(selectedFaceShape.toLowerCase());
     const hairTypeMatch =
       selectedHairType === 'all' ||
       hairstyle.hairtype.toLowerCase() === selectedHairType.toLowerCase();

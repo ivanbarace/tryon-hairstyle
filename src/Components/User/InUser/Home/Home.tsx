@@ -230,6 +230,7 @@ const Home: React.FC = () => {
       <div className="home-content-inHomeScreen-inUsersScreen">
         {/* Welcome section first */}
         <section className="welcome-section-inHomeScreen-inUsersScreen">
+          <img src="/LOGO1.png" alt="Logo" className="mobile-logo-inHomeScreen-inUsersScreen" />
           <div className="welcome-content-inHomeScreen-inUsersScreen">
             <div className="welcome-text-inHomeScreen-inUsersScreen">
               <h1 className="welcome-title-inHomeScreen-inUsersScreen">Welcome to HairStyle</h1>
