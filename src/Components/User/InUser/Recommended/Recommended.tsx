@@ -58,7 +58,7 @@ const Recommended: React.FC = () => {
         setResponsivePosition({
           topOffset: -18,
           leftOffset: 0,
-          scale: 0.85,
+          scale: 0.83,
           downloadTopOffset: -18,
           downloadLeftOffset: 2
         });
@@ -418,26 +418,26 @@ const Recommended: React.FC = () => {
   const getScaleFactor = () => {
     const width = window.innerWidth;
     if (width <= 480) { // Mobile
-      return 1.05;
+      return 1.1;
     } else if (width <= 768) { // Tablet
-      return 1.05;
+      return 1.1;
     } else if (width <= 1200) { // Small desktop
-      return 1.05;
+      return 1.1;
     } else { // Large desktop
-      return 1.2;
+      return 1.22;
     }
   };
 
   const getHorizontalOffset = () => {
     const width = window.innerWidth;
     if (width <= 480) { // Mobile
-      return 0; // pixels
+      return -2; // pixels
     } else if (width <= 768) { // Tablet
-      return 0;
+      return -2;
     } else if (width <= 1200) { // Small desktop
-      return 0;
+      return -2;
     } else { // Large desktop
-      return 0;
+      return -2;
     }
   };
 
