@@ -24,6 +24,12 @@ const Recommended: React.FC = () => {
   } | null>(null);
   const [faceRotation, setFaceRotation] = useState<number>(0);
   const [savingTryOn, setSavingTryOn] = useState<boolean>(false);
+  const [downloadSettings, setDownloadSettings] = useState({
+    scale: 1.0,
+    verticalOffset: 0,
+    horizontalOffset: 0
+  });
+
   interface Hairstyle {
     id: string;
     image_url: string;
@@ -54,7 +60,7 @@ const Recommended: React.FC = () => {
         setResponsivePosition({
           topOffset: -18,
           leftOffset: 0,
-          scale: 0.83
+          scale: 0.84
         });
       } else if (width <= 768) { // Tablet
         setResponsivePosition({
@@ -72,7 +78,7 @@ const Recommended: React.FC = () => {
         setResponsivePosition({
           topOffset: -18,
           leftOffset: 0.09,
-          scale: 0.75
+          scale: 0.76
         });
       }
     };
@@ -80,6 +86,41 @@ const Recommended: React.FC = () => {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  useEffect(() => {
+    const handleDownloadSettings = () => {
+      const width = window.innerWidth;
+      if (width <= 480) { // Mobile
+        setDownloadSettings({
+          scale: 1.07,
+          verticalOffset: 0,
+          horizontalOffset: 2.25
+        });
+      } else if (width <= 768) { // Tablet
+        setDownloadSettings({
+          scale: 1.07,
+          verticalOffset: 0,
+          horizontalOffset: 2.3
+        });
+      } else if (width <= 1200) { // Small Desktop
+        setDownloadSettings({
+          scale: 1.07,
+          verticalOffset: 0,
+          horizontalOffset: 2.3
+        });
+      } else { // Large Desktop
+        setDownloadSettings({
+          scale: 1.2,
+          verticalOffset: -1.5,
+          horizontalOffset: 2
+        });
+      }
+    };
+
+    handleDownloadSettings();
+    window.addEventListener('resize', handleDownloadSettings);
+    return () => window.removeEventListener('resize', handleDownloadSettings);
   }, []);
 
   const initializeFaceMesh = async () => {
@@ -451,30 +492,6 @@ const Recommended: React.FC = () => {
     return faceshapes.join(', ');
   };
 
-  const getScaleFactor = () => {
-    const width = window.innerWidth;
-    if (width <= 480) return 1.16;
-    if (width <= 768) return 1.16;
-    if (width <= 1200) return 1.16;
-    return 1.34;
-  };
-
-  const getHorizontalOffset = () => {
-    const width = window.innerWidth;
-    if (width <= 480) return 1;
-    if (width <= 768) return 1.1;
-    if (width <= 1200) return 1
-    return 1.5;
-  };
-
-  const getVerticalOffset = () => {
-    const width = window.innerWidth;
-    if (width <= 480) return 0;
-    if (width <= 768) return 0;
-    if (width <= 1200) return 0;
-    return 0;
-  };
-
   const handleSaveTryOn = async (hairstyleId: string, backgroundImage: string, hairstyleName: string) => {
     try {
       setSavingTryOn(true);
@@ -507,27 +524,46 @@ const Recommended: React.FC = () => {
             hairstyleImage.onload = () => {
               if (facePosition) {
                 mergeCtx.save();
-                const horizontalOffset = getHorizontalOffset();
-                const verticalOffset = getVerticalOffset();
-                const centerX = (mergeCanvas.width * facePosition.x) / 100 + horizontalOffset;
-                const centerY = (mergeCanvas.height * facePosition.y) / 100 + verticalOffset;
+
+                const centerX = (mergeCanvas.width * facePosition.x) / 100 + downloadSettings.horizontalOffset;
+                const centerY = (mergeCanvas.height * facePosition.y) / 100 + downloadSettings.verticalOffset;
+
+                // Calculate the desired width with adjusted scale
+                const desiredWidth = (mergeCanvas.width * facePosition.scale * responsivePosition.scale * downloadSettings.scale) / 100;
+
+                // Calculate scale factors to maintain aspect ratio while matching desired width
+                const scaleX = desiredWidth / hairstyleImage.width;
+                const scaleY = scaleX; // Keep aspect ratio
 
                 mergeCtx.translate(centerX, centerY);
                 mergeCtx.rotate((faceRotation * Math.PI) / 180);
 
-                const displayScale = (facePosition.scale * responsivePosition.scale) / 100;
-                const scaleFactor = getScaleFactor();
-                const finalScale = displayScale * scaleFactor;
+                // Draw red border lines at consistent width
+                mergeCtx.strokeStyle = 'red';
+                mergeCtx.lineWidth = 2;
+                mergeCtx.beginPath();
 
-                mergeCtx.scale(finalScale, finalScale);
+                const borderWidth = desiredWidth / 2;
+                // Left border
+                mergeCtx.moveTo(-borderWidth, -hairstyleImage.height * scaleY / 2);
+                mergeCtx.lineTo(-borderWidth, hairstyleImage.height * scaleY / 2);
+                // Right border
+                mergeCtx.moveTo(borderWidth, -hairstyleImage.height * scaleY / 2);
+                mergeCtx.lineTo(borderWidth, hairstyleImage.height * scaleY / 2);
+                mergeCtx.stroke();
+
                 mergeCtx.globalCompositeOperation = 'multiply';
                 mergeCtx.filter = 'contrast(1.2) brightness(1.1)';
 
+                // Draw the hairstyle with consistent scaling
                 mergeCtx.drawImage(
                   hairstyleImage,
-                  -hairstyleImage.width / 2,
-                  -hairstyleImage.height / 2
+                  -hairstyleImage.width * scaleX / 2,
+                  -hairstyleImage.height * scaleY / 2,
+                  hairstyleImage.width * scaleX,
+                  hairstyleImage.height * scaleY
                 );
+
                 mergeCtx.restore();
               }
               resolve(true);
