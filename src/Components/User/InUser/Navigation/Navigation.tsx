@@ -6,7 +6,7 @@ import './Navigation.css';
 interface UserData {
   id: string;
   fullname: string;
-  profilePicture?: string;
+  profile_picture?: string;  // Changed from profilePicture to match backend
 }
 
 const Navigation: React.FC = () => {
@@ -29,10 +29,10 @@ const Navigation: React.FC = () => {
     if (!userData?.id) return;
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}users/${userData.id}/profile-picture`);
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}user/${userData.id}`);
       const data = await response.json();
-      if (data.profilePicture) {
-        setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}${data.profilePicture}`);
+      if (data.profile_picture) {
+        setProfilePicture(`${import.meta.env.VITE_BACKEND_URL}${data.profile_picture.replace(/^\//, '')}`);
       }
     } catch (error) {
       console.error('Error fetching profile picture:', error);
@@ -90,11 +90,7 @@ const Navigation: React.FC = () => {
                           onError={(e) => {
                             const target = e.target as HTMLImageElement;
                             target.onerror = null;
-                            target.style.display = 'none';
-                            const placeholder = target.parentElement?.querySelector('.navigation-inuser-picture-placeholder');
-                            if (placeholder) {
-                              (placeholder as HTMLElement).style.display = 'flex';
-                            }
+                            target.src = '/defaultProfile.png';
                           }}
                         />
                       ) : (

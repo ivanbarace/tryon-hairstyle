@@ -11,6 +11,20 @@ interface TopHairstyle {
   average_rating: number;
 }
 
+interface ContactForm {
+  message: string;
+  userId: string;
+  status: 'pending' | 'sent' | 'error';
+  fullname: string;
+}
+
+interface UserData {
+  id?: string;
+  admin_id?: string;
+  fullname: string;
+  profile_picture?: string;
+}
+
 const Home: React.FC = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,7 +35,7 @@ const Home: React.FC = () => {
   const [currentTutorialIndex, setCurrentTutorialIndex] = useState(0);
   const [isDarkened, setIsDarkened] = useState(false);
   const [isOpenMessageModal, setisOpenMessageModal] = useState(false);
-  const [contactForm, setContactForm] = useState({
+  const [contactForm, setContactForm] = useState<ContactForm>({
     message: '',
     userId: '',
     status: 'pending',
@@ -29,6 +43,7 @@ const Home: React.FC = () => {
   });
   const [submitStatus, setSubmitStatus] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
 
   const tutorialImages = [
     {
@@ -83,6 +98,31 @@ const Home: React.FC = () => {
     return () => {
       window.removeEventListener('storage', checkAuthStatus);
     };
+  }, []);
+
+  useEffect(() => {
+    const storedUserData = localStorage.getItem('userData');
+    if (storedUserData) {
+      const parsedData = JSON.parse(storedUserData);
+      setUserData(parsedData);
+
+      // Fetch updated user data including profile picture
+      if (parsedData.id) {
+        fetch(`${import.meta.env.VITE_BACKEND_URL}user/${parsedData.id}`)
+          .then(response => response.json())
+          .then(data => {
+            setUserData(prevData => {
+              if (!prevData) return null;
+              return {
+                ...prevData,
+                profile_picture: data.profile_picture,
+                fullname: prevData.fullname
+              };
+            });
+          })
+          .catch(error => console.error('Error fetching user data:', error));
+      }
+    }
   }, []);
 
   // Listen for auth changes
@@ -220,8 +260,28 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleProfileClick = () => {
+    navigate('/user/profile');
+  };
+
   return (
     <div className={`home-inHomeScreen-inUsersScreen ${isDarkened ? 'darkened-inHomeScreen-inUsersScreen' : ''}`}>
+      {userData && (
+        <div className="mobile-profile-picture-container" onClick={handleProfileClick}>
+          <img
+            src={userData.profile_picture ?
+              `${import.meta.env.VITE_BACKEND_URL}${userData.profile_picture.replace(/^\//, '')}` :
+              '/defaultProfile.png'}
+            alt="Profile"
+            className="mobile-profile-picture"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = '/defaultProfile.png';
+            }}
+          />
+        </div>
+      )}
       {errorMessage && (
         <div className="error-toast-inHomeScreen-inUsersScreen">
           {errorMessage}

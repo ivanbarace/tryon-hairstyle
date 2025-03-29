@@ -538,20 +538,6 @@ const Recommended: React.FC = () => {
                 mergeCtx.translate(centerX, centerY);
                 mergeCtx.rotate((faceRotation * Math.PI) / 180);
 
-                // Draw red border lines at consistent width
-                mergeCtx.strokeStyle = 'red';
-                mergeCtx.lineWidth = 2;
-                mergeCtx.beginPath();
-
-                const borderWidth = desiredWidth / 2;
-                // Left border
-                mergeCtx.moveTo(-borderWidth, -hairstyleImage.height * scaleY / 2);
-                mergeCtx.lineTo(-borderWidth, hairstyleImage.height * scaleY / 2);
-                // Right border
-                mergeCtx.moveTo(borderWidth, -hairstyleImage.height * scaleY / 2);
-                mergeCtx.lineTo(borderWidth, hairstyleImage.height * scaleY / 2);
-                mergeCtx.stroke();
-
                 mergeCtx.globalCompositeOperation = 'multiply';
                 mergeCtx.filter = 'contrast(1.2) brightness(1.1)';
 
