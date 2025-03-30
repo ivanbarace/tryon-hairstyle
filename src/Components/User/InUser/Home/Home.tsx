@@ -268,18 +268,17 @@ const Home: React.FC = () => {
     <div className={`home-inHomeScreen-inUsersScreen ${isDarkened ? 'darkened-inHomeScreen-inUsersScreen' : ''}`}>
       {userData && (
         <div className="mobile-profile-picture-container" onClick={handleProfileClick}>
-          <img
-            src={userData.profile_picture ?
-              `${import.meta.env.VITE_BACKEND_URL}uploads/${userData.profile_picture.split('/').pop()}` :
-              '/images/defaultProfile.png'}
-            alt="Profile"
-            className="mobile-profile-picture"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.onerror = null;
-              target.src = '/images/defaultProfile.png';
-            }}
-          />
+          {userData.profile_picture ? (
+            <img
+              src={`${import.meta.env.VITE_BACKEND_URL}${userData.profile_picture.replace(/^\//, '')}`}
+              alt="Profile"
+              className="mobile-profile-picture"
+            />
+          ) : (
+            <div className="mobile-profile-picture">
+              {userData.fullname.charAt(0)}
+            </div>
+          )}
         </div>
       )}
       {errorMessage && (
