@@ -42,7 +42,7 @@ interface DashboardStats {
   totalRatings: number;
   recentHairstyles: Array<{ hairstyle_name: string; created_at: string }>;
   userGrowth: Array<{ month: string; new_users: number }>;
-  hairstyleGrowth: Array<{ month: string; new_hairstyles: number }>;
+  hairstyleGrowth: Array<{ date: string; hairstyles_added: number }>;
   users: Array<{
     user_id: number;
     fullname: string;
@@ -104,27 +104,21 @@ const DashboardInAdmin: React.FC = () => {
   const createLineChartData = (): ChartData<'line', number[], string> => {
     if (!stats) return { labels: [], datasets: [] };
 
-    const months = stats.userGrowth.map(item => {
-      const date = new Date(item.month + '-01');
-      return date.toLocaleString('default', { month: 'short' });
+    const days = stats.hairstyleGrowth.map(item => {
+      const date = new Date(item.date);
+      return date.toLocaleDateString('default', { month: 'short', day: 'numeric' });
     });
 
     return {
-      labels: months,
+      labels: days,
       datasets: [
         {
-          label: 'New Users',
-          data: stats.userGrowth.map(item => item.new_users),
-          borderColor: 'rgb(75, 192, 192)',
-          tension: 0.1,
-          fill: false,
-        },
-        {
-          label: 'New Hairstyles',
-          data: stats.hairstyleGrowth.map(item => item.new_hairstyles),
+          label: 'Hairstyles Added',
+          data: stats.hairstyleGrowth.map(item => item.hairstyles_added),
           borderColor: 'rgb(255, 99, 132)',
+          backgroundColor: 'rgba(255, 99, 132, 0.1)',
           tension: 0.1,
-          fill: false,
+          fill: true,
         }
       ]
     };
@@ -147,7 +141,7 @@ const DashboardInAdmin: React.FC = () => {
       },
       title: {
         display: true,
-        text: 'Growth Over Time'
+        text: 'Daily Hairstyle Activity' // Updated title
       }
     },
     scales: {
@@ -155,9 +149,20 @@ const DashboardInAdmin: React.FC = () => {
         beginAtZero: true,
         ticks: {
           stepSize: 1
+        },
+        title: {
+          display: true,
+          text: 'Hairstyles Added' // Updated axis label
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Date'
         }
       }
-    }
+    },
+    maintainAspectRatio: false // This helps with custom sizing
   };
 
   if (error) return <div className="error-message">{error}</div>;
@@ -290,7 +295,7 @@ const DashboardInAdmin: React.FC = () => {
       </div>
 
       <div className="growth-trends-section-inDashboard-screen">
-        <h3>Growth Trends</h3>
+        <h3>Daily Hairstyle Activity</h3> {/* Updated section title */}
         <div className="growth-chart-container-inDashboard-screen">
           <Line data={createLineChartData()} options={lineChartOptions} />
         </div>
