@@ -13,11 +13,24 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   background-color: white;
+  max-height: 70vh; /* Set maximum height to 70% of viewport height */
 }
 
 .archive-table-container-inArchive_Inadminscreen table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.archive-table-container-inArchive_Inadminscreen thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.archive-table-container-inArchive_Inadminscreen thead th {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Add shadow to headers */
 }
 
 .archive-table-container-inArchive_Inadminscreen th,

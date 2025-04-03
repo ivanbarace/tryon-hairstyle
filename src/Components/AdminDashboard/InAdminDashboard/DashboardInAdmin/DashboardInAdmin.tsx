@@ -74,15 +74,15 @@ const DashboardInAdmin: React.FC = () => {
   }, []);
 
   const getChartColors = (count: number) => {
-    const colors = [
-      'rgba(255, 99, 132, 0.8)',
-      'rgba(54, 162, 235, 0.8)',
-      'rgba(255, 206, 86, 0.8)',
-      'rgba(75, 192, 192, 0.8)',
-      'rgba(153, 102, 255, 0.8)',
-      'rgba(255, 159, 64, 0.8)',
+    const brownShades = [
+      'rgba(139, 69, 19, 0.8)',    // Dark brown
+      'rgba(160, 82, 45, 0.7)',    // Lighter brown
+      'rgba(181, 101, 71, 0.6)',   // Even lighter brown
+      'rgba(205, 133, 63, 0.5)',   // Light brown
+      'rgba(222, 184, 135, 0.4)',  // Very light brown
+      'rgba(245, 222, 179, 0.3)',  // Lightest brown
     ];
-    return Array(count).fill(0).map((_, i) => colors[i % colors.length]);
+    return Array(count).fill(0).map((_, i) => brownShades[i % brownShades.length]);
   };
 
   const createChartData = (stats: { [key: string]: string | number }[], labelKey: string) => {
@@ -115,7 +115,7 @@ const DashboardInAdmin: React.FC = () => {
         {
           label: 'Hairstyles Added',
           data: stats.hairstyleGrowth.map(item => item.hairstyles_added),
-          borderColor: 'rgb(255, 99, 132)',
+          borderColor: 'rgba(139, 69, 19, 0.8)',
           backgroundColor: 'rgba(255, 99, 132, 0.1)',
           tension: 0.1,
           fill: true,
