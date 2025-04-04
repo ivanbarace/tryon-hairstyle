@@ -1697,7 +1697,79 @@ body,
   }
 }
 
-/* ...existing code... */
+/* Toast Notification Styles */
+.toast-notification {
+  position: fixed;
+  bottom: 24px; /* Changed from top: 50% to bottom positioning */
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(145deg, #ffffff, #f8f9fa);
+  color: #1a1a1a;
+  padding: 16px 24px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  z-index: 2000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  max-width: 90%;
+  text-align: left;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.toast-notification::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23000000'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.toast-notification.show {
+  opacity: 1;
+  visibility: visible;
+  animation: toastSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes toastSlideUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Mobile adjustments for toast */
+@media (max-width: 768px) {
+  .toast-notification {
+    bottom: 84px; /* Increased to avoid navigation bar */
+    min-width: unset;
+    width: calc(100% - 32px);
+    font-size: 14px;
+    padding: 14px 20px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 380px) {
+  .toast-notification {
+    padding: 12px 16px;
+    font-size: 13px;
+  }
+}
 
 .modal-header {
   position: relative;
@@ -1729,8 +1801,6 @@ body,
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 50%;
 }
-
-/* ...existing code... */
 
 .modal-overlay-loginmodal-inhairstylescreen {
   position: fixed;
@@ -1849,8 +1919,6 @@ body,
   }
 }
 
-/* ...existing code... */
-
 .actions-dropdown-Inhairstyle-InUserScreen {
   position: relative;
   display: inline-block;
@@ -1950,8 +2018,6 @@ body,
     top: calc(100% + 8px);
   }
 }
-
-/* ...existing code... */
 
 .search-and-actions-Inhairstyle-InUserScreen {
   display: flex;

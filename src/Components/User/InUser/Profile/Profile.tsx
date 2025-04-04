@@ -38,6 +38,8 @@ const Profile: React.FC = () => {
   const [selectedHairstyle, setSelectedHairstyle] = useState<FavoriteHairstyle | null>(null);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [expandedFaceShape, setExpandedFaceShape] = useState<number | null>(null);
+  const [showUnfavoriteModal, setShowUnfavoriteModal] = useState(false);
+  const [hairstyleToUnfavorite, setHairstyleToUnfavorite] = useState<number | null>(null);
 
   const fetchUserData = useCallback(async () => {
     const storedUserData = localStorage.getItem('userData');
@@ -108,25 +110,36 @@ const Profile: React.FC = () => {
       return;
     }
 
+    // Show confirmation modal before unfavoriting
+    setHairstyleToUnfavorite(hairstyleId);
+    setShowUnfavoriteModal(true);
+  };
+
+  const handleConfirmUnfavorite = async () => {
+    if (!userData?.id || !hairstyleToUnfavorite) {
+      return;
+    }
+
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}favorites`, {
         user_id: userData.id,
-        hairstyle_id: hairstyleId
+        hairstyle_id: hairstyleToUnfavorite
       });
 
-      // Update favorites state to remove the unfavorited hairstyle
       if (!response.data.isFavorite) {
-        setFavorites(prev => prev.filter(h => h.hairstyle_id !== hairstyleId));
+        setFavorites(prev => prev.filter(h => h.hairstyle_id !== hairstyleToUnfavorite));
       }
 
-      // Update selectedHairstyle if it's the one being modified
-      if (selectedHairstyle && selectedHairstyle.hairstyle_id === hairstyleId) {
+      if (selectedHairstyle && selectedHairstyle.hairstyle_id === hairstyleToUnfavorite) {
         setSelectedHairstyle(null);
         setShowHairstyleModal(false);
       }
     } catch (error) {
       console.error('Error toggling favorite:', error);
     }
+
+    setShowUnfavoriteModal(false);
+    setHairstyleToUnfavorite(null);
   };
 
   const handlePrevHairstyle = () => {
@@ -276,28 +289,28 @@ const Profile: React.FC = () => {
       </div>
 
       {showHairstyleModal && selectedHairstyle && (
-        <div className="hairstyle-modal-Inhairstyle-InUserScreen">
-          <div className="hairstyle-modal-content-Inhairstyle-InUserScreen">
-            <button className="close-button-Inhairstyle-InUserScreen" onClick={() => setShowHairstyleModal(false)}>×</button>
-            <button className="nav-button-Inhairstyle-InUserScreen prev" onClick={handlePrevHairstyle}>‹</button>
-            <button className="nav-button-Inhairstyle-InUserScreen next" onClick={handleNextHairstyle}>›</button>
-            <div className="hairstyle-modal-image-Inhairstyle-InUserScreen">
+        <div className="hairstyle-modal-InProfile-InUserScreen">
+          <div className="hairstyle-modal-content-InProfile-InUserScreen">
+            <button className="close-button-InProfile-InUserScreen" onClick={() => setShowHairstyleModal(false)}>×</button>
+            <button className="nav-button-InProfile-InUserScreen prev" onClick={handlePrevHairstyle}>‹</button>
+            <button className="nav-button-InProfile-InUserScreen next" onClick={handleNextHairstyle}>›</button>
+            <div className="hairstyle-modal-image-InProfile-InUserScreen">
               <img
                 src={`${import.meta.env.VITE_BACKEND_URL}${selectedHairstyle.hairstyle_picture.replace(/^\//, '')}`}
                 alt={selectedHairstyle.hairstyle_name}
               />
               <button
-                className={`favorite-button-Inhairstyle-InUserScreen modal-favorite ${selectedHairstyle.isFavorite ? 'is-favorite' : ''}`}
+                className={`favorite-button-InProfile-InUserScreen modal-favorite ${selectedHairstyle.isFavorite ? 'is-favorite' : ''}`}
                 onClick={(e) => handleFavoriteClick(selectedHairstyle.hairstyle_id, e)}
                 title={selectedHairstyle.isFavorite ? "Remove from favorites" : "Add to favorites"}
               >
                 <FaHeart />
               </button>
             </div>
-            <div className="hairstyle-modal-info-Inhairstyle-InUserScreen">
+            <div className="hairstyle-modal-info-InProfile-InUserScreen">
               <h2>{selectedHairstyle.hairstyle_name}</h2>
-              <div className="info-grid-Inhairstyle-InUserScreen">
-                <div className="info-item-Inhairstyle-InUserScreen">
+              <div className="info-grid-InProfile-InUserScreen">
+                <div className="info-item-InProfile-InUserScreen">
                   <strong>Face Shape:</strong>
                   {selectedHairstyle.faceshape && (
                     <>
@@ -325,17 +338,30 @@ const Profile: React.FC = () => {
                     </>
                   )}
                 </div>
-                <div className="info-item-Inhairstyle-InUserScreen">
+                <div className="info-item-InProfile-InUserScreen">
                   <strong>Hair Type:</strong> {selectedHairstyle.hairtype}
                 </div>
-                <div className="info-item-Inhairstyle-InUserScreen">
+                <div className="info-item-InProfile-InUserScreen">
                   <strong>Hair Length:</strong> {selectedHairstyle.hair_length}
                 </div>
               </div>
-              <div className="description-Inhairstyle-InUserScreen">
+              <div className="description-InProfile-InUserScreen">
                 <strong>Description:</strong>
                 <p>{selectedHairstyle.description}</p>
               </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showUnfavoriteModal && (
+        <div className="confirm-modal-overlay-InProfile">
+          <div className="confirm-modal-InProfile">
+            <h3>Remove from Favorites</h3>
+            <p>Are you sure you want to remove this hairstyle from your favorites?</p>
+            <div className="confirm-modal-buttons-InProfile">
+              <button className="confirm-yes-btn-InProfile" onClick={handleConfirmUnfavorite}>Yes</button>
+              <button className="confirm-no-btn-InProfile" onClick={() => setShowUnfavoriteModal(false)}>No</button>
             </div>
           </div>
         </div>

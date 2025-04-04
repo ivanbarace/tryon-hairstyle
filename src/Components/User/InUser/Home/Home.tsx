@@ -44,6 +44,7 @@ const Home: React.FC = () => {
   const [submitStatus, setSubmitStatus] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const tutorialImages = [
     {
@@ -273,10 +274,14 @@ const Home: React.FC = () => {
               src={`${import.meta.env.VITE_BACKEND_URL}${userData.profile_picture.replace(/^\//, '')}`}
               alt="Profile"
               className="mobile-profile-picture"
+              onLoad={() => setImageLoading(false)}
+              onError={() => setImageLoading(false)}
+              style={{ display: imageLoading ? 'none' : 'block' }}
             />
-          ) : (
-            <div className="mobile-profile-picture">
-              {userData.fullname.charAt(0)}
+          ) : null}
+          {(!userData.profile_picture || imageLoading) && (
+            <div className="mobile-profile-picture default-avatar">
+              {userData.fullname ? userData.fullname.charAt(0).toUpperCase() : ''}
             </div>
           )}
         </div>

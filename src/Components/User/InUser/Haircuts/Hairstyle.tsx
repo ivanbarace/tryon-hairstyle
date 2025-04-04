@@ -55,8 +55,10 @@ const Hairstyle: React.FC = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [expandedFaceShape, setExpandedFaceShape] = useState<number | null>(null);
+  const [toastMessage, setToastMessage] = useState<string>('');
+  const [showToast, setShowToast] = useState<boolean>(false);
 
-  const faceShapes = ['all', 'oval', 'round', 'square', 'heart'];
+  const faceShapes = ['all', 'oval', 'round', 'square', 'rectangle', 'triangle'];
   const hairTypes = ['all', 'straight', 'wavy', 'curly', 'coily'];
   const hairLengths = ['all', 'short', 'medium', 'long'];
 
@@ -176,6 +178,14 @@ const Hairstyle: React.FC = () => {
     }
   };
 
+  const showToastMessage = (message: string) => {
+    setToastMessage(message);
+    setShowToast(true);
+    setTimeout(() => {
+      setShowToast(false);
+    }, 3000); // Hide after 3 seconds
+  };
+
   const handleFavoriteClick = async (hairstyleId: number, e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -201,8 +211,15 @@ const Hairstyle: React.FC = () => {
             isFavorite: response.data.isFavorite
           } : null);
         }
+
+        // Show appropriate toast message
+        showToastMessage(response.data.isFavorite
+          ? "Hairstyle added to favorites!"
+          : "Hairstyle removed from favorites!");
+
       } catch (error) {
         console.error('Error toggling favorite:', error);
+        showToastMessage("Error updating favorites. Please try again.");
       }
     });
   };
@@ -649,7 +666,12 @@ const Hairstyle: React.FC = () => {
         </div>
       )}
 
-      {/* ...existing modals... */}
+      {/* Add toast notification */}
+      {showToast && (
+        <div className={`toast-notification ${showToast ? 'show' : ''}`}>
+          {toastMessage}
+        </div>
+      )}
     </div>
   );
 };
