@@ -33,6 +33,15 @@
   margin-bottom: 20px;
 }
 
+.recommended-header-inRecommendedScreen h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  text-align: center;
+  transition: font-size 0.3s ease;
+}
+
 .scanner-button-inRecommendedScreen {
   padding: 10px 20px;
   background-color: #000000;
@@ -270,6 +279,77 @@
   color: #333;
 }
 
+.header-left {
+  position: relative;
+}
+
+.filter-button-inRecommendedScreen {
+  padding: 10px 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.filter-button-inRecommendedScreen:hover {
+  background-color: #333333;
+}
+
+.filter-dropdown-inRecommendedScreen {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 16px;
+  z-index: 100;
+  min-width: 200px;
+}
+
+.filter-section {
+  margin-bottom: 12px;
+}
+
+.filter-section:last-child {
+  margin-bottom: 0;
+}
+
+.filter-section label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.filter-section select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #333;
+  cursor: pointer;
+  background-color: #f8f9fa;
+}
+
+.filter-section select:hover {
+  border-color: #000000;
+}
+
+.filter-section select:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 1200px) {
   .hairstyles-grid-inRecommendedScreen {
     grid-template-columns: repeat(2, 300px); /* Show 2 columns */
@@ -289,6 +369,12 @@
   }
 }
 
+@media (max-width: 991px) {
+  .recommended-header-inRecommendedScreen h2 {
+    font-size: 1.3rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hairstyles-grid-inRecommendedScreen {
     grid-template-columns: repeat(1, 300px); /* Show 1 column */
@@ -300,7 +386,9 @@
   }
 
   .recommended-header-inRecommendedScreen h2 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    max-width: 200px;
+    margin: 0 auto;
   }
 
   .scanner-button-inRecommendedScreen {
@@ -310,6 +398,56 @@
 
   .recommended-hairstyles-section-inRecommendedScreen h3 {
     font-size: 1.2rem;
+  }
+
+  .filter-dropdown-inRecommendedScreen {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 180px;
+    margin-top: 8px;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9rem;
+  }
+
+  .filter-section {
+    margin-bottom: 8px;
+  }
+
+  .filter-section label {
+    font-size: 0.85rem;
+  }
+
+  .filter-section select {
+    padding: 6px;
+    font-size: 0.85rem;
+  }
+
+  .filter-button-inRecommendedScreen {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 575px) {
+  .hairstyle-canvas-container-inRecommendedScreen {
+    height: 250px;
+  }
+
+  .recommended-header-inRecommendedScreen h2 {
+    font-size: 0.95rem;
+    max-width: 150px;
+    margin: 0 auto;
+  }
+
+  .scanner-button-inRecommendedScreen {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+  }
+
+  .recommended-hairstyles-section-inRecommendedScreen h3 {
+    font-size: 1.1rem;
   }
 }
 
@@ -349,18 +487,5 @@
 @media (max-width: 575px) {
   .hairstyle-canvas-container-inRecommendedScreen {
     height: 250px;
-  }
-
-  .recommended-header-inRecommendedScreen h2 {
-    font-size: 1.1rem;
-  }
-
-  .scanner-button-inRecommendedScreen {
-    font-size: 0.8rem;
-    padding: 5px 10px;
-  }
-
-  .recommended-hairstyles-section-inRecommendedScreen h3 {
-    font-size: 1.1rem;
   }
 }

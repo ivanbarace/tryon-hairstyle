@@ -4,7 +4,7 @@ import axios from 'axios';
 import './Recommended.css';
 import * as mediapipe from '@mediapipe/face_mesh';
 import * as drawing from '@mediapipe/drawing_utils';
-import { FaCamera, FaDownload } from 'react-icons/fa';  // Add FaDownload import
+import { FaCamera, FaDownload, FaFilter } from 'react-icons/fa';  // Add FaFilter
 
 const Recommended: React.FC = () => {
   const navigate = useNavigate();
@@ -29,6 +29,9 @@ const Recommended: React.FC = () => {
     verticalOffset: 0,
     horizontalOffset: 0
   });
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedHairType, setSelectedHairType] = useState('all');
+  const [selectedHairLength, setSelectedHairLength] = useState('all');
 
   interface Hairstyle {
     id: string;
@@ -93,9 +96,9 @@ const Recommended: React.FC = () => {
       const width = window.innerWidth;
       if (width <= 480) { // Mobile
         setDownloadSettings({
-          scale: 1.07,
+          scale: 1.08,
           verticalOffset: 0,
-          horizontalOffset: 2.25
+          horizontalOffset: 2
         });
       } else if (width <= 768) { // Tablet
         setDownloadSettings({
@@ -577,6 +580,14 @@ const Recommended: React.FC = () => {
     }
   };
 
+  const filteredHairstyles = matchingHairstyles.filter((hairstyle) => {
+    const hairTypeMatch = selectedHairType === 'all' ||
+      hairstyle.hairtype.toLowerCase() === selectedHairType.toLowerCase();
+    const hairLengthMatch = selectedHairLength === 'all' ||
+      hairstyle.hair_length.toLowerCase() === selectedHairLength.toLowerCase();
+    return hairTypeMatch && hairLengthMatch;
+  });
+
   if (loading) {
     return <div className="recommended-inRecommendedScreen">Loading...</div>;
   }
@@ -584,6 +595,45 @@ const Recommended: React.FC = () => {
   return (
     <div className="recommended-inRecommendedScreen">
       <div className="recommended-header-inRecommendedScreen">
+        <div className="header-left">
+          <button
+            className="filter-button-inRecommendedScreen"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <FaFilter /> Filters
+          </button>
+          {showFilters && (
+            <div className="filter-dropdown-inRecommendedScreen">
+              <div className="filter-section">
+                <label>Hair Type</label>
+                <select
+                  aria-label="Filter by hair type"
+                  value={selectedHairType}
+                  onChange={(e) => setSelectedHairType(e.target.value)}
+                >
+                  <option value="all">All</option>
+                  <option value="straight">Straight</option>
+                  <option value="wavy">Wavy</option>
+                  <option value="curly">Curly</option>
+                  <option value="coily">Coily</option>
+                </select>
+              </div>
+              <div className="filter-section">
+                <label>Hair Length</label>
+                <select
+                  aria-label="Filter by hair length"
+                  value={selectedHairLength}
+                  onChange={(e) => setSelectedHairLength(e.target.value)}
+                >
+                  <option value="all">All</option>
+                  <option value="short">Short</option>
+                  <option value="medium">Medium</option>
+                  <option value="long">Long</option>
+                </select>
+              </div>
+            </div>
+          )}
+        </div>
         <h2>Your Face Shape Analysis</h2>
         <button className="scanner-button-inRecommendedScreen" onClick={() => navigate('/user/scanner')}>
           <FaCamera /> Scan Again
@@ -630,7 +680,7 @@ const Recommended: React.FC = () => {
       <div className="recommended-hairstyles-section-inRecommendedScreen">
         <h3>Recommended Hairstyles for {userFaceShape} Face Shape</h3>
         <div className="hairstyles-grid-inRecommendedScreen">
-          {matchingHairstyles.map((hairstyle) => (
+          {filteredHairstyles.map((hairstyle) => (
             <div key={hairstyle.id} className="hairstyle-card-inRecommendedScreen">
               <div className="hairstyle-canvas-container-inRecommendedScreen">
                 <button

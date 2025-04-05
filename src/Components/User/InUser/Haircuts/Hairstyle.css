@@ -545,12 +545,11 @@ body,
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.3s ease;
 }
 
 .hairstyle-modal-info-Inhairstyle-InUserScreen {
   flex: 1;
-  padding: 40px;
+  padding: 20px;
   overflow-y: auto;
   background: linear-gradient(
     to bottom,
@@ -574,12 +573,63 @@ body,
 }
 
 .info-item-Inhairstyle-InUserScreen {
+  position: relative;
   background: white;
-  padding: 20px;
+  padding: 16px;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
-  background-color: #ffffff; /* White background for contrast */
+  height: auto;
+  min-height: fit-content;
+  max-height: 120px; /* Add maximum height */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.info-item-Inhairstyle-InUserScreen strong {
+  margin-bottom: 8px;
+  flex-shrink: 0; /* Prevent the label from shrinking */
+}
+
+/* Mobile adjustments for info items */
+@media (max-width: 768px) {
+  .info-grid-Inhairstyle-InUserScreen {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .info-item-Inhairstyle-InUserScreen {
+    font-size: 12px;
+    height: auto;
+    min-height: unset;
+    max-height: 100px; /* Smaller height for mobile */
+    white-space: normal;
+    padding: 12px 15px;
+  }
+
+  .info-item-Inhairstyle-InUserScreen strong {
+    margin-bottom: 8px;
+  }
+
+  .face-shapes-container-Inhairstyle-InUserScreen {
+    width: 100%;
+    font-size: 0.85rem;
+    max-height: 80px; /* Smaller height for mobile */
+    overflow-y: auto;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 380px) {
+  .info-item-Inhairstyle-InUserScreen {
+    max-height: 90px; /* Even smaller height for very small devices */
+  }
+
+  .face-shapes-container-Inhairstyle-InUserScreen {
+    font-size: 0.8rem;
+    max-height: 70px; /* Even smaller height for very small devices */
+  }
 }
 
 .info-item-Inhairstyle-InUserScreen:hover {
@@ -633,57 +683,22 @@ body,
   color: #ff4b4b;
 }
 
-.hairstyle-modal-image-Inhairstyle-InUserScreen img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hairstyle-modal-info-Inhairstyle-InUserScreen {
-  padding: 20px;
-}
-
 .hairstyle-modal-info-Inhairstyle-InUserScreen h2 {
-  margin: 0 0 20px 0;
-  color: #000;
-  font-size: 24px;
+  font-size: 18px;
+  margin-bottom: 12px;
 }
 
-.info-grid-Inhairstyle-InUserScreen {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
+.rating-username {
+  font-size: 12px;
 }
 
-.info-item-Inhairstyle-InUserScreen {
-  background-color: #f5f5f5;
-  padding: 10px 15px;
-  border-radius: 8px;
-  font-size: 14px;
+.rating-comment {
+  font-size: 12px;
+  line-height: 1.3;
 }
 
-.info-item-Inhairstyle-InUserScreen strong {
-  display: block;
-  margin-bottom: 5px;
-  color: #000;
-}
-
-.description-Inhairstyle-InUserScreen {
-  border-top: 1px solid #eee;
-  padding-top: 20px;
-}
-
-.description-Inhairstyle-InUserScreen strong {
-  display: block;
-  margin-bottom: 10px;
-  color: #000;
-}
-
-.description-Inhairstyle-InUserScreen p {
-  margin: 0;
-  line-height: 1.6;
-  color: #333;
+.rating-stars .star {
+  font-size: 16px;
 }
 
 /* -----------------------------
@@ -1392,6 +1407,7 @@ body,
 
   .info-item-Inhairstyle-InUserScreen {
     min-width: 130px;
+    height: 80px;
     padding: 10px 12px;
   }
 
@@ -2249,48 +2265,39 @@ body,
   color: #666;
 }
 
-.face-shape-dropdown-content {
-  position: absolute;
-  top: calc(100% + 5px);
-  left: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1010;
-  padding: 8px 0;
-  animation: fadeIn 0.2s ease;
-}
-
-.dropdown-item {
-  padding: 8px 16px;
+.face-shapes-container-Inhairstyle-InUserScreen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  width: 100%;
+  font-size: 0.9rem;
   color: #333;
-  transition: background-color 0.2s ease;
-  font-size: 14px;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
-.dropdown-item:hover {
-  background-color: #f5f5f5;
+.face-shape-tag-Inhairstyle-InUserScreen {
+  display: inline-block;
+  text-transform: capitalize;
+  margin-right: 4px;
 }
 
-.dropdown-arrow {
-  font-size: 12px;
-  color: #666;
-  margin-left: 8px;
-  transition: transform 0.2s ease;
+.face-shape-tag-Inhairstyle-InUserScreen:not(:last-child)::after {
+  content: ",";
 }
 
-.dropdown-arrow.expanded {
-  transform: rotate(180deg);
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .face-shapes-container-Inhairstyle-InUserScreen {
+    font-size: 0.85rem;
+    max-height: 80px; /* Smaller height for mobile */
+  }
 }
 
-/* Update info item style */
-.info-item-Inhairstyle-InUserScreen {
-  position: relative;
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
+/* Extra small devices */
+@media (max-width: 380px) {
+  .face-shapes-container-Inhairstyle-InUserScreen {
+    font-size: 0.8rem;
+    max-height: 70px; /* Even smaller height for very small devices */
+  }
 }
