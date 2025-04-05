@@ -1,11 +1,10 @@
-
-import React, { useState, useEffect } from 'react';  // Add useEffect
+import React, { useState, useEffect } from 'react';
 import './SidebarInAdmin.css';
 import { RiDashboardLine, RiMessage2Line } from 'react-icons/ri';
 import { FiUsers } from 'react-icons/fi';
 import { MdOutlineContentCut } from 'react-icons/md';
 import { HiMenuAlt2 } from 'react-icons/hi';
-import { BsArchive } from 'react-icons/bs';  // Add this import
+import { BsArchive } from 'react-icons/bs';
 
 interface SidebarProps {
   setCurrentPage: (page: string) => void;

@@ -131,6 +131,7 @@ const TopbarInAdmin: React.FC<TopbarProps> = ({
                 className="dropdown-item"
                 onClick={() => {
                   setCurrentPage('admin-profile');
+                  localStorage.setItem('adminActivePage', 'admin-profile');
                   setIsDropdownOpen(false);
                 }}
               >

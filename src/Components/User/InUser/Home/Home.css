@@ -46,7 +46,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 80px;
+  gap: 80px; /* Changed from 80px to 0 */
   padding: 15px;
   max-width: 1400px;
   margin: 0 auto;
@@ -77,8 +77,8 @@
 /* Add new media query for tablets and mobile */
 @media (max-width: 1024px) {
   .welcome-section-inHomeScreen-inUsersScreen {
-    min-height: 90vh; /* Make first section full viewport height */
-    height: 90vh;
+    min-height: 100vh; /* Make first section full viewport height */
+    height: 100vh;
     margin: 0;
     padding: 0;
     display: flex;
@@ -94,7 +94,7 @@
   }
 
   .top-rated-section-inHomeScreen-inUsersScreen {
-    margin-top: 50vh; /* Add space after first section */
+    margin-top: 0; /* Changed from 50vh to 0 */
     position: relative;
   }
 
@@ -243,6 +243,7 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   position: relative;
   overflow: hidden;
+  margin-top: 0; /* Added to remove top margin */
 }
 
 .top-rated-section-inHomeScreen-inUsersScreen::before {

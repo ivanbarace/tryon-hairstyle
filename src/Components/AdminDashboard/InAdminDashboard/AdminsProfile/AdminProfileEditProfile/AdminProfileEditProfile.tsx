@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './AdminProfileEditProfile.css';
 import { FiPlus } from 'react-icons/fi';
 import LoadingAnimation from '../../LoadingAnimation/LoadingAnimation';
@@ -44,6 +44,18 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
         phone_number: '',
         address: ''
     });
+    const [hasChanges, setHasChanges] = useState(false);
+    const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        const isChanged =
+            editForm.fullname !== (adminData?.fullname || '') ||
+            editForm.phone_number !== (adminData?.phone_number || '') ||
+            editForm.address !== (adminData?.address || '') ||
+            editForm.profile_picture !== null;
+
+        setHasChanges(isChanged);
+    }, [editForm, adminData]);
 
     const handleProfileClick = () => {
         fileInputRef.current?.click();
@@ -106,6 +118,12 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!hasChanges) {
+            setMessage('No changes were made to update.');
+            setTimeout(() => setMessage(''), 3000); // Clear message after 3 seconds
+            return;
+        }
+
         // Validate all fields
         const isFullNameValid = validateFullName(editForm.fullname);
         const isPhoneValid = validatePhoneNumber(editForm.phone_number);
@@ -134,8 +152,8 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
             if (response.ok) {
                 const updatedData = await response.json();
                 setAdminData(updatedData);
-                console.log('Update successful, changing section to info');
                 setActiveSection('info');
+                window.location.reload();
             } else {
                 throw new Error('Failed to update profile');
             }
@@ -251,10 +269,17 @@ const AdminProfileEditProfile: React.FC<AdminProfileEditProps> = ({
                     )}
                 </div>
 
+                {message && <div className="info-message-inAdminProfileEditProfile">{message}</div>}
                 {error && <div className="error-message-inAdminProfileEditProfile">{error}</div>}
 
                 <div className="form-buttons-inAdminProfileEditProfile">
-                    <button type="submit" className="save-btn-inAdminProfileEditProfile">Save Changes</button>
+                    <button
+                        type="submit"
+                        className={`save-btn-inAdminProfileEditProfile ${!hasChanges ? 'disabled' : ''}`}
+                        disabled={!hasChanges}
+                    >
+                        Save Changes
+                    </button>
                 </div>
             </form>
         </div>

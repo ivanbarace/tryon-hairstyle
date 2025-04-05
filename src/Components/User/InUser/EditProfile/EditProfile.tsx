@@ -112,7 +112,8 @@ const EditProfile: React.FC = () => {
         };
         localStorage.setItem('userData', JSON.stringify(updatedUserData));
 
-        navigate('/user/profile');
+        // Navigate to profile and force a page refresh
+        window.location.href = '/user/profile';
       })
       .catch((error) => {
         console.error('Error updating user details:', error);

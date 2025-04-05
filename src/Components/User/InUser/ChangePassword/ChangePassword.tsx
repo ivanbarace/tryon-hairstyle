@@ -13,6 +13,8 @@ const ChangePassword: React.FC = () => {
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [toasts, setToasts] = useState<Array<{ id: number; message: string; type: 'error' | 'success' }>>([]);
+
     interface UserData {
         id: string;
     }
@@ -25,6 +27,60 @@ const ChangePassword: React.FC = () => {
             setUserData(JSON.parse(storedUserData));
         }
     }, []);
+
+    const validatePassword = (password: string) => {
+        if (password.length < 8) {
+            return "Password must be at least 8 characters long";
+        }
+
+        if (/^\d+$/.test(password)) {
+            return "Password cannot contain only numbers";
+        }
+
+        if (/123456789|987654321|12345678|11111111|00000000/.test(password)) {
+            return "Password cannot contain common number sequences";
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            return "Password must contain at least one uppercase letter";
+        }
+
+        if (!/[a-z]/.test(password)) {
+            return "Password must contain at least one lowercase letter";
+        }
+
+        if ((password.match(/\d/g) || []).length < 2) {
+            return "Password must contain at least 2 numbers";
+        }
+
+        if (!/[~!@#$%^&*()_+{:">?"`|}-]/.test(password)) {
+            return "Password must contain at least one special character";
+        }
+
+        const commonPhrases = [
+            "iloveyou",
+            "password",
+            "qwerty",
+            "abc123",
+            "admin123",
+            "welcome",
+            "monkey",
+        ];
+        const lowerPassword = password.toLowerCase().replace(/\s/g, '');
+        if (commonPhrases.some(phrase => lowerPassword.includes(phrase))) {
+            return "Password contains common phrases that are not allowed";
+        }
+
+        return null;
+    };
+
+    const showToast = (message: string, type: 'error' | 'success') => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message, type }]);
+        setTimeout(() => {
+            setToasts(prev => prev.filter(toast => toast.id !== id));
+        }, 5000);
+    };
 
     const handleForgotPassword = () => {
         navigate('/forgot-password', { state: { from: 'changePassword' } });
@@ -42,13 +98,13 @@ const ChangePassword: React.FC = () => {
             });
 
             if (response.data.success) {
-                setShowModal(true); // Show password update modal directly
+                setShowModal(true);
             } else {
-                setError('Invalid email or password');
+                showToast('Invalid email or password', 'error');
             }
         } catch (error) {
             console.error('Error:', error);
-            setError('An error occurred while verifying credentials');
+            showToast('An error occurred while verifying credentials', 'error');
         }
     };
 
@@ -57,18 +113,19 @@ const ChangePassword: React.FC = () => {
         setError('');
         setSuccessMessage('');
 
-        if (newPassword.length < 6) {
-            setError('Password must be at least 6 characters long');
+        const passwordError = validatePassword(newPassword);
+        if (passwordError) {
+            showToast(passwordError, 'error');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            setError('Passwords do not match');
+            showToast('Passwords do not match', 'error');
             return;
         }
 
         if (newPassword === currentPassword) {
-            setError('New password must be different from your current password');
+            showToast('New password must be different from your current password', 'error');
             return;
         }
 
@@ -80,19 +137,19 @@ const ChangePassword: React.FC = () => {
             });
 
             if (response.data.success) {
-                setSuccessMessage('Password updated successfully!');
+                showToast('Password updated successfully!', 'success');
                 setTimeout(() => {
                     setShowModal(false);
                     navigate('/user/profile');
                 }, 2000);
             } else {
-                setError(response.data.message || 'Failed to update password');
+                showToast(response.data.message || 'Failed to update password', 'error');
             }
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
-                setError(error.response?.data?.message || 'An error occurred');
+                showToast(error.response?.data?.message || 'An error occurred', 'error');
             } else {
-                setError('An error occurred');
+                showToast('An error occurred', 'error');
             }
             console.error('Error:', error);
         }
@@ -103,18 +160,31 @@ const ChangePassword: React.FC = () => {
     };
 
     return (
-        <div className="change-password-container">
-            <div className="change-password-card">
-                <button className="back-button" onClick={handleBack}>
+        <div className="change-password-container-inchangepassword-userscreen">
+            <div className="toast-container-inchangepassword-userscreen">
+                {toasts.map(toast => (
+                    <div
+                        key={toast.id}
+                        className={`toast-message-inchangepassword-userscreen ${toast.type}`}
+                        onClick={() => setToasts(prev => prev.filter(t => t.id !== toast.id))}
+                    >
+                        {toast.type === 'error' ? <FaTimes /> : <FaCheck />}
+                        <span>{toast.message}</span>
+                    </div>
+                ))}
+            </div>
+
+            <div className="change-password-card-inchangepassword-userscreen">
+                <button className="back-button-inchangepassword-userscreen" onClick={handleBack}>
                     <FaArrowLeft /> Back
                 </button>
                 <h2>Change Password</h2>
                 <p>Please enter your details to continue</p>
 
-                {error && <div className="error-message">{error}</div>}
+                {error && <div className="error-message-inchangepassword-userscreen">{error}</div>}
 
                 <form onSubmit={handleConfirm}>
-                    <div className="form-group">
+                    <div className="form-group-inchangepassword-userscreen">
                         <label htmlFor="email">Email Address</label>
                         <input
                             type="email"
@@ -126,7 +196,7 @@ const ChangePassword: React.FC = () => {
                         />
                     </div>
 
-                    <div className="form-group">
+                    <div className="form-group-inchangepassword-userscreen">
                         <label htmlFor="currentPassword">Current Password</label>
                         <input
                             type="password"
@@ -138,13 +208,13 @@ const ChangePassword: React.FC = () => {
                         />
                     </div>
 
-                    <div className="button-group">
-                        <button type="submit" className="confirm-button">
+                    <div className="button-group-inchangepassword-userscreen">
+                        <button type="submit" className="confirm-button-inchangepassword-userscreen">
                             Confirm
                         </button>
                         <button
                             type="button"
-                            className="forgot-password-button"
+                            className="forgot-password-button-inchangepassword-userscreen"
                             onClick={handleForgotPassword}
                         >
                             Forgot Password?
@@ -154,11 +224,14 @@ const ChangePassword: React.FC = () => {
             </div>
 
             {showModal && (
-                <div className="verification-modal-overlay">
-                    <div className="verification-modal">
+                <div className="verification-modal-overlay-inchangepassword-userscreen">
+                    <div className="verification-modal-inchangepassword-userscreen">
                         <button
-                            className="close-modal-button"
-                            onClick={() => setShowModal(false)}
+                            className="close-modal-button-inchangepassword-userscreen"
+                            onClick={() => {
+                                setShowModal(false);
+                                setError('');
+                            }}
                             title="Close"
                         >
                             <FaTimes />
@@ -168,14 +241,8 @@ const ChangePassword: React.FC = () => {
                             Update Password
                         </h3>
                         <form onSubmit={handleUpdatePassword}>
-                            <div className="password-requirements">
-                                Password requirements:
-                                <ul>
-                                    <li>At least 6 characters long</li>
-                                    <li>Both passwords must match</li>
-                                </ul>
-                            </div>
-                            <div className="form-group">
+                            {error && <div className="error-message-inchangepassword-userscreen">{error}</div>}
+                            <div className="form-group-inchangepassword-userscreen">
                                 <input
                                     type="password"
                                     value={newPassword}
@@ -184,7 +251,7 @@ const ChangePassword: React.FC = () => {
                                     required
                                 />
                             </div>
-                            <div className="form-group">
+                            <div className="form-group-inchangepassword-userscreen">
                                 <input
                                     type="password"
                                     value={confirmPassword}
@@ -193,13 +260,12 @@ const ChangePassword: React.FC = () => {
                                     required
                                 />
                             </div>
-                            {error && <div className="error-message">{error}</div>}
                             {successMessage && (
-                                <div className="success-message">
+                                <div className="success-message-inchangepassword-userscreen">
                                     <FaCheck /> {successMessage}
                                 </div>
                             )}
-                            <button type="submit" className="update-button">
+                            <button type="submit" className="update-button-inchangepassword-userscreen">
                                 Update Password
                             </button>
                         </form>

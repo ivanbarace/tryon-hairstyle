@@ -177,6 +177,17 @@
   transform: translateY(-2px);
 }
 
+.save-btn-inAdminProfileEditProfile.disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.save-btn-inAdminProfileEditProfile.disabled:hover {
+  background: #cccccc;
+  transform: none;
+}
+
 .horizontal-fields-container {
   display: flex;
   gap: 1rem;
@@ -187,4 +198,13 @@
 .horizontal-fields-container .form-group-inAdminProfileEditProfile {
   flex: 1;
   margin-bottom: 1.5rem;
+}
+
+.info-message-inAdminProfileEditProfile {
+  color: #0066cc;
+  background: #e6f2ff;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
 }

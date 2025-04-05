@@ -7,24 +7,39 @@ interface AdminProfileChangePasswordProps {
     setActiveSection: (section: 'info' | 'edit' | 'password') => void;
 }
 
+interface PasswordForm {
+    email: string;
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
+}
+
+interface ApiResponse {
+    success?: boolean;
+    error?: string;
+    admin_id?: number;
+    message?: string;
+}
+
 const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
     adminId,
     setActiveSection
 }) => {
-    const [isVerified, setIsVerified] = useState(false);
-    const [passwordForm, setPasswordForm] = useState({
+    const [isVerified, setIsVerified] = useState<boolean>(false);
+    const [passwordForm, setPasswordForm] = useState<PasswordForm>({
         email: '',
         currentPassword: '',
         newPassword: '',
         confirmPassword: '',
     });
-    const [error, setError] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string>('');
+    const [successMessage, setSuccessMessage] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handlePasswordVerification = async (e: React.FormEvent) => {
+    const handlePasswordVerification = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
+        setSuccessMessage('');
         setIsLoading(true);
 
         try {
@@ -39,24 +54,32 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
                 }),
             });
 
-            const data = await response.json();
-            if (response.ok) {
+            const data: ApiResponse = await response.json();
+
+            if (response.ok && data.success) {
                 setIsVerified(true);
                 setSuccessMessage('Credentials verified. Please enter your new password.');
             } else {
-                setError(data.error);
+                setError(data.error || 'Invalid credentials');
             }
         } catch {
-            setError('Error verifying credentials');
+            setError('Error verifying credentials. Please try again.');
         } finally {
             setIsLoading(false);
         }
     };
 
-    const handlePasswordUpdate = async (e: React.FormEvent) => {
+    const handlePasswordUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setError('');
+        setSuccessMessage('');
         setIsLoading(true);
+
+        if (!adminId) {
+            setError('Admin ID is missing');
+            setIsLoading(false);
+            return;
+        }
 
         if (passwordForm.newPassword.length < 6) {
             setError('Password must be at least 6 characters long');
@@ -81,9 +104,10 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
                 }),
             });
 
-            const data = await response.json();
-            if (response.ok) {
-                setSuccessMessage('Password updated successfully');
+            const data: ApiResponse = await response.json();
+
+            if (response.ok && data.success) {
+                setSuccessMessage(data.message || 'Password updated successfully');
                 setPasswordForm({
                     email: '',
                     currentPassword: '',
@@ -95,11 +119,10 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
                     setActiveSection('info');
                 }, 1500);
             } else {
-                setError(data.error);
+                setError(data.error || 'Error updating password');
             }
-        } catch (err) {
-            console.error('Error updating password:', err);
-            setError('Error updating password');
+        } catch {
+            setError('Error updating password. Please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -109,6 +132,12 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
 
     return (
         <div className="change-password-section-inAdminProfileChangePassword">
+            {(error || successMessage) && (
+                <div className="message-container-inAdminProfileChangePassword">
+                    {error && <div className="error-message-inAdminProfileChangePassword">{error}</div>}
+                    {successMessage && <div className="success-message-inAdminProfileChangePassword">{successMessage}</div>}
+                </div>
+            )}
             <h3>Change Password</h3>
             {!isVerified ? (
                 <form onSubmit={handlePasswordVerification}>
@@ -134,9 +163,6 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
                             placeholder="Enter your current password"
                         />
                     </div>
-
-                    {error && <div className="error-message-inAdminProfileChangePassword">{error}</div>}
-                    {successMessage && <div className="success-message-inAdminProfileChangePassword">{successMessage}</div>}
 
                     <div className="form-buttons-inAdminProfileChangePassword">
                         <button type="submit" className="verify-btn-inAdminProfileChangePassword">Verify</button>
@@ -169,9 +195,6 @@ const AdminProfileChangePassword: React.FC<AdminProfileChangePasswordProps> = ({
                             placeholder="Confirm your new password"
                         />
                     </div>
-
-                    {error && <div className="error-message-inAdminProfileChangePassword">{error}</div>}
-                    {successMessage && <div className="success-message-inAdminProfileChangePassword">{successMessage}</div>}
 
                     <div className="form-buttons-inAdminProfileChangePassword">
                         <button type="submit" className="update-btn-inAdminProfileChangePassword">Update Password</button>

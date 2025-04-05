@@ -58,6 +58,26 @@ const Register: React.FC = () => {
       return "Password must be at least 8 characters long";
     }
 
+    // Check for uppercase
+    if (!/[A-Z]/.test(password)) {
+      return "Password must contain at least one uppercase letter";
+    }
+
+    // Check for lowercase
+    if (!/[a-z]/.test(password)) {
+      return "Password must contain at least one lowercase letter";
+    }
+
+    // Check for at least 2 numbers
+    if ((password.match(/\d/g) || []).length < 2) {
+      return "Password must contain at least 2 numbers";
+    }
+
+    // Check for special characters
+    if (!/[~!@#$%^&*()_+{:">?"`|}-]/.test(password)) {
+      return "Password must contain at least one special character";
+    }
+
     // Check if password is only numbers
     if (/^\d+$/.test(password)) {
       return "Password cannot contain only numbers";
@@ -66,11 +86,6 @@ const Register: React.FC = () => {
     // Check for common number sequences
     if (/123456789|987654321|12345678|11111111|00000000/.test(password)) {
       return "Password cannot contain common number sequences";
-    }
-
-    // Check for upper and lowercase
-    if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
-      return "Password must contain both uppercase and lowercase letters";
     }
 
     // Check for common phrases
@@ -217,6 +232,26 @@ const Register: React.FC = () => {
     setIsLoading(true);
 
     try {
+      // First, check if password exists
+      const checkPasswordResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}check-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: formData.password,
+        }),
+      });
+
+      const checkPasswordData = await checkPasswordResponse.json();
+
+      if (checkPasswordData.exists) {
+        showMessage('This password is already in use. Please choose a different password.', 'error');
+        setInvalidFields(prev => [...prev.filter(f => f !== 'password'), 'password']);
+        setIsLoading(false);
+        return;
+      }
+
       // First, check if username exists
       const checkUsernameResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}check-username`, {
         method: 'POST',
