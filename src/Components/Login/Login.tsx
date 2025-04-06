@@ -66,6 +66,12 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Validate fields
+    if (!formData.username.trim() || !formData.password.trim()) {
+      showMessage('Please fill in all fields', 'error');
+      return;
+    }
+
     try {
       const serverUrl = `${import.meta.env.VITE_BACKEND_URL}login`;
       const response = await fetch(serverUrl, {

@@ -8,24 +8,37 @@ interface User {
     profile_picture?: string;
     email: string;
     unread_count: number;
-    pending_count: number;  // Add this line
+    pending_count: number;
 }
 
 interface Message {
     id: number;
     message: string;
     created_at: string;
-    status: 'pending' | 'seen';  // Update this line
+    status: 'pending' | 'seen';
 }
 
 const MessageInAdmin: React.FC = () => {
     const [users, setUsers] = useState<User[]>([]);
     const [selectedUser, setSelectedUser] = useState<User | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
+    const [refreshKey, setRefreshKey] = useState(0);
 
     useEffect(() => {
         fetchUsers();
-    }, []);
+        const usersInterval = setInterval(fetchUsers, 1000);
+
+        return () => clearInterval(usersInterval);
+    }, [refreshKey]);
+
+    useEffect(() => {
+        if (selectedUser) {
+            fetchMessages(selectedUser.user_id);
+            const messagesInterval = setInterval(() => fetchMessages(selectedUser.user_id), 1000);
+
+            return () => clearInterval(messagesInterval);
+        }
+    }, [selectedUser, refreshKey]);
 
     const fetchUsers = async () => {
         try {
@@ -51,20 +64,19 @@ const MessageInAdmin: React.FC = () => {
         setSelectedUser(user);
         await fetchMessages(user.user_id);
 
-        // Update messages status to seen
         try {
             await fetch(`${import.meta.env.VITE_BACKEND_URL}messages/update-status/${user.user_id}`, {
                 method: 'PUT'
             });
-            // Refresh users list to update pending count
             fetchUsers();
+            setRefreshKey(prev => prev + 1);
         } catch (error) {
             console.error('Error updating message status:', error);
         }
     };
 
     return (
-        <div className="message-container">
+        <div className="message-container" key={refreshKey}>
             <div className="users-list">
                 <h2>Users with Messages</h2>
                 {users.map((user) => (

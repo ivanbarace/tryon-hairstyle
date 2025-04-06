@@ -8,9 +8,10 @@ import { BsArchive } from 'react-icons/bs';
 
 interface SidebarProps {
   setCurrentPage: (page: string) => void;
+  refreshTrigger?: number; // Add this prop
 }
 
-const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage }) => {
+const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage, refreshTrigger }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activePage, setActivePage] = useState(() => {
     // Get initial state from localStorage or default to 'dashboard'
@@ -20,13 +21,20 @@ const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage }) => {
 
   useEffect(() => {
     fetchTotalPending();
+    // Reduce interval to 1 second for faster updates
+    const interval = setInterval(fetchTotalPending, 1000);
+
     // Set current page on component mount
     setCurrentPage(activePage);
-  }, []);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, [refreshTrigger]); // Add refreshTrigger to dependencies
 
   const fetchTotalPending = async () => {
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}messages/total-pending`);
+      if (!response.ok) throw new Error('Failed to fetch');
       const data = await response.json();
       setTotalPending(data.total);
     } catch (error) {
@@ -37,6 +45,10 @@ const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage }) => {
   const handlePageChange = (page: string) => {
     setActivePage(page);
     setCurrentPage(page);
+    // If switching to messages page, reset the badge
+    if (page === 'messages') {
+      setTotalPending(0);
+    }
     // Store the active page in localStorage
     localStorage.setItem('adminActivePage', page);
   };
@@ -55,9 +67,8 @@ const SidebarInAdmin: React.FC<SidebarProps> = ({ setCurrentPage }) => {
         {!isCollapsed && (
           <>
             <div className="logo">
-              <img src="/LOGO1.png" alt="TryOnHair Logo" />
+              <img src="/LOGO2.png" alt="TryOnHair Logo" />
             </div>
-            <div className="name">TryOnHair</div>
           </>
         )}
       </div>

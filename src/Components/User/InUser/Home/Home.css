@@ -107,7 +107,7 @@
 @media (max-width: 768px) {
   .mobile-logo-inHomeScreen-inUsersScreen {
     display: block;
-    width: 50px;
+    width: 80px;
     height: auto;
     position: absolute;
     top: 20px;

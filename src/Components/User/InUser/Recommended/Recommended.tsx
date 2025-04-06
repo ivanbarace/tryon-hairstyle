@@ -62,25 +62,25 @@ const Recommended: React.FC = () => {
       if (width <= 480) { // Mobile
         setResponsivePosition({
           topOffset: -18,
-          leftOffset: 0,
+          leftOffset: -0.5,
           scale: 0.84
         });
       } else if (width <= 768) { // Tablet
         setResponsivePosition({
           topOffset: -18,
-          leftOffset: 0,
+          leftOffset: -0.5,
           scale: 0.85
         });
       } else if (width <= 1200) { // Small Desktop
         setResponsivePosition({
           topOffset: -17,
-          leftOffset: 0,
+          leftOffset: -0.5,
           scale: 0.85
         });
       } else { // Large Desktop
         setResponsivePosition({
           topOffset: -18,
-          leftOffset: 0.09,
+          leftOffset: -0.3,
           scale: 0.76
         });
       }

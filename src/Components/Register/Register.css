@@ -27,7 +27,7 @@
 }
 
 .logo-inregisterscreen .logo-image {
-  max-width: 100px; /* Changed to match login's 150px */
+  max-width: 150px; /* Changed to match login's 150px */
   height: auto;
   margin: 0; /* Changed to match login's spacing */
 }
@@ -1087,7 +1087,7 @@
     gap: 0.3rem;
   }
   .logo-inregisterscreen .logo-image {
-    max-width: 100px;
+    max-width: 150px;
   }
   .profile-picture-input-container {
     width: 90px;

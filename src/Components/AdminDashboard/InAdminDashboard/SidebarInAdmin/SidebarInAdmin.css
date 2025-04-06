@@ -43,7 +43,7 @@
 
 .logo img {
   width: 100%;
-  max-width: 50px;
+  max-width: 120px; /* Increased from 50px to 120px */
   height: auto;
   margin: 0 auto;
 }

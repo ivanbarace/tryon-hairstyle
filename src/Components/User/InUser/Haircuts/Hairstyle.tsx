@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaHeart, FaBars, FaStar, FaCamera, FaMagic } from 'react-icons/fa';
+import { FaHeart, FaFilter, FaStar, FaCamera, FaMagic } from 'react-icons/fa';
 import { IoIosQrScanner } from "react-icons/io";
 import { BsSearch } from "react-icons/bs";
 import LoadingAnimation from '../LoadingAnimation/LoadingAnimation';  // Add this import
@@ -328,7 +328,7 @@ const Hairstyle: React.FC = () => {
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
-          <FaBars />
+          <FaFilter /> <span className="filter-text">Filter</span>
         </button>
 
         <div className="search-and-actions-Inhairstyle-InUserScreen">

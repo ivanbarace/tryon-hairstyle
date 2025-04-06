@@ -297,7 +297,7 @@ const Home: React.FC = () => {
           <img src="/LOGO1.png" alt="Logo" className="mobile-logo-inHomeScreen-inUsersScreen" />
           <div className="welcome-content-inHomeScreen-inUsersScreen">
             <div className="welcome-text-inHomeScreen-inUsersScreen">
-              <h1 className="welcome-title-inHomeScreen-inUsersScreen">Welcome to HairStyle</h1>
+              <h1 className="welcome-title-inHomeScreen-inUsersScreen">Welcome to TryOn</h1>
               <div className="welcome-subtitles-inHomeScreen-inUsersScreen">
                 <p className="welcome-subtitle-inHomeScreen-inUsersScreen first-inHomeScreen-inUsersScreen">
                   Discover the perfect hairstyle for your face shape.
@@ -379,7 +379,7 @@ const Home: React.FC = () => {
             >
               ×
             </button>
-            <h2>How to Use HairStyle Hub</h2>
+            <h2>How to Use TryOn Hub</h2>
             <div className="tutorial-content-inHomeScreen-inUsersScreen">
               <button
                 className="tutorial-nav-button-inHomeScreen-inUsersScreen prev-inHomeScreen-inUsersScreen"

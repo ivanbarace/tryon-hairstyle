@@ -117,6 +117,20 @@ const ForgotPassword: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Add email validation
+    if (!email.trim()) {
+      showMessage('Please enter your email address', 'error');
+      return;
+    }
+
+    // Add email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      showMessage('Please enter a valid email address', 'error');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
