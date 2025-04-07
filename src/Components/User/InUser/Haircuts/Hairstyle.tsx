@@ -384,7 +384,7 @@ const Hairstyle: React.FC = () => {
             </div>
             <p>You do not have a picture for try on. Please scan your face shape first.</p>
             <button onClick={() => {
-              navigate('/user/scanner-tutorial');
+              navigate('/user/scanner-tutorial'); // Changed from '/user/scanner' to '/user/scanner-tutorial'
               closeModal();
             }}>Go to Scanner</button>
           </div>
@@ -507,20 +507,6 @@ const Hairstyle: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* Keep existing modals after the footer */}
-      {showModal && (
-        <div className="modal-Inhairstyle-InUserScreen">
-          <div className="modal-content-Inhairstyle-InUserScreen">
-            <div className="modal-header">
-              <h2>Notice</h2>
-              <button className="close-button-Inhairstyle-InUserScreen" onClick={closeModal}>×</button>
-            </div>
-            <p>You do not have a picture for try on. Please scan your face shape first.</p>
-            <button onClick={() => navigate('/user/scanner')}>Go to Scanner</button>
-          </div>
-        </div>
-      )}
 
       {showHairstyleModal && selectedHairstyle && (
         <div className="hairstyle-modal-Inhairstyle-InUserScreen">
