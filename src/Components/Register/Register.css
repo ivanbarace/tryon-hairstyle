@@ -627,12 +627,12 @@
     left: 0;
     right: 0;
     background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
+    padding: 20px; /* Increased from 15px */
     margin: 0;
     z-index: 100;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     color: white;
-    font-size: 0.8rem; /* Reduced font size for mobile */
+    font-size: 0.95rem; /* Increased from 0.8rem */
   }
 
   .image-column-inregisterscreen .Login-btn-inregisterscreen {
@@ -1149,7 +1149,13 @@
   }
 }
 
-/* Add specific styles for very small screens */
+@media (max-width: 480px) {
+  .Login-btn-inregisterscreen.mobile-only {
+    font-size: 0.9rem; /* Increased from 0.75rem */
+    padding: 18px; /* Increased from 12px */
+  }
+}
+
 @media (max-width: 360px) {
   .register-form-inregisterscreen {
     padding: 0.5rem;
@@ -1170,6 +1176,10 @@
   }
   .register-form-inregisterscreen h2 {
     font-size: 1.3rem;
+  }
+  .Login-btn-inregisterscreen.mobile-only {
+    font-size: 0.85rem; /* Increased from 0.7rem */
+    padding: 20px; /* Increased from 10px */
   }
 }
 
@@ -1273,14 +1283,14 @@
 /* Add new media query for even smaller screens */
 @media (max-width: 480px) {
   .Login-btn-inregisterscreen.mobile-only {
-    font-size: 0.75rem; /* Even smaller font size for very small screens */
-    padding: 12px; /* Slightly reduced padding */
+    font-size: 0.9rem; /* Increased from 0.75rem */
+    padding: 25px; /* Increased from 12px */
   }
 }
 
 @media (max-width: 360px) {
   .Login-btn-inregisterscreen.mobile-only {
-    font-size: 0.7rem; /* Smallest font size for tiny screens */
-    padding: 10px; /* Minimal padding */
+    font-size: 0.85rem; /* Increased from 0.7rem */
+    padding: 20px; /* Increased from 10px */
   }
 }

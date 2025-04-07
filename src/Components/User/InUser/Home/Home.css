@@ -396,9 +396,10 @@
   background: white;
   border-radius: 25px;
   padding: 30px;
-  max-width: 1000px; /* Increased from 800px */
+  max-width: 1200px; /* Increased from 1000px */
   width: 95%;
-  max-height: 98vh; /* Increased from 95vh */
+  height: 90vh; /* Added fixed height */
+  max-height: 90vh; /* Adjusted from 98vh */
   position: relative;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -435,11 +436,13 @@
 .tutorial-content-inHomeScreen-inUsersScreen {
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 10px; /* Increased horizontal padding to make room for buttons */
+  justify-content: flex-start;
+  padding: 20px;
   margin: 0;
   width: 100%;
+  height: 100%;
 }
 
 .tutorial-step-inHomeScreen-inUsersScreen {
@@ -448,43 +451,41 @@
   position: relative;
   background: none;
   display: flex;
+  flex-direction: column; /* Changed from row to column */
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center */
 }
 
 .tutorial-step-inHomeScreen-inUsersScreen.current {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .tutorial-image-container-inHomeScreen-inUsersScreen {
   width: 100%;
-  height: auto;
-  max-height: 700px; /* Increased from 600px */
-  margin-bottom: 20px;
+  height: 40vh;
+  margin-bottom: 30px;
   border-radius: 10px;
   overflow: hidden;
   display: flex;
-  align-items: center;
   justify-content: center;
-  order: 1; /* Move image to top */
+  align-items: center;
 }
 
 .tutorial-image-container-inHomeScreen-inUsersScreen img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  border-radius: 10px;
 }
 
 .tutorial-step-content-inHomeScreen-inUsersScreen {
-  padding: 20px;
-  text-align: center;
-  max-width: 800px; /* Increased from 500px */
   width: 100%;
-  margin: 0 auto;
-  order: 2; /* Move content below image */
+  max-width: 800px;
+  text-align: center;
+  padding: 20px;
+  margin-top: 20px; /* Added margin top */
 }
 
 .tutorial-step-inHomeScreen-inUsersScreen h3 {
@@ -511,6 +512,7 @@
   right: 0;
 }
 
+/* Indicator Styles Update */
 .indicator-inHomeScreen-inUsersScreen {
   width: 10px;
   height: 10px;
@@ -520,8 +522,9 @@
   transition: background-color 0.3s ease;
 }
 
-.indicator-inHomeScreen-inUsersScreen.active {
+.indicator-inHomeScreen-inUsersScreen.active-inHomeScreen-inUsersScreen {
   background: #000;
+  transform: scale(1.2);
 }
 
 .close-modal-intutorial-inHomeScreen-inUsersScreen {
@@ -543,14 +546,16 @@
   border-radius: 50%;
 }
 
+/* Tutorial Nav Button Styles */
 .tutorial-nav-button-inHomeScreen-inUsersScreen {
-  background: rgba(255, 255, 255, 0.9);
+  display: flex; /* Changed from 'none' to 'flex' to show on all screens */
+  background: rgba(0, 0, 0, 0.7);
   border: none;
   border-radius: 50%;
   width: 40px;
   height: 40px;
   font-size: 24px;
-  display: flex;
+  color: white;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -559,11 +564,11 @@
   transform: translateY(-50%);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
+  z-index: 1002;
 }
 
 .tutorial-nav-button-inHomeScreen-inUsersScreen:hover {
-  background: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(0, 0, 0, 0.9);
   transform: translateY(-50%) scale(1.1);
 }
 
@@ -578,6 +583,44 @@
 .tutorial-nav-button-inHomeScreen-inUsersScreen:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+  .prev-inHomeScreen-inUsersScreen {
+    left: 10px;
+  }
+
+  .next-inHomeScreen-inUsersScreen {
+    right: 10px;
+  }
+
+  .tutorial-indicators-inHomeScreen-inUsersScreen {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 1002; /* Match nav buttons z-index */
+  }
+
+  .tutorial-modal-inHomeScreen-inUsersScreen {
+    width: 100%;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 15px;
+    border-radius: 0;
+  }
+
+  .tutorial-image-container-inHomeScreen-inUsersScreen {
+    height: 40vh; /* Smaller height for mobile */
+  }
+
+  .tutorial-content-inHomeScreen-inUsersScreen {
+    padding: 10px;
+  }
 }
 
 /* Contact Form and Modal Styles */

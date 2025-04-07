@@ -383,7 +383,10 @@ const Hairstyle: React.FC = () => {
               <button className="close-button-Inhairstyle-InUserScreen" onClick={closeModal}>×</button>
             </div>
             <p>You do not have a picture for try on. Please scan your face shape first.</p>
-            <button onClick={() => navigate('/user/scanner')}>Go to Scanner</button>
+            <button onClick={() => {
+              navigate('/user/scanner-tutorial');
+              closeModal();
+            }}>Go to Scanner</button>
           </div>
         </div>
       )}

@@ -49,38 +49,38 @@ const Home: React.FC = () => {
   const tutorialImages = [
     {
       id: 1,
-      title: '1. Browse Hairstyles',
-      description: 'Explore our collection of trending and popular hairstyles.',
+      title: '1. Browse TryOn',
+      description: 'Explore our collection of trending and popular hairstyles with just a few clicks. Discover new looks that suit your style and personality.',
       image: '/tutorials/home.png'
     },
     {
       id: 2,
       title: '2. Login and Register',
-      description: 'Create an account or login to access all features.',
+      description: 'Create an account or login to access all features of the app. Save your favorite styles and get personalized recommendations tailored to you.',
       image: '/tutorials/register.png'
     },
     {
       id: 3,
       title: '3. View Hairstyles',
-      description: 'Check hairstyle.',
+      description: 'Check out a variety of hairstyles, from classic cuts to modern trends to help you decide what fits you best.',
       image: '/tutorials/hairstyles.png'
     },
     {
       id: 4,
       title: '4. Scan Face Shape',
-      description: 'Scan here to determine your face shape.',
+      description: 'Use our face scanning feature to determine your unique face shape. This helps us provide hairstyle suggestions that truly complement your features.',
       image: '/tutorials/scanner.png'
     },
     {
       id: 5,
       title: '5. View Recommended Hairstyles',
-      description: 'Get personalized hairstyle suggestions based on your face shape.',
+      description: 'Get personalized Try on hairstyle suggestions based on your face shape and preferences. Discover styles that highlight your best features and boost your confidence.',
       image: '/tutorials/recommendation.png'
     },
     {
       id: 6,
       title: '6. Profile',
-      description: 'Access your personal profile and saved hairstyles.',
+      description: 'Access your personal profile to view saved hairstyles',
       image: '/tutorials/profile.png'
     },
   ];
@@ -420,7 +420,8 @@ const Home: React.FC = () => {
                 {tutorialImages.map((_, index) => (
                   <span
                     key={index}
-                    className={`indicator-inHomeScreen-inUsersScreen ${index === currentTutorialIndex ? 'active-inHomeScreen-inUsersScreen' : ''}`}
+                    className={`indicator-inHomeScreen-inUsersScreen ${index === currentTutorialIndex ? 'active-inHomeScreen-inUsersScreen' : ''
+                      }`}
                     onClick={() => setCurrentTutorialIndex(index)}
                   ></span>
                 ))}
