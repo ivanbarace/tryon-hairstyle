@@ -12,8 +12,8 @@ export default defineConfig({
         enabled: true,
       },
       manifest: {
-        name: 'My Hairstyle App',
-        short_name: 'Hairstyle',
+        name: 'TryOn Hairstyle',
+        short_name: 'TryOn',
         description: 'A PWA for detecting face shapes and recommending hairstyles.',
         theme_color: '#ffffff',
         background_color: '#ffffff',
