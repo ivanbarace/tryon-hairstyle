@@ -216,8 +216,9 @@ const Recommended: React.FC = () => {
       const leftPoint = landmarks[234];
       const rightPoint = landmarks[454];
 
-      const adjustedLeftY = leftPoint.y - 0.02;
-      const adjustedRightY = rightPoint.y - 0.02;
+      // Adjust the vertical offset for more slant
+      const adjustedLeftY = leftPoint.y - 0.3;  // Increased from 0.02 to 0.04
+      const adjustedRightY = rightPoint.y - 0.3; // Increased from 0.02 to 0.04
 
       const extraWidth = canvas.width * 0.08;
       const leftX = (leftPoint.x * canvas.width) - extraWidth;
@@ -225,22 +226,24 @@ const Recommended: React.FC = () => {
 
       ctx.moveTo(leftX, adjustedLeftY * canvas.height);
 
-      const leftControlX = leftX * 0.95;
-      const rightControlX = rightX * 1.05;
-      const sideHeight = maxHeight + (canvas.height * 0.08);
+      // Adjust the control points for more dramatic slant
+      const leftControlX = leftX * 0.92;  // Changed from 0.95 to 0.92
+      const rightControlX = rightX * 1.08; // Changed from 1.05 to 1.08
+      const sideHeight = maxHeight + (canvas.height * 0.2); // Increased from 0.08 to 0.12
 
+      // Adjust the curve height and control points
       ctx.bezierCurveTo(
         leftControlX,
         sideHeight,
         canvas.width * 0.25,
-        maxHeight - (canvas.height * 0.05),
+        maxHeight - (canvas.height * 0.08), // Increased from 0.05 to 0.08
         canvas.width * 0.5,
-        maxHeight
+        maxHeight - (canvas.height * 0.02) // Added slight lift to the middle
       );
 
       ctx.bezierCurveTo(
         canvas.width * 0.75,
-        maxHeight - (canvas.height * 0.05),
+        maxHeight - (canvas.height * 0.08), // Increased from 0.05 to 0.08
         rightControlX,
         sideHeight,
         rightX,
