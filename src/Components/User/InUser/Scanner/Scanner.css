@@ -135,15 +135,6 @@
     aspect-ratio: 1/1;
   }
 
-  .back-button-in-scanner {
-    top: 20px;
-    left: 20px;
-    z-index: 100;
-    background: black;
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-
   .result-button-in-scanner {
     margin-top: 15px;
     font-size: 16px;
@@ -227,7 +218,7 @@
   position: absolute;
   top: 20px;
   left: 20px;
-  padding: 10px 20px;
+  padding: 10px;
   background: black;
   color: white;
   border: none;
@@ -461,4 +452,50 @@
   margin: 0;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+@media screen and (max-width: 480px) {
+  .back-button-in-scanner {
+    top: 10px;
+    left: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 6px;
+    gap: 6px;
+  }
+
+  .face-shape-header-in-scanner h2 {
+    font-size: 1rem;
+  }
+
+  .face-shape-header-in-scanner p {
+    font-size: 1rem;
+  }
+
+  .result-button-in-scanner {
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 25px;
+  }
+
+  .recommended-button-in-scanner {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+
+  .modal-content-in-scanner h2 {
+    font-size: 1rem;
+  }
+
+  .modal-content-in-scanner p {
+    font-size: 1.4rem;
+  }
+  .close-button-in-scanner {
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    font-size: 10px;
+    padding: 1px;
+  }
 }
